@@ -55,18 +55,20 @@ import com.salesforce.androidsdk.util.EventsObservable.EventType;
 /**
  * Main activity
  */
-public class MainActivity extends SalesforceActivity {
+public class Contacts extends SalesforceActivity {
 
-    
-	
+
 	int getLayoutID() {
-		return R.layout.main;
+		return R.layout.contacts;
 	}
 	
 	@Override
 	int getViewID() {
-		return R.id.homeScreen;
+		return R.id.contacts;
 	}
+	
+	
+    private ArrayAdapter<String> listAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,23 +78,75 @@ public class MainActivity extends SalesforceActivity {
 		setContentView(getLayoutID());
 
 		// Let observers know
-		EventsObservable.get().notifyEvent(EventType.MainActivityCreateComplete, this);
+		EventsObservable.get().notifyEvent(EventType.RenditionComplete, this);
+	}
+	
+	@Override 
+	public void onResume() {
+		super.onResume();
+		
+		// Create list adapter
+		listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+		((ListView) findViewById(R.id.contacts_list)).setAdapter(listAdapter);				
+		
+	}
+
+	/**
+	 * Called when "Clear" button is clicked. 
+	 * 
+	 * @param v
+	 */
+	public void onClearClick(View v) {
+		listAdapter.clear();
+	}	
+
+	/**
+	 * Called when "Fetch Contacts" button is clicked
+	 * 
+	 * @param v
+	 * @throws UnsupportedEncodingException 
+	 */
+	public void onFetchContactsClick(View v) throws UnsupportedEncodingException {
+        sendRequest("SELECT Name, mynum__c FROM stuff__c");
+	}
+	
+	/**
+	 * Called when "Add Contact" is clicked
+	 * 
+	 * @param v
+	 * 
+	 */
+	public void addContactClick(View v) throws UnsupportedEncodingException {
+		Intent myIntent = new Intent(v.getContext(), SendData.class);
+		startActivityForResult(myIntent, 0);
 	}
 	
 
-	public void contactsClick(View view) {
-		Intent intent = new Intent(this, Contacts.class);
-		startActivity(intent);
-	}
-	
-	public void chartClick(View view) {
-		Intent intent = new Intent(this, PieChartActivity.class);
-		startActivity(intent);
-	}
+	private void sendRequest(String soql) throws UnsupportedEncodingException {
+		RestRequest restRequest = RestRequest.getRequestForQuery(getString(R.string.api_version), soql);
 
-	public void valuesClick(View view){
-		Intent intent = new Intent(this, ChangeValue.class);
-		startActivity(intent);
+		RestHelper.getRestClient().sendAsync(restRequest, new AsyncRequestCallback() {
+			//@Override
+			public void onSuccess(RestRequest request, RestResponse result) {
+				try {
+					System.out.println(result);
+					Log.d("restRequet result", result.asString());
+					listAdapter.clear();
+					JSONArray records = result.asJSONObject().getJSONArray("records");
+					for (int i = 0; i < records.length(); i++) {
+						listAdapter.add(records.getJSONObject(i).getString("Name"));
+					}					
+				} catch (Exception e) {
+					onError(e);
+				}
+			}
+			
+		//	@Override
+			public void onError(Exception exception) {
+                Toast.makeText(Contacts.this,
+                               Contacts.this.getString(ForceApp.APP.getSalesforceR().stringGenericError(), exception.toString()),
+                               Toast.LENGTH_LONG).show();
+			}
+		});
 	}
-	
 }

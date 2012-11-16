@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/chartView" >
 
     <TextView
         android:layout_width="match_parent"
@@ -37,22 +38,9 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:gravity="center_horizontal|fill"
-        android:orientation="horizontal" 
-        android:baselineAligned="false">
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:orientation="vertical" >
-
-            <Button
-                android:id="@+id/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back" />
-        </LinearLayout>
+        android:orientation="horizontal" >
 
         <LinearLayout
             android:layout_width="0dip"
@@ -64,22 +52,24 @@
                 android:id="@+id/edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pool"
-                android:onClick="poolData" />
+                android:onClick="poolData"
+                android:text="Poll" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:gravity="right" >
 
             <Button
                 android:id="@+id/export"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Export"
-                android:onClick="exportImage" />
+                android:onClick="exportImage"
+                android:text="Export" />
+
         </LinearLayout>
     </LinearLayout>
 

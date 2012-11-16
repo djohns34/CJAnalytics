@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name"><b>Template</b>Codast Jagga</string>
+	<string name="app_name"><b>Codast Jegga</b></string>
     <string name="welcome">Welcome %s</string>
 	<string name="logout_button">Logout</string>
-	<string name="fetch_contacts_button">Fetch Contacts</string>
-	<string name="fetch_accounts_button">Fetch Accounts</string>
+	<string name="fetch_contacts_button">Fetch</string>
+	<string name="addContact">Add</string>
 	<string name="clear_button">Clear</string>
 	<string name="Name">Name</string>
 	<string name="phoneNumber">Phone Number</string>
 	<string name="addData">Add Data</string>
-	<string name="addContact">Add Contact</string>
 	<string name="back">Back</string>
+	<string name="contacts">Contacts</string>
+	<string name="chart">View Chart</string>
+	<string name="values">Change Chart</string>
 </resources>

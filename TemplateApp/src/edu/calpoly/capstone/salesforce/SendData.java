@@ -23,27 +23,28 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class SendData extends Activity {
+public class SendData extends SalesforceActivity {
 	private RestClient client;
 	private static String objectType = "stuff__c";
+	
+	
+	int getLayoutID() {
+		return R.layout.senddata;
+	}
+	 
+	
+	int getViewID() {
+		// TODO Auto-generated method stub
+		return R.id.senddata;
+	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.senddata);
+		setContentView(getLayoutID());
 	}
 	
-	/**
-	 * Called when "Back" is clicked
-	 * 
-	 * @param v
-	 * 
-	 */
-	public void addBackClick(View v) throws UnsupportedEncodingException {
-		Intent myIntent = new Intent(v.getContext(), MainActivity.class);
-		startActivityForResult(myIntent, 0);
-	}
 	
 	public void addAddContactClick(View v) throws UnsupportedEncodingException {
 		Map<String, Object> fields = new HashMap<String, Object>();

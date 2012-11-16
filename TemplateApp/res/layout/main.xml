@@ -1,50 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:background="#454545"
-	android:id="@+id/root">
+    android:id="@+id/homeScreen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-	<include layout="@layout/header" />
+    <include layout="@layout/header" />
 
-	<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-	    android:layout_height="wrap_content">
-		<Button android:id="@+id/fetch_contacts" android:layout_width="wrap_content"
-		      android:layout_height="wrap_content"
-		      android:onClick="onFetchContactsClick"
-		      android:text="@string/fetch_contacts_button" />
-		
-		<Button
-		    android:id="@+id/fetch_accounts"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:onClick="addContactClick"
-		    android:text="@string/addContact" />
-	
-	    <Button android:id="@+id/clear" android:layout_width="wrap_content"
-		      android:layout_height="wrap_content"
-		      android:onClick="onClearClick"
-		      android:text="@string/clear_button" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-	    <Button
-	        android:id="@+id/button1"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-            android:onClick="pieChart"
-	        android:text="Pie Chart" />
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="contactsClick"
+            android:text="@string/contacts" />
 
-	    <Button
-	        android:id="@+id/button2"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-            android:onClick="changeValues"
-	        android:text="Change values" />
-
-	</LinearLayout>
-
-	<ListView
-	    android:id="@+id/contacts_list"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent" >
-	</ListView>
-
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="chartClick"
+            android:text="@string/chart" />
+        
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="valuesClick"
+            android:text="@string/values" />
+        
+        
+    </LinearLayout>
 </LinearLayout>

@@ -47,8 +47,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class PieChartActivity extends Activity {
-	public static final String TYPE = "type";
+public class PieChartActivity extends SalesforceActivity {
 
 	private static int[] COLORS = new int[] { Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN };
 
@@ -58,10 +57,20 @@ public class PieChartActivity extends Activity {
 
 	private String mDateFormat;
 
-	private Button mAdd;
 
 
 	private GraphicalView mChartView;
+	
+	int getLayoutID() {
+		// TODO Auto-generated method stub
+		return R.layout.xy_chart;
+	}
+	
+	@Override
+	int getViewID() {
+		return R.id.chartView;
+	}
+	
 
 	@Override
 	protected void onRestoreInstanceState(Bundle savedState) {
@@ -84,8 +93,8 @@ public class PieChartActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 
-		mSeries.add("Male", 45);
-		mSeries.add("Female", 55);
+		mSeries.add("Male", 50);
+		mSeries.add("Female", 50);
 
 		SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
 		renderer.setColor(Color.RED);
@@ -95,7 +104,7 @@ public class PieChartActivity extends Activity {
 		renderer.setColor(Color.BLUE);
 		mRenderer.addSeriesRenderer(renderer);
 
-		setContentView(R.layout.xy_chart);
+		setContentView(getLayoutID());
 		mRenderer.setApplyBackgroundColor(true);
 		mRenderer.setBackgroundColor(Color.BLACK);
 		mRenderer.setChartTitleTextSize(20);
@@ -166,12 +175,13 @@ public class PieChartActivity extends Activity {
 
 		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 		OutputStream outStream = null;
-		File file = new File(extStorageDirectory, "er.PNG");
+		File file = new File(extStorageDirectory, "CodastJegga.PNG");
 		try {
 			outStream = new FileOutputStream(file);
 			bit.compress(Bitmap.CompressFormat.PNG, 100, outStream);
 			outStream.flush();
 			outStream.close();
+			Toast.makeText(this, "Image Saved to "+ file.getAbsolutePath(),Toast.LENGTH_SHORT).show();
 		}
 		catch(Exception e){
 			System.out.println("srn");
@@ -179,7 +189,7 @@ public class PieChartActivity extends Activity {
 	}
 	public void poolData(View view) {
 
-		 final ProgressDialog progresss=ProgressDialog.show(this, "Pooling Data",
+		 final ProgressDialog progresss=ProgressDialog.show(this, "Polling Data",
 		            "Please wait....", true);
 		 
 		 String query="SELECT Id, male__c, female__c FROM Gender__c";
@@ -224,4 +234,6 @@ public class PieChartActivity extends Activity {
 		 
 		 
 	}
+
+
 }
