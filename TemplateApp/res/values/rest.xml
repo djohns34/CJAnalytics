@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-	<string name="account_type">edu.calpoly.capstone.salesforce</string>
-	<string name="oauth_callback_url">sfdc://success</string>
-	<string name="oauth_client_id">3MVG9y6x0357HleeABHBwei20Q544h3cXNUgpFAxN4zyYf7TRjaBD702oVM3yWJwycDNIWeaWNJJyYsCTuYu0</string>
-	<string name="api_version">v23.0</string>
-</resources>
