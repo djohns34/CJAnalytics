@@ -8,7 +8,7 @@ public class CodastSDK implements ICodastSDK{
 	private RestClientAdapter restClientAdapter;
 	private RestClient client;
 
-	CodastSDK(RestClientAdapter restClientAdapter)
+	public CodastSDK(RestClientAdapter restClientAdapter)
 	{
 		this.restClientAdapter = restClientAdapter;
 		this.client = this.restClientAdapter.getRestClient();
