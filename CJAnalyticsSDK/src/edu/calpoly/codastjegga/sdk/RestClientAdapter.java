@@ -10,6 +10,8 @@ import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestClient.AuthTokenProvider;
 import com.salesforce.androidsdk.rest.RestClient.ClientInfo;
 
+import edu.calpoly.codastjegga.sdk.impl.ICodastSDK;
+
 /*
  * An adapter for obtaining a rest client for an existing Salesforce
  * account through the use of Token. @see Token for more info.
@@ -42,11 +44,27 @@ public class RestClientAdapter {
 	 * @param app application
 	 */
 	private void init(Application app){
-		HttpAccess.init(app, CodastSDK.APP_NAME);
+		HttpAccess.init(app, ICodastSDK.APP_NAME);
 		restClient = new RestClient(clientInfo,
 				                token.getAccessToken(),
 				                HttpAccess.DEFAULT, new AuthTokenRefresher());
 		
+	}
+	
+	/**
+	 * Immutable access to Token
+	 * @return Token
+	 */
+	public Token getToken() {
+		return new Token(token.getAccessToken(), token.getRefreshToken());
+	}
+	
+	/**
+	 * Acessor to ClientInfo
+	 * @return clientInfo
+	 */
+	public ClientInfo getClientInfo() {
+		return clientInfo;
 	}
 	
 	/**
