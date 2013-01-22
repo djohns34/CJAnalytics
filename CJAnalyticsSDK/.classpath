@@ -4,5 +4,10 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry excluding="src/" kind="src" path="tests"/>
+	<classpathentry kind="lib" path="C:/Users/gagandeep/Documents/GitHub/SalesforceMobileSDK-Android/native/SalesforceSDK/bin/salesforcesdk.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gagandeep/Documents/GitHub/SalesforceMobileSDK-Android/native/SalesforceSDK/libs/cordova-2.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gagandeep/Documents/GitHub/SalesforceMobileSDK-Android/native/SalesforceSDK/libs/android-junit-report-1.2.6.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
