@@ -10,7 +10,6 @@ import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestClient.AuthTokenProvider;
 import com.salesforce.androidsdk.rest.RestClient.ClientInfo;
 
-import edu.calpoly.codastjegga.sdk.impl.ICodastSDK;
 
 /*
  * An adapter for obtaining a rest client for an existing Salesforce
