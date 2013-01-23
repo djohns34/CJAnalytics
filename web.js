@@ -32,4 +32,5 @@ app.get('/submit', function (req, res) {
     res.redirect(apiUrl);
 });
 
-app.listen(3000);
+var port = process.env.PORT || 3000;
+app.listen(port);
