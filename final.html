@@ -1,0 +1,20 @@
+<html>
+  <body>
+    <h1>CJ Analytics Auth</h1>
+    <p></p>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="jquery.min.js"></script>
+    <script>
+      $(function () {
+        var params = window.location.hash.replace("#", "").split("&");
+        
+        params.forEach(function (param) {
+          param = param.split("=");
+          $("p").append("<h1>" + decodeURIComponent(param[0]) + "</h1>");
+          $("p").append("<h3>" + decodeURIComponent(param[1]) + "</h3>");
+        });
+      });
+    </script>
+  </body>
+</html>
