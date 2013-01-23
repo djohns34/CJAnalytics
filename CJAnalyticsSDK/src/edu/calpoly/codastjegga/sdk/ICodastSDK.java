@@ -1,4 +1,4 @@
-package edu.calpoly.codastjegga.sdk.impl;
+package edu.calpoly.codastjegga.sdk;
 
 
 public interface ICodastSDK {

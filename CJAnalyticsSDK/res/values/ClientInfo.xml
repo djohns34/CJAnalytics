@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="authToken">00DE0000000dgAF!AQwAQOxuKs7U1B1mWXX.52cG4wWoD4XNgs6ZXX5NvvKo4vyt0noUMQ9qtlEZVECqY8xuy9UqNufV.3686msKCroPi4r8va5H</string>
+	<string name="refreshToken">5Aep861rEpScxnNE64IogmmXsb72ONfi9xneXYd7423HJqVESj5oqbidZbo19PTAD6Giikd32sqxg==</string>
+	<string name="clientId">3MVG9y6x0357HlefAMuoGiOstBXbpy4LNe2zAL8eeWFHc_JizJACxdM7pz92vvDH2mtLJKk4z7XKSX0vndYl9</string>
+	<string name="instanceServer">https://na9.salesforce.com</string>
+	<string name="loginServer">https://login.salesforce.com</string>
+	<string name="idUrl">http://login.salesforce.com/id/00DE0000000dgAFMAY/005E0000001nMXgIAM</string>
+	<string name="accountName">codast@jegga.com (RestExplorer)</string>
+	<string name="username">codast@jegga.com</string>
+	<string name="userId">005E0000001nMXgIAM</string>
+	<string name="orgId">00DE0000000dgAFMAY</string>  
+</resources>
