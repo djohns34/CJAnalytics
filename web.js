@@ -13,7 +13,7 @@ app.configure(function () {
 
 
 app.get('/', function (req, res) {
-    var loc = "/home/coreyf/school/codastjegga/authserver/index.html";
+    var loc = __dirname + "/index.html";
     res.render(loc);
 });
 
