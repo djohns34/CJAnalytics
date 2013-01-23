@@ -30,7 +30,7 @@ app.get('/submit', function (req, res) {
 });
 
 app.get('/final', function (req, res) {
-    res.send("meow");
+    res.send(req);
 });
 
 var port = process.env.PORT || 3000;
