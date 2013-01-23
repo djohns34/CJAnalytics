@@ -10,8 +10,6 @@ app.configure(function () {
     app.engine('html', require('ejs').renderFile);
 });
 
-
-
 app.get('/', function (req, res) {
     var loc = __dirname + "/index.html";
     res.render(loc);
@@ -25,11 +23,14 @@ app.get('/submit', function (req, res) {
         'query': {
             'response_type': 'token',
             'client_id': req.query.consumerKey,
-            'redirect_uri': 'https://rwell.org/'
+            'redirect_uri': 'https://codast-jegga.herokuapp.com/final'
         }
     });
-
     res.redirect(apiUrl);
+});
+
+app.get('/final', function (req, res) {
+    res.send("meow");
 });
 
 var port = process.env.PORT || 3000;
