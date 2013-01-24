@@ -1,8 +1,11 @@
 var url = require('url');
 var path = require('path');
+var http = require('http');
 
 var express = require('express');
 var ejs = require('ejs');
+
+// TODO: enforce HTTPS
 
 var conf = {
     'port': process.env.PORT || 3000,
@@ -44,27 +47,18 @@ app.get('/auth/step-1', function (req, res) {
 
 app.get('/auth/step-2', function (req, res) {
     var apiUrl,
+        code = req.query.code,
         conKey = req.query.state || req.query.conKey,  // consumer secret
         conSecret = req.query.conSecret;  // consumer secret
-    if (conSecret && conSecret.length > 0) {
-        apiUrl = url.format({
-            'protocol': 'https',
-            'hostname': 'login.salesforce.com',
-            'pathname': '/services/oauth2/authorize',
-            'query': {
-                'response_type': 'code',
-                //'client_id': conKey,
-                'client_secret': conSecret,
-                'redirect_uri': conf.baseUrl + '/auth/callback'
-            }
-        });
-        res.redirect(apiUrl);
-    } else {
-        res.render('step-2.html', {'conKey': conKey});
-    }
+    res.render('step-2.html', {
+        'conKey': conKey,
+        'code': code,
+        'redirectUri': conf.baseUrl + '/auth/callback'
+    });
 });
 
 app.get('/auth/callback', function (req, res) {
+    console.log(req);
     res.render('callback.html');
 });
 
