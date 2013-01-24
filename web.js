@@ -1,38 +1,52 @@
 var url = require('url');
+var path = require('path');
 
 var express = require('express');
 var ejs = require('ejs');
 
+var conf = {
+    'port': process.env.PORT || 3000,
+    'baseUrl': 'https://codast-jegga.herokuapp.com'
+};
 
 var app = express();
 app.configure(function () {
-    app.set("view options", {layout: false});  // is this necessary?
+    app.set("views", path.join(__dirname, 'views'));
     app.engine('html', require('ejs').renderFile);
 });
 
+
 app.get('/', function (req, res) {
-    var loc = __dirname + "/index.html";
-    res.render(loc);
+    res.render('index.html');
 });
 
-app.get('/submit', function (req, res) {
-    var apiUrl = url.format({
-        'protocol': 'https',
-        'hostname': 'login.salesforce.com',
-        'pathname': '/services/oauth2/authorize',
-        'query': {
-            'response_type': 'token',
-            'client_id': req.query.consumerKey,
-            'redirect_uri': 'https://codast-jegga.herokuapp.com/final'
-        }
-    });
-    res.redirect(apiUrl);
+app.get('/auth/step-1', function (req, res) {
+    var apiUrl,
+        conKey = req.query.conKey;  // consumer key
+    
+    if (conKey && conKey.length > 0) {
+        apiUrl = url.format({
+            'protocol': 'https',
+            'hostname': 'login.salesforce.com',
+            'pathname': '/services/oauth2/authorize',
+            'query': {
+                'response_type': 'code',
+                'client_id': conKey,
+                'redirect_uri': conf.baseUrl + '/auth/callback'
+            }
+        });
+        res.redirect(apiUrl);
+    } else {
+        res.render('step-1.html');
+    }
 });
 
-app.get('/final', function (req, res) {
-    var loc = __dirname + "/final.html";
-    res.render(loc);
+app.get('/auth/step-2', function (req, res) {
+    res.render('step-2.html');
 });
 
-var port = process.env.PORT || 3000;
-app.listen(port);
+app.get('/auth/callback', function (req, res) {
+    res.render('callback.html');
+});
+
+app.listen(conf.port);

@@ -1,0 +1,10 @@
+<%- include header.html %>  
+
+<p>Loading...</p>
+<script>
+  if (location.search.indexOf("code") === 1) {
+    location.replace("/auth/step-2" + location.search)
+  }
+</script>
+
+<%- include footer.html %>
