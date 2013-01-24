@@ -32,6 +32,7 @@ app.get('/auth/step-1', function (req, res) {
             'query': {
                 'response_type': 'code',
                 'client_id': conKey,
+                'state': conKey,
                 'redirect_uri': conf.baseUrl + '/auth/callback'
             }
         });
@@ -42,7 +43,24 @@ app.get('/auth/step-1', function (req, res) {
 });
 
 app.get('/auth/step-2', function (req, res) {
-    res.render('step-2.html');
+    var apiUrl,
+        conSecret = req.query.conSecret;  // consumer secret
+    if (conSecret && conSecret.length > 0) {
+        apiUrl = url.format({
+            'protocol': 'https',
+            'hostname': 'login.salesforce.com',
+            'pathname': '/services/oauth2/authorize',
+            'query': {
+                'response_type': 'code',
+                //'client_id': conKey,
+                'client_secret': conSecret,
+                'redirect_uri': conf.baseUrl + '/auth/callback'
+            }
+        });
+        res.redirect(apiUrl);
+    } else {
+        res.render('step-2.html');
+    }
 });
 
 app.get('/auth/callback', function (req, res) {
