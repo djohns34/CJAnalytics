@@ -1,17 +1,8 @@
 <%- include header.html %>  
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-<script src="jquery.min.js"></script>
-<script>
-  $(function () {
-    var params = window.location.hash.replace("#", "").split("&");
-    
-    params.forEach(function (param) {
-      param = param.split("=");
-      $("body").append("<h1>" + decodeURIComponent(param[0]) + "</h1>");
-      $("body").append("<h3>" + decodeURIComponent(param[1]) + "</h3>");
-    });
-  });
-</script>
+<form action="/auth/step-2" method="get">
+  <p>Enter consumer key: <input name="conSecret" type="text" size="50"><input type="submit" type="button" value="Submit"></p>
+  <p>If you're codast jegga, it's: <b>2144639019804934205</b></p>
+</form>
 
 <%- include footer.html %>
