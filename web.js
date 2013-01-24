@@ -44,6 +44,7 @@ app.get('/auth/step-1', function (req, res) {
 
 app.get('/auth/step-2', function (req, res) {
     var apiUrl,
+        conKey = req.query.state || req.query.conKey,  // consumer secret
         conSecret = req.query.conSecret;  // consumer secret
     if (conSecret && conSecret.length > 0) {
         apiUrl = url.format({
@@ -59,7 +60,7 @@ app.get('/auth/step-2', function (req, res) {
         });
         res.redirect(apiUrl);
     } else {
-        res.render('step-2.html');
+        res.render('step-2.html', {'conKey': conKey});
     }
 });
 
