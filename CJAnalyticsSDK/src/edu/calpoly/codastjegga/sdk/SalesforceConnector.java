@@ -2,11 +2,14 @@ package edu.calpoly.codastjegga.sdk;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-import android.telephony.TelephonyManager;
+import org.apache.http.ParseException;
+import org.json.JSONException;
+
+import android.content.Context;
 import android.util.Log;
 
 import com.salesforce.androidsdk.rest.RestClient;
@@ -20,28 +23,25 @@ public class SalesforceConnector{
 	RestClient client;
 	String apiVersion;
 
-	
+	SalesforceDBAdapter db;
 
 	static final String table ="TrackedEvents__c";
 	
-	private static final String eventName="EventName__c";
-	private static final String timeStamp="Timestamp__c";
-	private static final String deviceId ="Device_Id__c";
-	private static final String valueType="ValueType__c";
 	
 	
-	private List<Event<?>> events; 
 	
-//	private static TelephonyManager manager;
-	
-	public SalesforceConnector(RestClient client, String apiVersion) {
-		events =new ArrayList<Event<?>>();
+	public SalesforceConnector(RestClient client, String apiVersion,Context activity) {
 		this.client = client;
 		this.apiVersion = apiVersion;
 		
+		db=new SalesforceDBAdapter(activity);
+		db.open();
+		
 	}
-	public void addEvent(Event<?> event){
-		events.add(event);
+	public void addEvent(Event<?> e){
+        
+	    db.insertEvent(e);
+	    
 	}
 
 	public void sendTestData() {
@@ -56,51 +56,68 @@ public class SalesforceConnector{
 	}
 	
 	public void sendEvents(){
-		HashMap<String, List<Event<?>>> eventMap =new HashMap<String, List<Event<?>>>();
+		Map<Integer, Map> eventMap =db.fetchAllEvents();
 		
-		for(Event<?> e:events){
-				try {
-
-					HashMap<String, Object> map=new HashMap<String, Object>();
-					map.put(eventName, e.getKey());
-					map.put(timeStamp, e.getTimeStamp());
-//					map.put(deviceId, manager.getDeviceId());
-					map.put(deviceId, "Need Actual ID");
-
-					map.put(e.getEventType().getField(), e.getRESTValue());
-					map.put(valueType, e.getEventType().getFieldType());
-					
-					
-					RestRequest r=RestRequest.getRequestForCreate(apiVersion, table, map);
-					sendRequest(r);
-				} catch (UnsupportedEncodingException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
+		for(Entry<Integer, Map> e:eventMap.entrySet()){
+		    sendRequestForInsert(e.getKey(),e.getValue());
+		}
 	}
 		
 		
 
 
-	private void sendRequest(RestRequest restRequest)
-			throws UnsupportedEncodingException {
+	private void sendRequestForInsert(Integer i,Map map){
 
-		client.sendAsync(restRequest, new AsyncRequestCallback() {
-			@Override
-			public void onSuccess(RestRequest request, RestResponse result) {
-				Log.i("onSuccess", result.toString());
+            RestRequest r=null;
+            try {
+                r = RestRequest.getRequestForCreate(apiVersion, table, map);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(r !=null){
+                AsyncRequestCallback callback =new CodastRequestCallback(i);
+                
+                client.sendAsync(r, callback);
+            }
+        }
 
-			}
+	private class CodastRequestCallback implements AsyncRequestCallback{
+	    private int dbKey;
+	    public CodastRequestCallback(int androidDBkey) {
+	        dbKey=androidDBkey;
+	    }
 
-			@Override
-			public void onError(Exception exception) {
 
-				Log.i("onError", exception.toString());
-			}
-		});
+	    @Override
+	    public void onSuccess(RestRequest request, RestResponse result) {
+	        if(result.isSuccess()){
+	            try {
+	                if(result.asJSONObject().has("success") && result.asJSONObject().has("errors")){
+	                    boolean success= result.asJSONObject().getBoolean("success");
+	                    boolean hasErrors= result.asJSONObject().getJSONArray("errors").length() != 0;
+
+	                    if(success && !hasErrors){
+	                        db.deleteEvent(dbKey);
+	                    }
+	                }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+	        }
+	        Log.i("onSuccess", result.toString());
+
+	    }
+
+        @Override
+        public void onError(Exception exception) {
+            Log.i("onError", exception.toString());
+        }
 	}
 }
