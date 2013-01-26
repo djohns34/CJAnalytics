@@ -1,5 +1,7 @@
 package edu.calpoly.codastjegga.sdk;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import android.app.Application;
 import android.util.Log;
 
@@ -81,6 +83,7 @@ public class RestClientAdapter {
 	 * 
 	 */
 	private class AuthTokenRefresher implements AuthTokenProvider {
+		private final ReentrantLock tokenAccessLock = new ReentrantLock();
 		// last time the token was refreshed
 		private long lastRefresh;
 
@@ -90,6 +93,25 @@ public class RestClientAdapter {
 
 		@Override
 		public String getNewAuthToken() {
+			synchronized (tokenAccessLock) {
+				if (tokenAccessLock.isLocked())
+				{
+					try {
+						tokenAccessLock.wait();
+					} catch (InterruptedException e) {
+						Log.w("RestClientAdapter", "error obtaining a lock on getting new access token", e);
+						e.printStackTrace();
+					}
+					//if another thread has released the lock then just
+					//get the access token
+					return token.getAccessToken();
+				}
+				//if other threads do not hold the lock, we lock it
+				else {
+					tokenAccessLock.lock();
+				}
+			}
+			//at this point this thread holds the lock 
 			TokenEndpointResponse tr = null;
 			try {
 				tr = OAuth2.refreshAuthToken(HttpAccess.DEFAULT,
@@ -102,6 +124,15 @@ public class RestClientAdapter {
 				Log.e(CLASS_NAME, "Error in obtaining refresh token", e);
 
 			}
+			finally {
+				//before this method returns, tokenAccessLock needs to unlock itself and
+				//notify any waiting threads
+				synchronized (tokenAccessLock) {
+					tokenAccessLock.unlock();
+					tokenAccessLock.notifyAll();
+				}
+			}
+			//return the access token
 			return token.getAccessToken();
 
 		}
