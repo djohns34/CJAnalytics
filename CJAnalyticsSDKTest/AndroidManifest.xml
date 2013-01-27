@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.cjanalyticssdk.test"
+    package="edu.calpoly.cjanalyticssdk.test"
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="14" />
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="16" />
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="com.example.cjanalyticssdk" />
+        android:targetPackage="edu.calpoly.cjanalyticssdk.test" />
 
     <application
         android:icon="@drawable/ic_launcher"

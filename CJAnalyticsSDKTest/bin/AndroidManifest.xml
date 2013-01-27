@@ -10,7 +10,7 @@
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="edu.calpoly.cjanalyticssdk" />
+        android:targetPackage="edu.calpoly.cjanalyticssdk.test" />
 
     <application
         android:icon="@drawable/ic_launcher"
