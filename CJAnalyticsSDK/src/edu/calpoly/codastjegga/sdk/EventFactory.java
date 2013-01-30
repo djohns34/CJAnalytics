@@ -3,11 +3,28 @@ package edu.calpoly.codastjegga.sdk;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * 
+ * Helper class to assist in the creation of event objects
+ * 
+ * @author Daniel
+ *
+ */
 public class EventFactory {
 	
 	private static Map<String,EventType> typeMap= new HashMap<String,EventType>();
 	
+	/**
+	 * Creates the event based on the given data
+	 * 
+	 * Mote: performs a check to verify only EventType is being stored for each key
+	 * i.e can't store both strings and ints under a "Weight" Key
+	 * 
+	 * @param type the EventType of the object
+	 * @param key 
+	 * @param value Must be an appropriate object for the specified EventType 
+	 * @return the created event or throws an exception if creation failed
+	 */
 	public static Event <?> createEvent(EventType type,String key,Object value){
 		Event<?> e=null;
 		

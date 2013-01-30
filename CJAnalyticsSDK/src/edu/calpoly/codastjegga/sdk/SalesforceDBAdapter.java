@@ -37,35 +37,33 @@ import android.provider.Settings.Secure;
 import android.util.Log;
 
 /**
- * Simple notes database access helper class. Defines the basic CRUD operations
- * for the notepad example, and gives the ability to list all notes as well as
- * retrieve or modify a specific note.
+ * Simple database access helper class. Allows persistent storage of event objects
+ * Defines operations to add, list and remove events.
  * 
- * This has been improved from the first version of this tutorial through the
- * addition of better error handling and also using returning a Cursor instead
- * of using a collection of inner classes (which is less scalable and not
- * recommended).
+ * @author Daniel
+ * 
  */
 public class SalesforceDBAdapter {
 
     public static final String KEY_ROWID = "_id";
 
-    
-    private static final String eventName="EventName__c";
-    private static final String timeStamp="Timestamp__c";
-    private static final String deviceId ="Device_Id__c";
-    private static final String valueType="ValueType__c";
+    /*Salesforce row names*/
+    static final String eventName="EventName__c";
+    static final String timeStamp="Timestamp__c";
+    static final String deviceId ="Device_Id__c";
+    static final String valueType="ValueType__c";
     
     /*The actual event value*/
     private static final String value="value";
+    
     /*The row name in the salesforce table to insert the value. This is different than valueType which is a seperate row*/
     private static final String valueRow="valueRow";
     
-    
-    
 
-    private static final String DATABASE_NAME = "salesforceData";
-    private static final String DATABASE_TABLE = "salesforceEvents";
+    /*Default visibility for test cases*/
+    static final String DATABASE_NAME = "salesforceData";
+
+     private static final String DATABASE_TABLE = "salesforceEvents";
     
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
@@ -101,11 +99,14 @@ public class SalesforceDBAdapter {
         }
 
         @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//            Log.w(TAG, "Upgrading database from version " + oldVersion + " to "
-//                    + newVersion + ", which will destroy all old data");
-//            db.execSQL("DROP TABLE IF EXISTS notes");
-//            onCreate(db);
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
+            /*Not implemented, for now*/
+            
+            /* Log.w(TAG, "Upgrading database from version " + oldVersion +
+             " to "
+            newVersion + ", which will destroy all old data");
+            db.execSQL("DROP TABLE IF EXISTS notes");
+            onCreate(db);*/
         }
     }
 
@@ -121,7 +122,7 @@ public class SalesforceDBAdapter {
     }
 
     /**
-     * Open the notes database. If it cannot be opened, try to create a new
+     * Open the database. If it cannot be opened, try to create a new
      * instance of the database. If it cannot be created, throw an exception to
      * signal the failure
      * 
@@ -141,12 +142,11 @@ public class SalesforceDBAdapter {
 
 
     /**
-     * Create a new note using the title and body provided. If the note is
-     * successfully created return the new rowId for that note, otherwise return
+     * Insert the specified Event into the database. If the Event is
+     * successfully added return the new rowId, otherwise return
      * a -1 to indicate failure.
      * 
-     * @param title the title of the note
-     * @param body the body of the note
+     * @param Event the event to add to the database
      * @return rowId or -1 if failed
      */
     public long insertEvent(Event<?> event) {
@@ -173,24 +173,29 @@ public class SalesforceDBAdapter {
     }
 
     /**
-     * Return a Cursor over the list of all notes in the database
+     * Call this method to retrieve a copy of all the events in the local DB
      * 
-     * @return Cursor over all notes
+     * @return Return a Map containing the android row id, for delete upon success,
+     * and a Map of the Salesforce rowNames to the value to be inserted 
+     * 
+     *  
      */
-    public Map<Integer,Map> fetchAllEvents() {
-        Map<Integer,Map> result =new TreeMap<Integer, Map>();
+    public Map<Integer,Map<String,Object>> fetchAllEvents() {
+        Map<Integer,Map<String,Object>> result =new TreeMap<Integer, Map<String,Object>>();
         
         
-//        {eventName,timeStamp,deviceId,value,valueRow,valueType}
         Cursor c= mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID,eventName,timeStamp,deviceId,value,valueRow,valueType}, null, null, null, null, null);
 
         while(c.moveToNext()){
             int id=c.getInt(c.getColumnIndex(KEY_ROWID));
+            
+            //The second type should always be strings, but salesforce expects <String,Object>
             Map<String,Object> event =new HashMap<String,Object>();
 
             event.put(eventName, c.getString(c.getColumnIndex(eventName)));
             event.put(timeStamp, c.getString(c.getColumnIndex(timeStamp)));
             event.put(deviceId, c.getString(c.getColumnIndex(deviceId)));
+            
             /*When sending to salesforce we want to put the value in the right row in the table*/
             event.put(c.getString(c.getColumnIndex(valueRow)), c.getString(c.getColumnIndex(value)));
             event.put(valueType, c.getString(c.getColumnIndex(valueType)));
@@ -201,12 +206,4 @@ public class SalesforceDBAdapter {
         c.close();
         return result; 
     }
-
-    /**
-     * Return a Cursor positioned at the note that matches the given rowId
-     * 
-     * @param rowId id of note to retrieve
-     * @return Cursor positioned to matching note, if found
-     * @throws SQLException if note could not be found/retrieved
-     */
 }
