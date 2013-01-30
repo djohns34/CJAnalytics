@@ -6,12 +6,16 @@ public class NumberEvent extends Event {
   
   /**
    * Constructor for NumberEvent
-   * @param id @see Event id
-   * @param eventName @see Event eventName
+   * @param eventName
+   *            @see {@link Event} 
+   * @param deviceid
+   *            @see {@link Event}
+   *           
+   * @param timestamp @see {@link Event}
    * @param numberValue value of type integer (number)
    */
-  public NumberEvent (String id, String eventName, Integer numberValue) {
-    super (id, eventName);
+  public NumberEvent (String eventName, String deviceId, String timestamp, Integer numberValue) {
+    super(eventName, deviceId, timestamp);
     this.numberValue = numberValue;
   }
   

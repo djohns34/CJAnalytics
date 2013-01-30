@@ -26,12 +26,17 @@
  */
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.Set;
 
+import org.apache.cordova.api.LOG;
+import org.apache.http.ParseException;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.os.Bundle;
 import android.view.View;
@@ -46,8 +51,9 @@ import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 import com.salesforce.androidsdk.ui.NativeMainActivity;
-import edu.calpoly.codastjegga.cjanalyticsapp.R;
+
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
 
 
 /**
@@ -126,7 +132,45 @@ public class MainActivity extends NativeMainActivity {
 	public void onFetchContactsClick(View v) throws UnsupportedEncodingException {
         //sendRequest("SELECT Name FROM Contact");
 	  Set<EventFields> fields = EnumSet.allOf(EventFields.class);  
-	  //dataFetcher.onRetrieve("TrackedEvents__c", fields);
+	  try {
+      dataFetcher.onRetrieve("TrackedEvents__c", fields, new AsyncRequestCallback() {
+        
+        @Override
+        public void onSuccess(RestRequest request, RestResponse response) {
+          try {
+            if (response != null) {
+            JSONObject json = response.asJSONObject();
+            
+        
+            if (json != null)
+              new Records(json);
+            }
+          } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+          
+        }
+        
+        @Override
+        public void onError(Exception exception) {
+          // TODO Auto-generated method stub
+          LOG.e("onFetchContactsClick", "unable to send request", exception);
+        }
+      });
+    } catch (IllegalArgumentException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
 	}
 
 	/**

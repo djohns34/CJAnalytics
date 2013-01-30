@@ -11,12 +11,16 @@ public class TextEvent extends Event {
   
   /**
    * Constructor for TextEvent
-   * @param id @see Event id
-   * @param eventName @see Event eventName
+   * @param eventName
+   *            @see {@link Event} 
+   * @param deviceid
+   *            @see {@link Event}
+   *           
+   * @param timestamp @see {@link Event}
    * @param textValue value of type text
    */
-  public TextEvent (String id, String eventName, String textValue) {
-    super (id, eventName);
+  public TextEvent (String eventName, String deviceId, String timestamp, String textValue) {
+    super(eventName, deviceId, timestamp);
     this.textVaue = textValue;
   }
   

@@ -1,11 +1,12 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
-import java.io.UnsupportedEncodingException;
-import java.util.EnumSet;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.json.JSONArray;
+import org.apache.http.ParseException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.util.Log;
 
@@ -15,6 +16,7 @@ import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
 
 public class DataFetcher {
   private static final String SELECT = "SELECT";
@@ -37,7 +39,7 @@ public class DataFetcher {
     this.apiVersion = apiVersion;
   }
   
-  public void onRetrieve (String from, Set<EventFields> select) 
+  public void onRetrieve (String from, Set<EventFields> select, AsyncRequestCallback callback) 
       throws IllegalArgumentException, Exception{
     
     if (from == null || select == null) {
@@ -55,52 +57,12 @@ public class DataFetcher {
     }
     
     soql.append(" " + FROM + " " + from);
-    sendRequest(soql.toString());
+    
+    sendRequest(soql.toString(), callback);
   }
   
-  private void sendRequest(String soql) throws Exception {
-    RestRequest restRequest = RestRequest.getRequestForQuery(apiVersion, soql);
-    DataFetcherResult result = new DataFetcherResult();
-    
-    client.sendAsync(restRequest, result);
-    
-    if (result.isSuccessfull()) {
-      //parsedata
-    }
-    else {
-      throw result.exception;
-    }
-  }
-  
-  
-  private final class DataFetcherResult implements AsyncRequestCallback {
-    RestResponse restResponse;
-    boolean successful;
-    Exception exception;
-
-    public RestResponse getRestResponse () {
-      return this.restResponse;
-    }
-    
-    public boolean isSuccessfull () {
-      return this.successful;
-    }
-    
-    public Exception getException () {
-      return this.exception;
-    }
-    
-    @Override
-    public void onSuccess(RestRequest request, RestResponse result) {
-      this.successful = true;
-      this.restResponse = result;
-     }
-     
-     @Override
-     public void onError(Exception exception) {
-       Log.e("DataFetcher", "Unable to make soql call", exception);
-       this.successful = false;
-       this.exception = exception;
-     }
+  private void sendRequest(String soql, AsyncRequestCallback callback) throws Exception, JSONException {
+    RestRequest restRequest = RestRequest.getRequestForQuery(apiVersion, soql);    
+    client.sendAsync(restRequest, callback); 
   }
 }

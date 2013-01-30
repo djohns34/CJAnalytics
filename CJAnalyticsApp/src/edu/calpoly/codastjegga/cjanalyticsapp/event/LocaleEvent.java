@@ -12,12 +12,16 @@ public class LocaleEvent extends Event{
   
   /**
    * Constructor for LocaleEvent
-   * @param id @see Event id
-   * @param eventName @see Event eventName
+   * @param eventName
+   *            @see {@link Event} 
+   * @param deviceid
+   *            @see {@link Event}
+   *           
+   * @param timestamp @see {@link Event}
    * @param localeValue value of type locale
    */
-  public LocaleEvent (String id, String eventName, String localeValue) {
-    super (id, eventName);
+  public LocaleEvent (String eventName, String deviceId, String timestamp, String localeValue) {
+    super(eventName, deviceId, timestamp);
     this.localeValue = localeValue;
   }
   

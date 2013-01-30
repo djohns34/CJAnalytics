@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 /**
  * A CurrencyEvent corresponds to event whose value type is Currency
- * @author gagandeep
+ * @author Gagandeep S. Kohli
  *
  */
 public class CurrencyEvent extends Event{
@@ -13,12 +13,16 @@ public class CurrencyEvent extends Event{
   
   /**
    * Constructor for CurrentEvent
-   * @param id @see Event id
-   * @param eventName @see Event eventName
+   * @param eventName
+   *            @see {@link Event} 
+   * @param deviceid
+   *            @see {@link Event}
+   *           
+   * @param timestamp @see {@link Event}
    * @param currencyValue value of type BigDecimal to represent currency
    */
-  public CurrencyEvent (String id, String eventName, BigDecimal currencyValue) {
-    super (id, eventName);
+  public CurrencyEvent (String eventName, String deviceId, String timestamp, BigDecimal currencyValue) {
+    super(eventName, deviceId, timestamp);
     this.currencyValue = currencyValue;
   }
   
