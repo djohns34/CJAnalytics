@@ -18,9 +18,12 @@ public class Integerate extends AndroidTestCase{
 
     @Override
     protected void setUp() throws Exception {
+        /*Using the other class to avoid dup code*/
         TestSalesforceConnector testConn=new TestSalesforceConnector();
         testConn.setUp();
-        connector=testConn.connector;
+        
+        testConn.setContext(this.getContext());
+        connector=testConn.getConnector();
     }
    
     public void testLogin() throws URISyntaxException{
@@ -28,7 +31,7 @@ public class Integerate extends AndroidTestCase{
         RestRequest r=RestRequest.getRequestForDescribeGlobal(TestSalesforceConnector.api);
         try{
             RestResponse response=connector.getClient().sendSync(r);
-            assertEquals("Test OAuth flow",200,response.getStatusCode());
+            assertEquals("Test OAuth flow"+response.asString(),200,response.getStatusCode());
         }catch(IOException e){
             fail("testLogin error");
         }

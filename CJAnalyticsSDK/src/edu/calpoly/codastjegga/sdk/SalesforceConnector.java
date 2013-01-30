@@ -88,14 +88,14 @@ public class SalesforceConnector{
                 AsyncRequestCallback callback =new CodastRequestCallback(i);
                 
                 
-//                try {
-//                    callback.onSuccess(r, getClient().sendSync(r));
-//                } catch (IOException e) {
-//                    // TODO Auto-generated catch block
-//                   callback.onError(e);
-//                }
+                try {
+                    callback.onSuccess(r, getClient().sendSync(r));
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                   callback.onError(e);
+                }
                 
-                client.sendAsync(r, callback);
+//                client.sendAsync(r, callback);
             }
         }
 
