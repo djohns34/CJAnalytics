@@ -75,7 +75,7 @@ public class EventTest extends TestCase {
         TextEvent e=new TextEvent("Test","Test");
         e.timeStamp=f.parse("01/01/00 12:00pm");
         
-        assertEquals("2000-01-01T12:00:00Z", e.getTimeStamp());
+        assertEquals("2000-01-01T12:00:00", e.getTimeStamp());
         
     }
 

@@ -33,7 +33,7 @@ public class Integerate extends AndroidTestCase{
             RestResponse response=connector.getClient().sendSync(r);
             assertEquals("Test OAuth flow"+response.asString(),200,response.getStatusCode());
         }catch(IOException e){
-            fail("testLogin error");
+            fail(e+"testLogin error");
         }
 
     }
