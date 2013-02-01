@@ -6,22 +6,38 @@
 
 	<include layout="@layout/header" />
 
-	<LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-	    android:layout_height="wrap_content">
-		<Button android:id="@+id/fetch_contacts" android:layout_width="wrap_content"
-		      android:layout_height="wrap_content"
-		      android:onClick="onFetchContactsClick"
-		      android:text="@string/fetch_contacts_button" />
-		
-		<Button android:id="@+id/fetch_accounts" android:layout_width="wrap_content"
-		      android:layout_height="wrap_content"
-		      android:onClick="onFetchAccountsClick"
-		      android:text="@string/fetch_accounts_button" />		
-	
-	    <Button android:id="@+id/clear" android:layout_width="wrap_content"
-		      android:layout_height="wrap_content"
-		      android:onClick="onClearClick"
-		      android:text="@string/clear_button" />
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="63dp"
+	    android:orientation="horizontal" >
+
+	    <Button
+	        android:id="@+id/fetch_contacts"
+	        android:layout_width="90dp"
+	        android:layout_height="match_parent"
+	        android:onClick="onFetchContactsClick"
+	        android:text="@string/fetch_contacts_button" />
+
+	    <Button
+	        android:id="@+id/fetch_accounts"
+	        android:layout_width="92dp"
+	        android:layout_height="match_parent"
+	        android:onClick="onFetchAccountsClick"
+	        android:text="@string/fetch_accounts_button" />
+
+	    <Button
+	        android:id="@+id/show_chart"
+	        android:layout_width="74dp"
+	        android:layout_height="match_parent"
+	        android:text="@string/show_chart_button"
+	        android:onClick="onShowChartClick" />
+
+	    <Button
+	        android:id="@+id/clear"
+	        android:layout_width="wrap_content"
+	        android:layout_height="match_parent"
+	        android:onClick="onClearClick"
+	        android:text="@string/clear_button" />
 	</LinearLayout>
 	
 	<ListView android:id="@+id/contacts_list" android:layout_width="fill_parent"
