@@ -33,7 +33,10 @@ import java.util.Set;
 
 import org.json.JSONArray;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -163,5 +166,10 @@ public class MainActivity extends NativeMainActivity {
                                Toast.LENGTH_LONG).show();
 			}
 		});
+	}
+
+	public void onShowChartClick(View v) {
+    Intent i = new Intent(this, ChartActivity.class);
+    startActivity(i);
 	}
 }
