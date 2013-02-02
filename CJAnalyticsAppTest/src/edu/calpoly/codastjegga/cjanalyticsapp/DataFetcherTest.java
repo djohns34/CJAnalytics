@@ -37,21 +37,21 @@ public class DataFetcherTest extends TestCase {
 	
 	public void testQueryBuilder() {
 		try {
-			DataFetcher.queryBuilder(null, null);
+			DataFetcher.buildQuery(null, null);
 			fail("DataFetcher queryBuilder failed to throw illegal Argument excpetion since both param are null");
 		}catch (IllegalArgumentException exp) {
 			//passed
 		}
 		
 		try {
-			DataFetcher.queryBuilder(null, EnumSet.noneOf(EventFields.class));
+			DataFetcher.buildQuery(null, EnumSet.noneOf(EventFields.class));
 			fail("DataFetcher queryBuilder failed to throw illegal Argument excpetion since api ver param is null");
 		}catch (IllegalArgumentException exp) {
 			//passed
 		}
 		
 		try {
-			DataFetcher.queryBuilder("1", null);
+			DataFetcher.buildQuery("1", null);
 			fail("DataFetcher queryBuilder failed to throw illegal Argument excpetion since field param is null");
 		}catch (IllegalArgumentException exp) {
 			//passed
@@ -98,7 +98,7 @@ public class DataFetcherTest extends TestCase {
 		String soql = null;
 		//test onRetrieve
 		try {
-			soql = DataFetcher.queryBuilder(trackObj, EnumSet.of(EventFields.CurrencyV));
+			soql = DataFetcher.buildQuery(trackObj, EnumSet.of(EventFields.CurrencyV));
 			dataFetcher.onRetrieve(soql, callback);
 		} catch (Exception ex) {
 			fail ("DataFetcher should not throw an exception");

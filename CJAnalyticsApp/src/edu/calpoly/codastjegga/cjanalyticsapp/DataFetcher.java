@@ -1,22 +1,15 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.http.ParseException;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.util.Log;
 
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
 import com.salesforce.androidsdk.rest.RestRequest;
-import com.salesforce.androidsdk.rest.RestResponse;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
-import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
 
 public class DataFetcher {
   private static final String SELECT = "SELECT";
@@ -34,14 +27,22 @@ public class DataFetcher {
   private String apiVersion;
   
   
-  public DataFetcher (RestClient restClient, String apiVersion) {
+  public DataFetcher (RestClient restClient, String apiVersion) throws IllegalArgumentException{
+    if (restClient == null || apiVersion == null || apiVersion.length() == 0) {
+      throw new IllegalArgumentException("Invalid parameters");
+    }
     this.client = restClient;
     this.apiVersion = apiVersion;
   }
   
-  public void onRetrieve (String from, Set<EventFields> select, AsyncRequestCallback callback) 
+  public void onRetrieve (String soql, AsyncRequestCallback callback) 
       throws IllegalArgumentException, Exception{
-    
+    sendRequest(soql, callback);
+  }
+  
+  public static String buildQuery (String from, Set<EventFields> select) 
+      throws IllegalArgumentException
+  {
     if (from == null || select == null) {
       throw new IllegalArgumentException("onRetrieve Error: objectType and/or fields is null");
     }
@@ -58,7 +59,7 @@ public class DataFetcher {
     
     soql.append(" " + FROM + " " + from);
     
-    sendRequest(soql.toString(), callback);
+    return soql.toString();
   }
   
   private void sendRequest(String soql, AsyncRequestCallback callback) throws Exception, JSONException {
