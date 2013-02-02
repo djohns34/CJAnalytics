@@ -1,12 +1,10 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.EnumSet;
 
 import junit.framework.TestCase;
 
-import org.apache.http.protocol.HTTP;
 import org.mockito.Mockito;
 
 import com.salesforce.androidsdk.auth.HttpAccess;
@@ -16,7 +14,11 @@ import com.salesforce.androidsdk.rest.RestRequest;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
 
-
+/**
+ * Test class for DataFetcher
+ * @author Gagandeep Kohli
+ *
+ */
 public class DataFetcherTest extends TestCase {
 
 	RestRequest request;
@@ -99,7 +101,7 @@ public class DataFetcherTest extends TestCase {
 		//test onRetrieve
 		try {
 			soql = DataFetcher.buildQuery(trackObj, EnumSet.of(EventFields.CurrencyV));
-			dataFetcher.onRetrieve(soql, callback);
+			dataFetcher.onSoqlQuery(soql, callback);
 		} catch (Exception ex) {
 			fail ("DataFetcher should not throw an exception");
 		}
