@@ -206,4 +206,9 @@ public class SalesforceDBAdapter {
         c.close();
         return result; 
     }
+
+    public boolean clear() {
+        return mDb.delete(DATABASE_TABLE, null, null) > 0;
+        
+    }
 }

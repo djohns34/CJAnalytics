@@ -28,7 +28,7 @@ public class SalesforceConnector{
     private RestClient client;
     private String apiVersion;
 
-    private SalesforceDBAdapter db;
+    SalesforceDBAdapter db;
 
     //Our salesforce object
     private static final String table ="TrackedEvents__c";

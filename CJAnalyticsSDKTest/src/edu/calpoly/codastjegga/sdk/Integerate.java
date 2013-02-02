@@ -18,22 +18,19 @@ public class Integerate extends AndroidTestCase{
 
     @Override
     protected void setUp() throws Exception {
-        /*Using the other class to avoid dup code*/
-        TestSalesforceConnector testConn=new TestSalesforceConnector();
-        testConn.setUp();
-        
-        testConn.setContext(this.getContext());
-        connector=testConn.getConnector();
+        TestRestClientAdapter trca=new TestRestClientAdapter();
+        trca.setUp();
+        connector =new SalesforceConnector(trca.adapt.getRestClient(), TestRestClientAdapter.api, getContext());
     }
    
     public void testLogin() throws URISyntaxException{
         
-        RestRequest r=RestRequest.getRequestForDescribeGlobal(TestSalesforceConnector.api);
+        RestRequest r=RestRequest.getRequestForDescribeGlobal(TestRestClientAdapter.api);
         try{
             RestResponse response=connector.getClient().sendSync(r);
             assertEquals("Test OAuth flow"+response.asString(),200,response.getStatusCode());
         }catch(IOException e){
-            fail("testLogin error");
+            fail(e+"testLogin error");
         }
 
     }

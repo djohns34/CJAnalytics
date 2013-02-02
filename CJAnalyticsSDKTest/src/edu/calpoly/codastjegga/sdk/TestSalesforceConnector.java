@@ -6,57 +6,37 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import android.test.ActivityTestCase;
 import android.test.AndroidTestCase;
 
 import com.salesforce.androidsdk.rest.RestClient.ClientInfo;
 
 public class TestSalesforceConnector extends AndroidTestCase {
 
-    static String authToken="00DE0000000dgAF!AQwAQPY_EKzbtkVIyjstYL23qH8sZts96HODV4dZB7kl7En9pWZRnoDrwR8lhII_k33zK2mR42feBLSHzNMABw4fvklhS9hS";
-    static String refreshToken="5Aep861rEpScxnNE64IogmmXsb72ONfi9xneXYd7423HJqVESjjy3x8IvJRJIRT89jv56dH3.kgxA==";
-    static String clientId="3MVG9y6x0357HlefAMuoGiOstBXbpy4LNe2zAL8eeWFHc_JizJACxdM7pz92vvDH2mtLJKk4z7XKSX0vndYl9";
-    static String accountName="codast@jegga.com (SDK Test)";
-    static String username="codast@jegga.com";
-    static String userId="005E0000001nMXgIAM";
-    static String orgId="00DE0000000dgAFMAY";
 
-    static String api="v23.0";
     
     private SalesforceConnector connector;
     
-    @Test
-    public SalesforceConnector getConnector() throws URISyntaxException{
-        URI instanceServer=new URI("https://na9.salesforce.com");
-        URI loginServer=new URI("https://login.salesforce.com");;
-        URI idUrl=new URI("http://login.salesforce.com/id/00DE0000000dgAFMAY/005E0000001nMXgIAM");
-
-
-        ClientInfo info=new ClientInfo(clientId, instanceServer, loginServer, idUrl, accountName, username, userId, orgId);
-        Token t=new Token(authToken, refreshToken);
-
-        RestClientAdapter clientAdapt=new RestClientAdapter(null,info, t);
-        SalesforceConnector c=new SalesforceConnector(clientAdapt.getRestClient(),api,this.getContext());
-        return c;
-        
-    }
 
     
     @Test
     protected void setUp() throws Exception {
+        TestRestClientAdapter trca=new TestRestClientAdapter();
+        trca.setUp();
+        connector =new SalesforceConnector(trca.adapt.getRestClient(), TestRestClientAdapter.api, getContext());
     };
     
     
     @SuppressWarnings("unused")
     public void testSendDummyData() throws URISyntaxException{
-
-        connector=getConnector();
+        connector.db.clear();
         
         if(false){
             Random r=new Random();
             for(int i=0;i<30;i++){
                 double doub=20*r.nextDouble();
                 float floa=20*r.nextFloat();
-                int in=20*r.nextInt();
+                int in=r.nextInt(25);
 
                 connector.addEvent(EventFactory.createEvent(EventType.Currency, "Wage",doub));
                 connector.addEvent(EventFactory.createEvent(EventType.Float, "Age",floa));
