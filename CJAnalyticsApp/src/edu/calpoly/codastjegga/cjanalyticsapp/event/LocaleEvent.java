@@ -28,7 +28,7 @@ public class LocaleEvent extends Event{
    * Setter for LocaleValue
    * @param localeValue locale value of this event
    */
-  public void setCurrencyValue (String localeValue) {
+  public void setLocaleValue (String localeValue) {
     this.localeValue = localeValue;
   }
   

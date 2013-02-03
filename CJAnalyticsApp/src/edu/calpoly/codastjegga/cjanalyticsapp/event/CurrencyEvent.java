@@ -41,4 +41,5 @@ public class CurrencyEvent extends Event{
   public BigDecimal getCurrencyValue () {
     return this.currencyValue;
   }
+  
 }

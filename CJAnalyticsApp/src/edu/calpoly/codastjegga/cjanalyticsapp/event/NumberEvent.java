@@ -28,7 +28,7 @@ public class NumberEvent extends Event {
    * Setter for NumberValue
    * @param numberValue Integer (Number) value of this event
    */
-  public void setNumbertValue (Integer numberValue) {
+  public void setNumberValue (Integer numberValue) {
     this.numberValue = numberValue;
   }
   

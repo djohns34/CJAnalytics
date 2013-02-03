@@ -4,7 +4,11 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import org.json.JSONObject;
 
 import android.util.Log;
 
@@ -15,7 +19,11 @@ import android.util.Log;
  */
 public class Event {
   //data formatter
-  private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+  private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+  
+  private static String EVENTNAME = "eventname";
+  private static String DEVICEID = "deviceid";
+  private static String TIMPSTAMP = "timestamp";
   
   //name of the event
   private String eventName;
@@ -23,7 +31,7 @@ public class Event {
   private String deviceId;
   //the time the event was triggered
   private Date timestamp;
-  //
+  
   
   /**
    * Creates a new Event object with name, device id and timestamp
@@ -40,6 +48,22 @@ public class Event {
       Log.e("Event", "Unable to parse timestamp, setting null");
       this.timestamp = null;
     }
+  }
+  
+  /**
+   * Setter for DataFormater
+   * @param dateFormater dateformater
+   */
+  public static void setDataFormater (DateFormat dateFormater) {
+    Event.df = dateFormater;
+  }
+  
+  /**
+   * Getter for DataFormater
+   * @param dateFormater dateformater
+   */
+  public static DateFormat getDataFormater () {
+    return Event.df;
   }
   
   /**
@@ -83,6 +107,19 @@ public class Event {
   }
   
   /**
+   * timestamp Setter
+   * @param timestamp timestamp of when the event was recorded
+   */
+  public void setTimestamp (String timestamp) {
+    try {
+      this.timestamp = df.parse(timestamp);
+    } catch (ParseException e) {
+      Log.e("Event", "Unable to parse timestamp, setting null");
+      this.timestamp = null;
+    }
+  }
+  
+  /**
    * Getter for timestamp
    * @return timestamp of the event
    */
@@ -90,5 +127,20 @@ public class Event {
     return timestamp;
   }
   
+  protected JSONObject getJSONObject() {
+    Map map = new HashMap<String, String>();
+    map.put(EVENTNAME, eventName);
+    map.put(DEVICEID, deviceId);
+    map.put(TIMPSTAMP, timestamp);
+    
+    return new JSONObject(map);
+  }
+  /**
+   * Returns "{eventname:"eventName", deviceid:"deviceid", timestamp:"timestamp"}
+   */
+  @Override
+  public String toString() {
+    return getJSONObject().toString();
+  }
   
 }
