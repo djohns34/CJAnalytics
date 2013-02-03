@@ -33,15 +33,15 @@ public class EventFactory {
       NumberFormatException {
 
     switch (RecordType.valueOf(recordType)) {
-    case CurrencyValue:
+    case Currency:
       return createCurrencyEvent(eventName, deviceId, timestamp, recordValue);
-    case FloatValue:
+    case Float:
       return createFloatEvent(eventName, deviceId, timestamp, recordValue);
-    case LocaleValue:
+    case Locale:
       return createLocaleEvent(eventName, deviceId, timestamp, recordValue);
-    case NumberValue:
+    case Number:
       return createNumberEvent(eventName, deviceId, timestamp, recordValue);
-    case TextValue:
+    case Text:
       return createTextEvent(eventName, deviceId, timestamp, recordValue);
     default:
       throw new IllegalArgumentException("Invalid recordType: " + recordType);

@@ -1,9 +1,8 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.event;
 
-
 /**
  * A LocaleEvent corresponds to event whose value type is Locale
- * @author gagandeep
+ * @author Gagandeep S. Kohli
  *
  */
 public class LocaleEvent extends Event{

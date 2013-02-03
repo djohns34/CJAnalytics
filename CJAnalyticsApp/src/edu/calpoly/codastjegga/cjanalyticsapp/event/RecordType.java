@@ -8,10 +8,10 @@ package edu.calpoly.codastjegga.cjanalyticsapp.event;
  *
  */
 public enum RecordType {
-  CurrencyValue,
-  FloatValue,
-  NumberValue,
-  LocaleValue,
-  TextValue;
+  Currency,
+  Float,
+  Number,
+  Locale,
+  Text;
 };
 

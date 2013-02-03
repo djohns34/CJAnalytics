@@ -1,5 +1,10 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.event;
 
+/**
+ * NumberEvent
+ * @author Gagandeep S. Kohli
+ *
+ */
 public class NumberEvent extends Event {
   //number value of the event
   private Integer numberValue;

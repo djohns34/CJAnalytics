@@ -136,7 +136,7 @@ public class MainActivity extends NativeMainActivity {
         //sendRequest("SELECT Name FROM Contact");
 	  Set<EventFields> fields = EnumSet.allOf(EventFields.class);  
 	  try {
-      dataFetcher.onRetrieve(DataFetcher.buildQuery("TrackedEvents__c", fields), new AsyncRequestCallback() {
+      dataFetcher.onSoqlQuery(DataFetcher.buildQuery("TrackedEvents__c", fields), new AsyncRequestCallback() {
         
         @Override
         public void onSuccess(RestRequest request, RestResponse response) {

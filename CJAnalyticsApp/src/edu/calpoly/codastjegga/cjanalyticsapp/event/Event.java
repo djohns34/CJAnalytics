@@ -10,7 +10,7 @@ import android.util.Log;
 
 /**
  * An Event represents a TrackedEvents Object.
- * @author gagandeep
+ * @author Gagandeep S. Kohli
  *
  */
 public class Event {
