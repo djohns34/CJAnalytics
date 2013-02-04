@@ -57,6 +57,7 @@ import com.salesforce.androidsdk.ui.NativeMainActivity;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
+import edu.calpoly.codastjegga.datafetcher.DataFetcher;
 
 
 /**
