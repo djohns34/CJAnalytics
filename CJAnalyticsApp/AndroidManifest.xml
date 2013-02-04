@@ -40,7 +40,7 @@
         <activity
             android:name="edu.calpoly.codastjegga.cjanalyticsapp.MainActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,8 +65,8 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name="edu.calpoly.codastjegga.cjanalyticsapp.ChartActivity"
-            android:label="@string/title_activity_chart" >
-        </activity>
+            android:label="@string/title_activity_chart"
+            android:theme="@android:style/Theme.NoTitleBar" />
 
         <activitiy android:name="org.achartengine.GraphicalActivity" />
     </application>
