@@ -67,5 +67,7 @@
             android:name="edu.calpoly.codastjegga.cjanalyticsapp.ChartActivity"
             android:label="@string/title_activity_chart" >
         </activity>
+
+        <activitiy android:name="org.achartengine.GraphicalActivity" />
     </application>
 </manifest>
