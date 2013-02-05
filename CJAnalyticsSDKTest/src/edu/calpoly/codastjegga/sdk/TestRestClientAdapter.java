@@ -14,7 +14,7 @@ public class TestRestClientAdapter extends TestCase{
 
     static String authToken="00DE0000000dgAF!AQwAQJAhzzeg2dU2cXXqI2g_OdgekNC81rC79Dnd7ba7S1ySz4LZaHgt1kCfyzAKcwXHJPKPSJ_WsaHMQ4h1vX.JUxoP5TFW";
     static String refreshToken="5Aep861rEpScxnNE64IogmmXsb72ONfi9xneXYd7423HJqVESjYEdBh18zHICrBLfyYEg2Yrw9jAg==";
-    static String clientId="3MVG9y6x0357HlefAMuoGiOstBXbpy4LNe2zAL8eeWFHc_JizJACxdM7pz92vvDH2mtLJKk4z7XKSX0vndYl9";
+    static String clientId="3MVG9y6x0357HlefAMuoGiOstBQg3r5rHpEodDBNQ6GIjd5Fh.RPRX4YA6Ax_sg69Jq8tpuFU76NlE0z5LTbc";
     static String accountName="codast@jegga.com (SDK Test)";
     static String username="codast@jegga.com";
     static String userId="005E0000001nMXgIAM";
