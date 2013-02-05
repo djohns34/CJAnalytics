@@ -2,10 +2,10 @@ package edu.calpoly.codastjegga.cjanalyticsapp;
 
 import org.achartengine.GraphicalView;
 
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.CJPieChart;
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.widget.LinearLayout;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.CJPieChart;
 
 public class ChartActivity extends Activity {
 

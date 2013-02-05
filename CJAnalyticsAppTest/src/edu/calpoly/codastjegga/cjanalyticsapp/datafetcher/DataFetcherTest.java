@@ -1,4 +1,4 @@
-package edu.calpoly.codastjegga.cjanalyticsapp;
+package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 
 import java.io.UnsupportedEncodingException;
 import java.util.EnumSet;
@@ -12,6 +12,7 @@ import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
 import com.salesforce.androidsdk.rest.RestRequest;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
 
 /**

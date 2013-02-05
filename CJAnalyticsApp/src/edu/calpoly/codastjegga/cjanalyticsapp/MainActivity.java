@@ -55,6 +55,7 @@ import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 import com.salesforce.androidsdk.ui.NativeMainActivity;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
 
