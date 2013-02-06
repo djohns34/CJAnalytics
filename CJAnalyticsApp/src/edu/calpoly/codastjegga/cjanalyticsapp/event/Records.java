@@ -1,8 +1,10 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.event;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,23 +25,39 @@ public class Records {
   private static final String VALUE = "Value";
  
   /** list of events **/
-  private List<Event> eventList;
+  private List<Event> eventsList;
+  /** map of list of events by name (key) **/
+  private Map<String, List<Event>> eventsMap;
   
   /**
+   * Constructs a list of empty records
+   */
+  public Records () {
+    init(); 
+  }
+  /**
    * Constructs a list of records.
-   * @param records json string that represents records from TrackedEvent__c object.
+   * @param records json object that represents records from TrackedEvent__c object.
    * @throws JSONException if JSON record is an invalid JSON string 
    */
   public Records (JSONObject records) throws JSONException {
-    //IF records is null construct an empty list
-    if (records == null) 
-      this.eventList =  Collections.emptyList();
-    else {
-      eventList = new LinkedList<Event>();
+      init();
       parseRecords(records);
-    }
   }
   
+  private void init() {
+    eventsList = new LinkedList<Event>();
+    eventsMap = new HashMap<String, List<Event>>();
+  }
+   
+  /**
+   * Adds set of records.
+   * @param records json object that represents records from TrackedEvent__c object.
+   * @throws JSONException  if JSON record is an invalid JSON string 
+   */
+  public void addRecords (JSONObject records) throws JSONException {
+    parseRecords(records);
+  }
   /**
    * Parses Event from JSON record objection
    * @param records JSONObject that represents records
@@ -55,11 +73,50 @@ public class Records {
       //FOR each event in records
       for (int recordIndx = 0; recordIndx != recordLen; ++recordIndx) {
         JSONObject recordItem = (JSONObject) jsonRecordsArr.get(recordIndx);
-        //parse and add the event to eventlist
-        eventList.add(parseEvent (recordItem));
+        //parse the event
+        addEvent(parseEvent (recordItem));
+        
       }
     }
   }
+  
+  /**
+   * Getter for list of all events
+   * @return list of all events or empty list of none exist
+   */
+  public List<Event> getEvents() {
+    return this.eventsList;
+  }
+  
+  /**
+   * Getter for list of events by event name
+   * @param eventName list of events of null if events don't exist
+   * @return
+   */
+  public List<Event> getEvents (String eventName) {
+    return this.eventsMap.get(eventName);
+  }
+  
+  /**
+   * Adds and event into the record
+   * @param event an event @see {@link Event}
+   */
+  public void addEvent (Event event) {
+    //add the event to eventlist
+    eventsList.add(event);
+    //get the name of the event
+    String eventName = event.getEventName();
+    List<Event> events = eventsMap.get(eventName);
+    //IF the list of events don't exist
+    if (events == null)
+      events = new LinkedList<Event>();
+    //add the event to the list of events
+    events.add(event);
+    //put the list back in the event
+    eventsMap.put(eventName, events);
+  }
+  
+  
   
   /**
    * Parses a Event from JSON event objection
