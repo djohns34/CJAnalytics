@@ -4,10 +4,17 @@
     <string name="app_name">CJ Analytics</string>
     <string name="welcome">Welcome %s</string>
     <string name="logout_button">Logout</string>
-    <string name="fetch_contacts_button">Fetch Contacts</string>
-    <string name="fetch_accounts_button">Fetch Accounts</string>
-    <string name="clear_button">Clear</string>
     <string name="show_chart_button">Show Chart</string>
-    <string name="title_activity_chart">ChartActivity</string>
+    <string name="title_chart">Chart</string>
+    <string name="recent">Recent</string>
 
+    <string name="favorites">Favorites</string>
+    <string name="settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+
+    <string name="title_dashboards">Dashboards</string>
+    <string name="title_graphs">Graphs</string>
+    <string name="no_dashboards">No dashboards have been set up.</string>
+    <string name="no_graphs">No graphs have been created.</string>
 </resources>

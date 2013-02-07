@@ -8,7 +8,7 @@
     <!-- device os versions http://developer.android.com/guide/publishing/versioning.html -->
     <uses-sdk
         android:minSdkVersion="16"
-        android:targetSdkVersion="16"/>
+        android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
@@ -65,9 +65,27 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name="edu.calpoly.codastjegga.cjanalyticsapp.ChartActivity"
-            android:label="@string/title_activity_chart"
+            android:label="@string/title_chart"
             android:theme="@android:style/Theme.NoTitleBar" />
 
         <activitiy android:name="org.achartengine.GraphicalActivity" />
+
+        <activity
+            android:name="edu.calpoly.codastjegga.cjanalyticsapp.DashboardsActivity"
+            android:label="@string/title_dashboards"
+            android:parentActivityName="edu.calpoly.codastjegga.cjanalyticsapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.calpoly.codastjegga.cjanalyticsapp.MainActivity" />
+        </activity>
+        <activity
+            android:name="edu.calpoly.codastjegga.cjanalyticsapp.GraphsActivity"
+            android:label="@string/title_graphs"
+            android:parentActivityName="edu.calpoly.codastjegga.cjanalyticsapp.DashboardsActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.calpoly.codastjegga.cjanalyticsapp.DashboardsActivity" />
+        </activity>
     </application>
+
 </manifest>
