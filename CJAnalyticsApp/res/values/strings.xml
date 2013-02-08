@@ -6,6 +6,9 @@
     <string name="logout_button">Logout</string>
     <string name="show_chart_button">Show Chart</string>
     <string name="title_chart">Chart</string>
+    <string name="title_edit">Edit Chart</string>
+    
+    <string name="chart_name">View Chart</string>
     <string name="recent">Recent</string>
 
     <string name="favorites">Favorites</string>

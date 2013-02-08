@@ -39,8 +39,7 @@
         <!-- Launcher screen -->
         <activity
             android:name="edu.calpoly.codastjegga.cjanalyticsapp.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,8 +64,8 @@
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name="edu.calpoly.codastjegga.cjanalyticsapp.ChartActivity"
-            android:label="@string/title_chart"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:label="@string/chart_name"
+            />
 
         <activitiy android:name="org.achartengine.GraphicalActivity" />
 
@@ -85,6 +84,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.calpoly.codastjegga.cjanalyticsapp.DashboardsActivity" />
+        </activity>
+        <activity
+            android:name="edu.calpoly.codastjegga.cjanalyticsapp.EditActivity"
+            android:label="@string/title_edit" >
+            
         </activity>
     </application>
 

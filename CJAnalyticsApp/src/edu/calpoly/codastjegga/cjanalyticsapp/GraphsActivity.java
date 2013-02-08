@@ -1,15 +1,20 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
-import android.os.Bundle;
-import android.app.Activity;
+import java.util.ArrayList;
+
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.support.v4.app.NavUtils;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartSettings;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 
 public class GraphsActivity extends ListActivity {
   
@@ -54,8 +59,34 @@ public class GraphsActivity extends ListActivity {
   
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
-    Intent intent = new Intent(this, ChartActivity.class);
-    startActivity(intent);
+    final Intent i = new Intent(this, ChartActivity.class);
+    AlertDialog dialog;
+
+    final ArrayList<String> items=new ArrayList<String>();
+    for(ChartType t:ChartType.values()){
+      items.add(t.toString());
+    }
+    
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setTitle("Which Chart Type?");
+    
+    builder.setItems(items.toArray(new String[items.size()]), new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int pos) {
+        
+
+        ChartSettings s=new ChartSettings();
+        s.setType(ChartType.valueOf(items.get(pos)));
+        
+        s.save(i);
+        startActivity(i);
+        
+      }});
+    
+    
+    dialog=builder.create();
+    dialog.show();
   }
+  
+  
 }
 
