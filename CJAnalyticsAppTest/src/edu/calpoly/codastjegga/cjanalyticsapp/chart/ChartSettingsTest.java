@@ -29,7 +29,7 @@ public class ChartSettingsTest extends TestCase{
     Intent i=new Intent();
     settings.save(i);
     
-    assertEquals(2, i.getExtras().size());
+    assertEquals(1, i.getExtras().size());
   }
 
   public void testLoad(){
