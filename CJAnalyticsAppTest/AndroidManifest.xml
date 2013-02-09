@@ -7,7 +7,7 @@
     <uses-sdk android:minSdkVersion="8" />
 
     <instrumentation
-        android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
+        android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="edu.calpoly.codastjegga.cjanalyticsapp" />
 
     <application

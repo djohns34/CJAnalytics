@@ -1,6 +1,7 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -18,7 +19,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 
 public class GraphsActivity extends ListActivity {
   
-  private ArrayAdapter<String> adapter;
+  private ArrayAdapter<ChartSettings> adapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +28,22 @@ public class GraphsActivity extends ListActivity {
     // Show the Up button in the action bar.
     getActionBar().setDisplayHomeAsUpEnabled(true);
     
+    List<ChartSettings> items=new ArrayList<ChartSettings>();
+    int i=0;
+    while(i++<20){
+      ChartSettings s=new ChartSettings();
+      if(i%3==0){
+        s.setType(ChartType.Bar);
+      }else if(i%3==1){
+        s.setType(ChartType.Line);
+      }else{
+        s.setType(ChartType.Pie);
+      }
+      items.add(s);
+    }
     // Set up the list adapter.
-    adapter = new ArrayAdapter<String>(this, R.layout.activity_graph_item);
-    adapter.add("Graph 1");
+    adapter=new ChartSettingsAdapter(this, items);
+
     setListAdapter(adapter);
   }
 

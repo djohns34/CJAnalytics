@@ -33,5 +33,12 @@ public class ChartSettings {
     s.setType((ChartType) i.getExtras().get(ChartType.class.getName()));
     return s;
   }
+
+  public String getName() {
+    return "Test Name";
+  }
   
+  public String getMetric(){
+    return "Test Metic";
+  }
 }

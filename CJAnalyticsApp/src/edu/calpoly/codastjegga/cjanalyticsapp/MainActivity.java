@@ -35,6 +35,7 @@ import com.salesforce.androidsdk.rest.ClientManager.LoginOptions;
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.ui.NativeMainActivity;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
 
 
@@ -49,7 +50,7 @@ public class MainActivity extends NativeMainActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		ChartType.setResources(getResources());
 		// Setup view
 		setContentView(R.layout.main);
 	}
