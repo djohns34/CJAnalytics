@@ -1,6 +1,6 @@
 package edu.calpoly.codastjegga.sdk.test;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import junit.framework.TestCase;
 
@@ -20,13 +20,11 @@ public class TokenTester extends TestCase {
 		token = new Token(accessToken, refreshToken);
 	}
 	
-	@Test
 	public void testGetter(){
 	   assertEquals(accessToken, token.getAccessToken());
 	   assertEquals(refreshToken, token.getRefreshToken());
 	}
 	
-	@Test
 	public void testSetter(){
 	   String newAccessToken = "New-Access-Token";
 	   token.setAccessToken(newAccessToken);
@@ -34,7 +32,6 @@ public class TokenTester extends TestCase {
 	    assertEquals(newAccessToken, token.getAccessToken());
 	}
 	
-	@Test
 	public void testToString(){
 		StringBuilder token= new StringBuilder();
 		token.append("{Token:");

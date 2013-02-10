@@ -1,18 +1,6 @@
 package edu.calpoly.codastjegga.sdk;
 
-import org.junit.Test;
-
-
 import junit.framework.TestCase;
-
-import edu.calpoly.codastjegga.sdk.CurrencyEvent;
-import edu.calpoly.codastjegga.sdk.Event;
-import edu.calpoly.codastjegga.sdk.EventFactory;
-import edu.calpoly.codastjegga.sdk.EventType;
-import edu.calpoly.codastjegga.sdk.FloatEvent;
-import edu.calpoly.codastjegga.sdk.IntegerEvent;
-import edu.calpoly.codastjegga.sdk.LocaleEvent;
-import edu.calpoly.codastjegga.sdk.TextEvent;
 
 /**
  * Test cases for Token
@@ -36,7 +24,6 @@ public class EventFactoryTest extends TestCase {
     String textKey="Notes";
     String textValue="Test";
     
-    @Test
     public void testCreateCurrencyEvent(){
         
         Event<?> currencyTestEvent=EventFactory.createEvent(EventType.Currency, currencyKey, currencyValue);
@@ -45,7 +32,6 @@ public class EventFactoryTest extends TestCase {
         
     }
     
-    @Test
     public void testCreateFloatEvent(){
         
         
@@ -54,27 +40,23 @@ public class EventFactoryTest extends TestCase {
         checkResult(FloatEvent.class, floatTestEvent);
     }
     
-    @Test
     public void testCreateIntEvent(){
         
         Event<?> intTestEvent=EventFactory.createEvent(EventType.Integer, intKey, intValue);
         checkResult(IntegerEvent.class, intTestEvent);
     }
     
-    @Test
     public void testCreateLocaleEvent(){
         
         Event<?> localeTestEvent=EventFactory.createEvent(EventType.Locale, localeKey, localeValue);
         checkResult(LocaleEvent.class, localeTestEvent);
     }
     
-    @Test
     public void testCreateTextEvent(){
         Event<?> textTestEvent=EventFactory.createEvent(EventType.Text, textKey, textValue);
         checkResult(TextEvent.class, textTestEvent);
     }
     
-    @Test
     public void testDifferentKeyType(){
         boolean caught=false;
         try{
@@ -86,8 +68,6 @@ public class EventFactoryTest extends TestCase {
 
     }
     
-    
-    @Test
     public void testWrongTypeForEvent(){
         boolean caught=false;
         try{

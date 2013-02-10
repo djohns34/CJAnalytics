@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
 /**
  * Test cases for Token
@@ -30,7 +30,6 @@ public class EventTest extends TestCase {
     String textKey="Notes";
     String textValue="Test";
     
-    @Test
     public void testCreateCurrencyEvent(){
         
         Event<?> currencyTestEvent=EventFactory.createEvent(EventType.Currency, currencyKey, currencyValue);
@@ -40,7 +39,6 @@ public class EventTest extends TestCase {
         assertEquals("25.00", currencyTestEvent.getRESTValue());
     }
     
-    @Test
     public void testFloatEvent(){
         
         Event<?> floatTestEvent=EventFactory.createEvent(EventType.Float, floatKey, floatValue);
@@ -48,27 +46,23 @@ public class EventTest extends TestCase {
         checkResult(floatKey, floatValue, "35.40",floatTestEvent);
     }
     
-    @Test
     public void testCreateIntEvent(){
         
         Event<?> intTestEvent=EventFactory.createEvent(EventType.Integer, intKey, intValue);
         checkResult(intKey, intValue, "5",intTestEvent);
     }
     
-    @Test
     public void testCreateLocaleEvent(){
         
         Event<?> localeTestEvent=EventFactory.createEvent(EventType.Locale, localeKey, localeValue);
         checkResult(localeKey, localeValue, "EN_US",localeTestEvent);
     }
     
-    @Test
     public void testCreateTextEvent(){
         Event<?> textTestEvent=EventFactory.createEvent(EventType.Text, textKey, textValue);
         checkResult(textKey, textValue, "Test",textTestEvent);
     }
     
-    @Test
     public void testTimestamp() throws ParseException{
 
         SimpleDateFormat f=new SimpleDateFormat("MM/dd/yy h:mmaa",Locale.US);

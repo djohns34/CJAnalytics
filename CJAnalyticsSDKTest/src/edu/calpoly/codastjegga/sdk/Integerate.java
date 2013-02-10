@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import android.test.AndroidTestCase;
 

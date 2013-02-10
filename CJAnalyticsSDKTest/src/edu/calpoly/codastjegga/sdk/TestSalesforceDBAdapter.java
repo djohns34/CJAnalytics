@@ -2,7 +2,7 @@ package edu.calpoly.codastjegga.sdk;
 
 import java.util.Map;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import android.provider.Settings.Secure;
 import android.test.AndroidTestCase;
@@ -19,7 +19,6 @@ public class TestSalesforceDBAdapter extends AndroidTestCase{
         db.open();
     }
 
-    @Test
     public static void testEmptyList(){
         assertEquals(0,db.fetchAllEvents().size());
     }

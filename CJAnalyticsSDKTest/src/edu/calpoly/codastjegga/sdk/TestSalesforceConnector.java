@@ -4,7 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Random;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import android.test.ActivityTestCase;
 import android.test.AndroidTestCase;
@@ -19,7 +19,6 @@ public class TestSalesforceConnector extends AndroidTestCase {
     
 
     
-    @Test
     protected void setUp() throws Exception {
         TestRestClientAdapter trca=new TestRestClientAdapter();
         trca.setUp();

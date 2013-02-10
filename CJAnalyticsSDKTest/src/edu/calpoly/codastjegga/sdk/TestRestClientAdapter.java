@@ -1,12 +1,10 @@
 package edu.calpoly.codastjegga.sdk;
 
-import static org.junit.Assert.*;
-
 import java.net.URI;
 
 import junit.framework.TestCase;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import com.salesforce.androidsdk.rest.RestClient.ClientInfo;
 
@@ -44,19 +42,16 @@ public class TestRestClientAdapter extends TestCase{
         adapt = new RestClientAdapter(null, info, t);
     }
 
-    @Test
     public void testGetToken() {
         
         assertEquals(authToken, adapt.getToken().getAccessToken());
         assertEquals(refreshToken, adapt.getToken().getRefreshToken());
     }
 
-    @Test
     public void testGetClientInfo() {
         assertEquals(info, adapt.getClientInfo());
     }
 
-    @Test
     public void testGetRestClient() {
         assertNotNull(adapt.getRestClient());
     }
