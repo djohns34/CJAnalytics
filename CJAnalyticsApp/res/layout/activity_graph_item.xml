@@ -1,0 +1,42 @@
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <TextView
+            android:id="@+id/graphname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/graphImage"
+            
+            android:ellipsize="end"
+            android:scrollHorizontally="true"
+            android:maxLines="1"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/graphmetric"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/graphImage"
+            android:layout_alignParentLeft="true"
+            android:layout_alignRight="@+id/graphname"
+            
+            
+            android:ellipsize="end"
+            android:scrollHorizontally="true"
+            android:maxLines="1"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:id="@+id/graphImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/sf__icon" />
+
+    </RelativeLayout>

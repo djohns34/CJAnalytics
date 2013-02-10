@@ -11,7 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 
-public class CJPieChart {
+public class CJPieChart implements ChartProvider{
   public GraphicalView getView(Context context) {
     CategorySeries cs = new CategorySeries("my chart!");
     DefaultRenderer ren = new DefaultRenderer();
