@@ -13,7 +13,7 @@ import android.content.Intent;
  *
  */
 public class ChartSettings {
-  
+
   //chart type this setting renders
   private ChartType chartType;
   //name of the chart, which this setting belongs to
@@ -24,13 +24,13 @@ public class ChartSettings {
   private Date startDate;
   //end date
   private Date endDate;
-  
+
   /**
    * Constructs a chart setting with chart type, chart's name, list
    * of metrics, and start and end date. 
    */
   public ChartSettings (ChartType chartType, String chartName, 
-                        List<String> metrics, Date start, Date end){
+      List<String> metrics, Date start, Date end){
     setType(chartType);
     setChartName(chartName);
     this.metrics = new LinkedList<String>();
@@ -38,7 +38,7 @@ public class ChartSettings {
     setStartDate(start);
     setEndDate(end);
   }
-  
+
   /**
    * Setter for chart type
    * @param chartType type of chart
@@ -46,7 +46,7 @@ public class ChartSettings {
   public void setType(ChartType chartType){
     this.chartType = chartType;
   }
-  
+
   /**
    * Getter for chart type
    * @return chart type this setting is associated with
@@ -54,7 +54,7 @@ public class ChartSettings {
   public ChartType getType(){
     return chartType;
   }
-  
+
   /**
    * Setter for chart name
    * @param chartName name of the chart
@@ -62,7 +62,7 @@ public class ChartSettings {
   public void setChartName(String chartName) {
     this.chartName = chartName;
   }
-  
+
   /**
    * Getter for chart name
    * @return name of the chart
@@ -70,15 +70,16 @@ public class ChartSettings {
   public String getChartName () {
     return this.chartName;
   }
-  
+
   /**
    * adds the list of metrics to the chart setting
    * @param metrics list of metrics (EventNames)
    */
   public void addMetrics (List<String> metrics) {
-    this.metrics.addAll(metrics);
+    if (metrics != null)
+      this.metrics.addAll(metrics);
   }
-  
+
   /**
    * Getter for list of metrics
    * @return list of metrics (EventNames)
@@ -86,7 +87,7 @@ public class ChartSettings {
   public List<String> getMetrics() {
     return this.metrics;
   }
-  
+
   /**
    * Setter for start date
    * @param start start date
@@ -94,7 +95,7 @@ public class ChartSettings {
   public void setStartDate(Date start) {
     this.startDate = start;
   }
-  
+
   /**
    * getter for start date
    * @return start date
@@ -102,7 +103,7 @@ public class ChartSettings {
   public Date getStartDate () {
     return this.startDate;
   }
-  
+
   /**
    * Setter for end date
    * @param end end date
@@ -110,7 +111,7 @@ public class ChartSettings {
   public void setEndDate(Date end) {
     this.endDate = end;
   }
-  
+
   /**
    * getter for end date
    * @return end date
@@ -118,11 +119,11 @@ public class ChartSettings {
   public Date getEndDate () {
     return this.endDate;
   }
-  
-  
+
+
   public void save(Intent i) {
     i.putExtra(ChartType.class.getName(), getType());
-    
+
   }
 
   public static ChartSettings load(Intent i){

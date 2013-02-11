@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 public class ChartTypeTest extends TestCase{
   
   public void testDefaultConstructor(){
-    ChartSettings settings=new ChartSettings();
+    ChartSettings settings=new ChartSettings(null, null, null, null, null);
     
   }
 

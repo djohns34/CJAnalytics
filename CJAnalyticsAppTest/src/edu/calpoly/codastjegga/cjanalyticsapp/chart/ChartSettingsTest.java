@@ -10,7 +10,7 @@ public class ChartSettingsTest extends TestCase{
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    settings=new ChartSettings();
+    settings=new ChartSettings(null, null, null, null, null);
   }
 
   public void testDefaultConstructor(){
