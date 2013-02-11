@@ -31,7 +31,8 @@ public class GraphsActivity extends ListActivity {
     List<ChartSettings> items=new ArrayList<ChartSettings>();
     int i=0;
     while(i++<20){
-      ChartSettings s=new ChartSettings();
+      //TODO: fix this
+      ChartSettings s=new ChartSettings(null, null, null, null, null);
       if(i%3==0){
         s.setType(ChartType.Bar);
       }else if(i%3==1){
@@ -87,8 +88,8 @@ public class GraphsActivity extends ListActivity {
     builder.setItems(items.toArray(new String[items.size()]), new DialogInterface.OnClickListener() {
       public void onClick(DialogInterface dialog, int pos) {
         
-
-        ChartSettings s=new ChartSettings();
+        //TODO: fix this
+        ChartSettings s=new ChartSettings(null, null, items, null, null);
         s.setType(ChartType.valueOf(items.get(pos)));
         
         s.save(i);

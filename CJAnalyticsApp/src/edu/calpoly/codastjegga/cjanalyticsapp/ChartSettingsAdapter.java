@@ -43,8 +43,9 @@ public class ChartSettingsAdapter extends ArrayAdapter<ChartSettings> {
       ImageView image=(ImageView) settingsRow.findViewById(R.id.graphImage);
        
       //Assign the appropriate data from our alert object above
-      graphName.setText(settings.getName());
-      graphMetric.setText(settings.getMetric());
+      graphName.setText(settings.getChartName());
+      //TODO fix this
+      graphMetric.setText(settings.getMetrics().toString());
       image.setImageDrawable(settings.getType().getIcon());
        
       return settingsRow;

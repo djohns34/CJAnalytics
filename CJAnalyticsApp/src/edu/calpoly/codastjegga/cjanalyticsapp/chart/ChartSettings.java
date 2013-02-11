@@ -9,7 +9,7 @@ import android.content.Intent;
 /**
  * Contains setting information about a chart.
  * @author Daniel 
- * @author Gagandeep rv
+ * @author Gagandeep rv 8d8a192
  *
  */
 public class ChartSettings {
