@@ -20,4 +20,9 @@
     <string name="title_graphs">Graphs</string>
     <string name="no_dashboards">No dashboards have been set up.</string>
     <string name="no_graphs">No graphs have been created.</string>
+    <string name="editGraphInitTitle">Enter Graph Name</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="to">To :</string>
+    <string name="from">From :</string>
 </resources>
