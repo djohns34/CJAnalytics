@@ -15,7 +15,8 @@ public enum EventFields {
   TimestampV("Timestamp__c"),
   EventName("EventName__c"),
   DeviceId("Device_Id__c"),
-  ValueType("ValueType__c");
+  ValueType("ValueType__c"),
+  DatabaseName("DatabaseName__c");
   
   /** id that corresponds in TrackedEvent__c meta object **/
   private String columnId;

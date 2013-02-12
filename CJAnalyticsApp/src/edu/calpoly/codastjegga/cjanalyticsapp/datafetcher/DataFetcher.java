@@ -1,14 +1,24 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import org.json.JSONObject;
 
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
 import com.salesforce.androidsdk.rest.RestRequest;
+import com.salesforce.androidsdk.rest.RestResponse;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
 
 /**
  * DataFetcher sends and retrieves data from Salesforce.com
@@ -36,6 +46,14 @@ public class DataFetcher {
   /** Constant for EQUALS soql keyword**/
   private static final String EQUALS = "=";
   
+  private static final String CUSTOM_OBJ_NAME = "TrackedEvents__c";
+  
+  //Static set of custom event fields
+  private static final EnumSet<EventFields> BASIC_EVENT_FIELDS = EnumSet.of(EventFields.DatabaseName, 
+                                                                        EventFields.DeviceId, 
+                                                                        EventFields.EventName, 
+                                                                        EventFields.TimestampV, 
+                                                                        EventFields.ValueType);
   //RestClient - Salesforce RESTApi wrapper
   private RestClient client;
   //api version
@@ -55,17 +73,17 @@ public class DataFetcher {
     this.client = restClient;
     this.apiVersion = apiVersion;
   }
-  
-  /**
-   * Performs a soql query request asynchronous . Caller should use the callback to handle the returned data.
-   * @param soql soql query
-   * @param callback @see {@link AsyncRequestCallback}
-   * @throws UnsupportedEncodingException @see {@link RestRequest#getRequestForQuery(String, String)}
-   */
-  public void onSoqlQuery (String soql, AsyncRequestCallback callback) 
-      throws  UnsupportedEncodingException{
-    sendRequest(soql, callback);
-  }
+//  
+//  /**
+//   * Performs a soql query request asynchronous . Caller should use the callback to handle the returned data.
+//   * @param soql soql query
+//   * @param callback @see {@link AsyncRequestCallback}
+//   * @throws UnsupportedEncodingException @see {@link RestRequest#getRequestForQuery(String, String)}
+//   */
+//  public void onSoqlQuery (String soql, AsyncRequestCallback callback) 
+//      throws  UnsupportedEncodingException{
+//    sendRequest(soql, callback);
+//  }
   
   /**
    * Helper for building soql query
@@ -99,14 +117,96 @@ public class DataFetcher {
     return soql.toString();
   }
   
+  public static void getAllData (String apiVersion, RestClient client, 
+      AsyncRequestCallback callback) {
+    Set<EventFields> allFields = EnumSet.allOf(EventFields.class);  
+    
+    String soql = buildQuery(CUSTOM_OBJ_NAME, allFields);
+    
+  }
+  
   /**
    * Carries out the soql call
    * @param soql soql query
    * @param callback @see {@link AsyncRequestCallback}
    * @throws UnsupportedEncodingException if soql query is invalid
    */
-  private void sendRequest(String soql, AsyncRequestCallback callback) throws UnsupportedEncodingException {
+  public void sendAsyncRequest(String soql, AsyncRequestCallback callback) throws UnsupportedEncodingException {
     RestRequest restRequest = RestRequest.getRequestForQuery(apiVersion, soql);    
     client.sendAsync(restRequest, callback); 
+  }
+  
+  public static RestResponse sendSyncRequest(String soql, String apiVersion, RestClient client) throws IOException {
+    RestRequest restRequest = RestRequest.getRequestForQuery(apiVersion, soql);    
+    return client.sendSync(restRequest); 
+     
+  }
+  
+  //soql to get databases
+  public static List<String> getDatabasesName (String apiVersion, RestClient client) throws Exception {
+    String getDBNameQuery = buildQuery(CUSTOM_OBJ_NAME, EnumSet.of(EventFields.DatabaseName));
+    RestResponse reponse = sendSyncRequest(getDBNameQuery, apiVersion, client);
+    
+    JSONObject databases = null;
+    try {
+      databases = reponse.asJSONObject();
+    } catch (Exception ex) {
+      throw new Exception("Internal error, unable to parse response as JSON", ex);
+    }
+    
+    return parseDBRecords(databases);
+  }
+  
+  private static List<String> parseDBRecords(JSONObject recordsObj) {
+    List<String> result = null;
+    
+    return result;
+  }
+  
+  //get database records
+  public static Map<String, EventType> getDatabaseMetrics (String apiVersion, RestClient client, String databaseName) throws Exception {
+    String getDBNameQuery = buildQuery(CUSTOM_OBJ_NAME, EnumSet.of(EventFields.DatabaseName));
+    
+    String whereClause = WHERE + " " + EventFields.DatabaseName.getColumnId() + " = " + databaseName;
+    
+    String dbMetricQuery = getDBNameQuery + " " + whereClause;
+    RestResponse reponse = sendSyncRequest(dbMetricQuery, apiVersion, client);
+    
+    JSONObject databases;
+    try {
+      databases = reponse.asJSONObject();
+    } catch (Exception ex) {
+      throw new Exception("Internal error, unable to parse response as JSON", ex);
+    }
+    return parseMetricRecords (databases);
+  }
+  
+  private static Map<String, EventType> parseMetricRecords(JSONObject recordsObj) {
+    HashMap<String, EventType> result;
+    
+    return result;
+  }
+  //event name and type GROUP_BY 
+//get database records
+  public static Records getRecords (String apiVersion, RestClient client, String databaseName, String eventName, EventType eventType) throws Exception {
+    //create a set of basic event fields
+    Set<EventFields> eventFields = EnumSet.copyOf(BASIC_EVENT_FIELDS);
+    //add the eventType to the basic set of event fields
+    eventFields.add(eventType.getEventField());
+    
+    String getDBNameQuery = buildQuery(CUSTOM_OBJ_NAME, eventFields);
+    String whereClause = WHERE + " " + EventFields.DatabaseName.getColumnId() + " = " + databaseName;
+    String groupClause = GROUP_BY + " " + eventType.getEventField().getColumnId();
+    
+    String dbMetricQuery = getDBNameQuery + " " + whereClause +  " " + groupClause;
+    RestResponse reponse = sendSyncRequest(getDBNameQuery, apiVersion, client);
+    
+    JSONObject data;
+    try {
+      data = reponse.asJSONObject();
+    } catch (Exception ex) {
+      throw new Exception("Internal error, unable to parse response as JSON", ex);
+    }
+    return new Records(data);
   }
 }

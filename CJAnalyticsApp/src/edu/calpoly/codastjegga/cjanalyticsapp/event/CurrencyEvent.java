@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class CurrencyEvent extends Event{
   //currency value of the event
   private BigDecimal currencyValue;
-  
+
   /**
    * Constructor for CurrentEvent
    * @param eventName
@@ -19,13 +19,14 @@ public class CurrencyEvent extends Event{
    *            @see {@link Event}
    *           
    * @param timestamp @see {@link Event}
+   * @param databaseName @see {@link Event}
    * @param currencyValue value of type BigDecimal to represent currency
    */
-  public CurrencyEvent (String eventName, String deviceId, String timestamp, BigDecimal currencyValue) {
-    super(eventName, deviceId, timestamp);
+  public CurrencyEvent (String eventName, String deviceId, String timestamp, String databaseName, BigDecimal currencyValue) {
+    super(eventName, deviceId, databaseName, timestamp);
     this.currencyValue = currencyValue;
   }
-  
+
   /**
    * Setter for CurrencyValue
    * @param currencyValue currency value of this event
@@ -33,7 +34,7 @@ public class CurrencyEvent extends Event{
   public void setCurrencyValue (BigDecimal currencyValue) {
     this.currencyValue = currencyValue;
   }
-  
+
   /**
    * Getter for CurrencyValue
    * @return currency value of this event
@@ -41,5 +42,5 @@ public class CurrencyEvent extends Event{
   public BigDecimal getCurrencyValue () {
     return this.currencyValue;
   }
-  
+
 }

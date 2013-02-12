@@ -19,11 +19,12 @@ public class FloatEvent extends Event {
    *            @see {@link Event}
    *           
    * @param timestamp @see {@link Event}
+   * @param databaseName @see {@link Event}
    * @param floatValue
    *            value of type float
    */
-  public FloatEvent(String eventName, String deviceId, String timestamp, Float floatValue) {
-    super(eventName, deviceId, timestamp);
+  public FloatEvent(String eventName, String deviceId, String timestamp, String databaseName, Float floatValue) {
+    super(eventName, deviceId, databaseName, timestamp);
     this.floatValue = floatValue;
   }
 

@@ -12,7 +12,7 @@ import junit.framework.TestCase;
  */
 public class LocaleEventTest extends TestCase {
 
-	String eventName; String deviceId; String timestamp;
+	String eventName; String deviceId; String timestamp; String databaseName;
 	String localeV;
 	LocaleEvent localeEvent;
 	protected void setUp() throws Exception {
@@ -21,7 +21,8 @@ public class LocaleEventTest extends TestCase {
 		deviceId = "deviceid09876";
 		timestamp = "2013-01-29T08:00:00.000+0000";
 		localeV = "US";
-		localeEvent = new LocaleEvent(eventName, deviceId, timestamp, localeV);
+		databaseName = "dbName";
+		localeEvent = new LocaleEvent(eventName, deviceId, timestamp, databaseName, localeV);
 	}
 
 	public void testGetterSetter() {

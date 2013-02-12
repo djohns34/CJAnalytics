@@ -24,6 +24,7 @@ public class Event {
   private static String EVENTNAME = "eventname";
   private static String DEVICEID = "deviceid";
   private static String TIMPSTAMP = "timestamp";
+  private static String DATABASENAME = "databasename";
   
   //name of the event
   private String eventName;
@@ -31,6 +32,8 @@ public class Event {
   private String deviceId;
   //the time the event was triggered
   private Date timestamp;
+  //name of the database that this event is part of
+  private String databaseName;
   
   
   /**
@@ -42,13 +45,22 @@ public class Event {
   public Event (String eventName, String deviceId, String timestamp) {
     this.eventName = eventName;
     this.deviceId = deviceId;
-    try {
-      this.timestamp = df.parse(timestamp);
-    } catch (ParseException e) {
-      Log.e("Event", "Unable to parse timestamp, setting null");
-      this.timestamp = null;
-    }
+    setTimestamp(timestamp);
   }
+  
+  /**
+   * Creates a new Event object with name, device id and timestamp
+   * @param eventName name of the event
+   * @param deviceId device id that triggered the event
+   * @param timestamp the time the event was triggered
+   */
+  public Event (String eventName, String deviceId, String timestamp, String databaseName) {
+    this.eventName = eventName;
+    this.deviceId = deviceId;
+    setTimestamp(timestamp);
+    setDatabaseName(databaseName);
+  }
+  
   
   /**
    * Setter for DataFormater
@@ -127,11 +139,29 @@ public class Event {
     return timestamp;
   }
   
+  
+  /**
+   * database name Setter
+   * @param databaseName name of the database that event is associated with
+   */
+  public void setDatabaseName (String databaseName) {
+    this.databaseName = databaseName;
+  }
+  
+  /**
+   * Getter for database name
+   * @return database name
+   */
+  public String getDatabaseName () {
+    return this.databaseName;
+  }
+  
   protected JSONObject getJSONObject() {
     Map map = new HashMap<String, String>();
     map.put(EVENTNAME, eventName);
     map.put(DEVICEID, deviceId);
     map.put(TIMPSTAMP, timestamp);
+    map.put(DATABASENAME, databaseName);
     
     return new JSONObject(map);
   }

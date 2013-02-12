@@ -21,6 +21,7 @@ public class EventFactory {
    * @param eventName name of the event
    * @param deviceId device id
    * @param timestamp timestamp of when the event was triggered
+   * @param dataname name of the database
    * @param recordValue value of the record must match the recordType or IllegalArgumentException
    * is thrown. If record value is an illegal string represent of record type then NumberFormatException 
    * is thrown.
@@ -29,20 +30,20 @@ public class EventFactory {
    * @return Event object
    */
   public static Event createEvent (String recordType, String eventName, 
-      String deviceId, String timestamp, String recordValue) throws IllegalArgumentException, 
+      String deviceId, String timestamp, String databaseName, String recordValue) throws IllegalArgumentException, 
       NumberFormatException {
 
-    switch (RecordType.valueOf(recordType)) {
+    switch (EventType.valueOf(recordType)) {
     case Currency:
-      return createCurrencyEvent(eventName, deviceId, timestamp, recordValue);
+      return createCurrencyEvent(eventName, deviceId, timestamp, databaseName, recordValue);
     case Float:
-      return createFloatEvent(eventName, deviceId, timestamp, recordValue);
+      return createFloatEvent(eventName, deviceId, timestamp, databaseName, recordValue);
     case Locale:
-      return createLocaleEvent(eventName, deviceId, timestamp, recordValue);
+      return createLocaleEvent(eventName, deviceId, timestamp, databaseName, recordValue);
     case Number:
-      return createNumberEvent(eventName, deviceId, timestamp, recordValue);
+      return createNumberEvent(eventName, deviceId, timestamp, databaseName, recordValue);
     case Text:
-      return createTextEvent(eventName, deviceId, timestamp, recordValue);
+      return createTextEvent(eventName, deviceId, timestamp, databaseName, recordValue);
     default:
       throw new IllegalArgumentException("Invalid recordType: " + recordType);
     }    
@@ -59,8 +60,8 @@ public class EventFactory {
    * @return FloatEvent object
    */
   public static FloatEvent createFloatEvent (String eventName, 
-      String deviceId, String timestamp, String recordValue) throws NumberFormatException {
-    return new FloatEvent(eventName, deviceId, timestamp, Float.valueOf(recordValue));
+      String deviceId, String timestamp, String databaseName, String recordValue) throws NumberFormatException {
+    return new FloatEvent(eventName, deviceId, timestamp, databaseName, Float.valueOf(recordValue));
 
   }
 
@@ -73,8 +74,8 @@ public class EventFactory {
    * @return LocaleEvent object
    */
   public static LocaleEvent createLocaleEvent (String eventName, 
-      String deviceId, String timestamp, String recordValue) {
-    return new LocaleEvent(eventName, deviceId, timestamp, recordValue);
+      String deviceId, String timestamp, String databaseName, String recordValue) {
+    return new LocaleEvent(eventName, deviceId, timestamp, databaseName, recordValue);
 
   }
 
@@ -89,8 +90,8 @@ public class EventFactory {
    * @return NumberEvent object
    */
   public static NumberEvent createNumberEvent (String eventName, 
-      String deviceId, String timestamp,  String recordValue) throws NumberFormatException {
-    return new NumberEvent(eventName, deviceId, timestamp, Integer.valueOf(recordValue));
+      String deviceId, String timestamp, String databaseName, String recordValue) throws NumberFormatException {
+    return new NumberEvent(eventName, deviceId, timestamp, databaseName, Integer.valueOf(recordValue));
 
   }
 
@@ -103,8 +104,8 @@ public class EventFactory {
    * @return TextEvent object
    */
   public static TextEvent createTextEvent (String eventName, 
-      String deviceId, String timestamp, String recordValue) {
-    return new TextEvent(eventName, deviceId, timestamp, recordValue);
+      String deviceId, String timestamp, String databaseName, String recordValue) {
+    return new TextEvent(eventName, deviceId, timestamp, databaseName, recordValue);
 
   }
   
@@ -118,8 +119,8 @@ public class EventFactory {
    * @return CurrencyEvent object
    */
   public static CurrencyEvent createCurrencyEvent (String eventName, 
-      String deviceId, String timestamp, String recordValue) throws NumberFormatException {
-    return new CurrencyEvent(eventName, deviceId, timestamp, new BigDecimal(recordValue));
+      String deviceId, String timestamp, String databaseName, String recordValue) throws NumberFormatException {
+    return new CurrencyEvent(eventName, deviceId, databaseName, timestamp, new BigDecimal(recordValue));
 
   }
 
