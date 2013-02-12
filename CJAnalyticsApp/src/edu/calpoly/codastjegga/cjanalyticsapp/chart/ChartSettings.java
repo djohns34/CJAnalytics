@@ -26,6 +26,11 @@ public class ChartSettings {
   private Date endDate;
 
   /**
+   * Default constructor for chart setting 
+   */
+  public ChartSettings () {};
+  
+  /**
    * Constructs a chart setting with chart type, chart's name, list
    * of metrics, and start and end date. 
    */
