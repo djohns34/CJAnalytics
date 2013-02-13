@@ -66,7 +66,11 @@ public class ChartSettingsProvider extends ContentProvider {
     SQLiteDatabase sqlDB = database.getWritableDatabase();
     long id = 0;
 
-    id = sqlDB.insert(ChartSettingsDB.DATABASE_TABLE, null, values);
+    //Should always be the case
+    if(values.get(ChartSettingsDB.KEY_ROWID).equals("-1")){
+      values.remove(ChartSettingsDB.KEY_ROWID);
+      id = sqlDB.insert(ChartSettingsDB.DATABASE_TABLE, null, values);
+    }
 
     if(id>-1){
       //Things need to update
