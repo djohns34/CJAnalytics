@@ -6,10 +6,6 @@ import junit.framework.TestCase;
 
 public class ChartTypeTest extends TestCase{
   
-  public void testDefaultConstructor(){
-    ChartSettings settings=new ChartSettings(null, null, null, null, null);
-    
-  }
 
   public void testPieChart(){
     assertEquals(CJPieChart.class, ChartType.Pie.getProvider().getClass());

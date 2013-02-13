@@ -50,7 +50,6 @@ public class MainActivity extends NativeMainActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ChartType.setResources(getResources());
 		// Setup view
 		setContentView(R.layout.main);
 	}

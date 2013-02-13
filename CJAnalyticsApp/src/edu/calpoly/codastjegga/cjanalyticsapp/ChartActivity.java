@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartProvider;
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartSettings;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 
 public class ChartActivity extends Activity {
 
@@ -79,7 +79,7 @@ public class ChartActivity extends Activity {
   public void onEditButtonClick(View v) {
     if(s!=null){
       final Intent i = new Intent(this, EditActivity.class);
-      s.save(i);
+      s.saveToIntent(i);
       startActivityForResult(i, 0);
     }
 

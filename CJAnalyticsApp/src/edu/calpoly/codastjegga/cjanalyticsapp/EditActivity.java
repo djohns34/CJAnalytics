@@ -7,8 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ToggleButton;
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 
 public class EditActivity extends Activity {
 
@@ -89,7 +89,7 @@ public class EditActivity extends Activity {
   private void save () {
     s.setType(getSelectedType());
     Intent i=new Intent();
-    s.save(i);
+    s.saveToIntent(i);
 
     setResult(RESULT_OK,i);
     finish(); 

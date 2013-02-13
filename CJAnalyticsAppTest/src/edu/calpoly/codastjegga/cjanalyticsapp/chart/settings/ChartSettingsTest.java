@@ -1,6 +1,8 @@
-package edu.calpoly.codastjegga.cjanalyticsapp.chart;
+package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 
 
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import android.content.Intent;
 import junit.framework.TestCase;
 
@@ -10,7 +12,7 @@ public class ChartSettingsTest extends TestCase{
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    settings=new ChartSettings(null, null, null, null, null);
+    settings=new ChartSettings();
   }
 
   public void testDefaultConstructor(){
@@ -27,14 +29,14 @@ public class ChartSettingsTest extends TestCase{
 
   public void testSave(){
     Intent i=new Intent();
-    settings.save(i);
+    settings.saveToIntent(i);
     
     assertEquals(1, i.getExtras().size());
   }
 
   public void testLoad(){
     Intent i=new Intent();
-    settings.save(i);
+    settings.saveToIntent(i);
     
     ChartSettings loaded=ChartSettings.load(i);
     
