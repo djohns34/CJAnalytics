@@ -19,44 +19,29 @@
             android:layout_centerInParent="true" />
 -->
     </RelativeLayout>
-    
+    
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
-
-            <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_weight=".2" >
-    </View>
-    
+
         <Button
-            android:id="@+id/doneButton"
-            android:layout_width="wrap_content"
+            android:id="@+id/editButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Edit"
-            android:onClick="onEditButtonClick" >
+            android:layout_weight="1"
+            android:onClick="onEditButtonClick"
+            android:text="@string/edit" >
+
         </Button>
+
+        <Button
+            android:id="@+id/shareButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/share" >
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" >
-            </View>
-
-            <Button
-                android:id="@+id/cancelButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Share" >
-            </Button>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight=".2" >
-            </View>
-
+        </Button>
     </LinearLayout>
 
 </LinearLayout>
