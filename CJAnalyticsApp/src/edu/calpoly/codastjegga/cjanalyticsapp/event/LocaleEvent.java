@@ -21,7 +21,7 @@ public class LocaleEvent extends Event{
    * @param localeValue value of type locale
    */
   public LocaleEvent (String eventName, String deviceId, String timestamp, String databaseName, String localeValue) {
-    super(eventName, deviceId, databaseName, timestamp);
+    super(eventName, deviceId, timestamp, databaseName);
     this.localeValue = localeValue;
   }
   

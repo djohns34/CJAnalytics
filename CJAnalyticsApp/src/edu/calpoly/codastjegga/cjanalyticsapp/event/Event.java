@@ -49,9 +49,10 @@ public class Event {
   }
   
   /**
-   * Creates a new Event object with name, device id and timestamp
+   * Creates a new Event object with name, device id, db name and timestamp
    * @param eventName name of the event
    * @param deviceId device id that triggered the event
+   * @param name of the db where the event is stored or belongs to
    * @param timestamp the time the event was triggered
    */
   public Event (String eventName, String deviceId, String timestamp, String databaseName) {

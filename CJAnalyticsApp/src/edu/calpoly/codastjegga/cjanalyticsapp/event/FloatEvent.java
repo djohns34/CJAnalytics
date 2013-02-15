@@ -24,7 +24,7 @@ public class FloatEvent extends Event {
    *            value of type float
    */
   public FloatEvent(String eventName, String deviceId, String timestamp, String databaseName, Float floatValue) {
-    super(eventName, deviceId, databaseName, timestamp);
+    super(eventName, deviceId, timestamp, databaseName);
     this.floatValue = floatValue;
   }
 

@@ -21,7 +21,7 @@ public class TextEvent extends Event {
    * @param textValue value of type text
    */
   public TextEvent (String eventName, String deviceId, String timestamp, String databaseName, String textValue) {
-    super(eventName, deviceId, databaseName, timestamp);
+    super(eventName, deviceId, timestamp, databaseName);
     this.textVaue = textValue;
   }
   

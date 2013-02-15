@@ -18,7 +18,7 @@ public class EventTest extends TestCase {
 		deviceId = "deviceid09876";
 		timestamp = "2013-01-29T08:00:00.000+0000";
 		databaseName = "dbName";
-		event = new Event(eventName, deviceId, databaseName, timestamp);
+		event = new Event(eventName, deviceId, timestamp, databaseName);
 	}
 
 
