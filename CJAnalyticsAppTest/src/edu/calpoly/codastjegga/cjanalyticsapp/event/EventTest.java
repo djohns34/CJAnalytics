@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
+
 import junit.framework.TestCase;
 
 public class EventTest extends TestCase {
@@ -22,21 +24,14 @@ public class EventTest extends TestCase {
 	}
 
 
-	public void testGetter(){
-		assertEquals(deviceId, event.getDeviceId());
-		assertEquals(eventName, event.getEventName());
-		assertEquals(databaseName, event.getDatabaseName());
-		String expectedDate;
-		try {
-			expectedDate = Event.getDataFormater().parse(timestamp).toString();
-			assertEquals(expectedDate, event.getTimestamp().toString());
-		} catch (ParseException e) {
-			fail("Internal error");
+	 public void testGetter(){
+     assertEquals(deviceId, event.getDeviceId());
+     assertEquals(eventName, event.getEventName());
+     String expectedDate;
+     expectedDate = DateUtils.parse(timestamp).toString();
+     assertEquals(expectedDate, event.getTimestamp().toString());
 
-		}
-		
-
-	}
+}
 
 	public void testSetter() {
 		event.setDeviceId("newDivceId");
@@ -44,11 +39,7 @@ public class EventTest extends TestCase {
 
 		event.setEventName("new Event name");
 		assertEquals("new Event name", event.getEventName());
-
-		DateFormat dfNew = new SimpleDateFormat("yyyy-mm-dd");
-		Event.setDataFormater(dfNew);
-		assertEquals(dfNew, Event.getDataFormater());
-
+		
 		String invalidDate = "123234";
 		event.setTimestamp(invalidDate);
 		assertNull(event.getTimestamp());
@@ -57,20 +48,6 @@ public class EventTest extends TestCase {
 		event.setDatabaseName(newDB);
 		assertEquals(newDB, event.getDatabaseName());
 	}
-	public void testDateSetterGetter() {
-		DateFormat dfNew = new SimpleDateFormat("yyyy-mm-dd");
-		Event.setDataFormater(dfNew);
-		String date = "2013-02-02";
-		Date d = null;
-		try {
-			d = dfNew.parse(date);
-		} catch (ParseException e) {
-			fail("internal error");
-		}
-
-		event.setTimestamp(d);
-		assertEquals(d, event.getTimestamp());
-	}
 	
 	public void testToString() {
 		String eventStr = event.toString();
@@ -78,11 +55,7 @@ public class EventTest extends TestCase {
 		assertTrue(eventStr.contains(deviceId));
 		assertTrue(eventStr.contains(eventName));
 		String expectedDate = "";
-		try {
-			expectedDate = Event.getDataFormater().parse(timestamp).toString();
-		} catch (ParseException e) {
-			fail ("internal error");
-		}
+		expectedDate = DateUtils.parse(timestamp).toString();
 		
 		assertTrue(eventStr.contains(expectedDate));
 		

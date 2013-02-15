@@ -90,6 +90,14 @@
             android:label="@string/title_edit" >
             
         </activity>
+        
+          <provider
+      android:name="edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider"
+      android:authorities="edu.calpoly.codastjegga.cjanalyticsapp.chart.contentprovider"
+      android:exported="false" >
+   </provider>
+        
+        
     </application>
 
 </manifest>

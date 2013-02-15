@@ -10,6 +10,8 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
+
 import android.util.Log;
 
 /**
@@ -18,8 +20,6 @@ import android.util.Log;
  *
  */
 public class Event {
-  //data formatter
-  private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
   
   private static String EVENTNAME = "eventname";
   private static String DEVICEID = "deviceid";
@@ -45,7 +45,8 @@ public class Event {
   public Event (String eventName, String deviceId, String timestamp) {
     this.eventName = eventName;
     this.deviceId = deviceId;
-    setTimestamp(timestamp);
+    this.timestamp = DateUtils.parse(timestamp);
+    setDatabaseName(null);
   }
   
   /**
@@ -62,22 +63,6 @@ public class Event {
     setDatabaseName(databaseName);
   }
   
-  
-  /**
-   * Setter for DataFormater
-   * @param dateFormater dateformater
-   */
-  public static void setDataFormater (DateFormat dateFormater) {
-    Event.df = dateFormater;
-  }
-  
-  /**
-   * Getter for DataFormater
-   * @param dateFormater dateformater
-   */
-  public static DateFormat getDataFormater () {
-    return Event.df;
-  }
   
   /**
    * Setter for event name
@@ -124,12 +109,7 @@ public class Event {
    * @param timestamp timestamp of when the event was recorded
    */
   public void setTimestamp (String timestamp) {
-    try {
-      this.timestamp = df.parse(timestamp);
-    } catch (ParseException e) {
-      Log.e("Event", "Unable to parse timestamp, setting null");
-      this.timestamp = null;
-    }
+    this.timestamp = DateUtils.parse(timestamp);
   }
   
   /**

@@ -162,9 +162,9 @@ public class SalesforceDBAdapter {
     }
 
     /**
-     * Delete the note with the given rowId
+     * Delete the Event with the given rowId
      * 
-     * @param rowId id of note to delete
+     * @param rowId id of Event to delete
      * @return true if deleted, false otherwise
      */
     public boolean deleteEvent(long rowId) {

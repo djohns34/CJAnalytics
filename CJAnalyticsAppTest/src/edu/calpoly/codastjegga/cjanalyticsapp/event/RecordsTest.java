@@ -42,16 +42,18 @@ public class RecordsTest extends TestCase {
   private static final int totalCurrEvent = 1;
   private static final String floatEventName = "floatEventName";
   private static final int totalFloatEvent = 1;
+  
+  private static final String dbName = "DB Name";
 
 
   private static final String recordsString = "{\"records\":[" +
-      "{\"LocaleValue__c\":null,\"Device_Id__c\":\""+ deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Number\",\"EventName__c\":\"" + cusNumEventName + "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":" + levelV1 +",\"CurrencyValue__c\":null}," +
-      "{\"LocaleValue__c\":null,\"Device_Id__c\":\""+ deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Number\",\"EventName__c\":\"" + cusNumEventName +  "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":"+ levelV2 + ",\"CurrencyValue__c\":null}," +
-      "{\"LocaleValue__c\":null,\"Device_Id__c\":\"" + deviceId +"\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Number\",\"EventName__c\":\""+ cusNumEventName + "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":" + levelV3 + ",\"CurrencyValue__c\":null}," +
-      "{\"LocaleValue__c\":\""+ localV1 + "\",\"Device_Id__c\":\"" + deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Locale\",\"EventName__c\":\"" + localEventName + "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":null,\"CurrencyValue__c\":null}," +
-      "{\"LocaleValue__c\":null,\"Device_Id__c\":\"" + deviceId +"\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Text\",\"EventName__c\":\"" + textEventName + "\",\"Id\":null,\"TextValue__c\":\"" + textV + "\",\"FloatValue__c\":null,\"NumberValue__c\":null,\"CurrencyValue__c\":null}," +
-      "{\"LocaleValue__c\":null,\"Device_Id__c\":\"" + deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Float\",\"EventName__c\":\"" + floatEventName+ "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":\"" + floatV + "\",\"NumberValue__c\":null,\"CurrencyValue__c\":null}," +
-      "{\"LocaleValue__c\":null,\"Device_Id__c\":\"" + deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Currency\",\"EventName__c\":\"" + currEventName + "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":null,\"CurrencyValue__c\":\""+ currValue+ "\"}]}";
+      "{\"DatabaseName__c\":\"" + dbName + "\", \"LocaleValue__c\":null,\"Device_Id__c\":\""+ deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Number\",\"EventName__c\":\"" + cusNumEventName + "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":" + levelV1 +",\"CurrencyValue__c\":null}," +
+      "{\"DatabaseName__c\":\"" + dbName + "\", \"LocaleValue__c\":null,\"Device_Id__c\":\""+ deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Number\",\"EventName__c\":\"" + cusNumEventName +  "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":"+ levelV2 + ",\"CurrencyValue__c\":null}," +
+      "{\"DatabaseName__c\":\"" + dbName + "\", \"LocaleValue__c\":null,\"Device_Id__c\":\"" + deviceId +"\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Number\",\"EventName__c\":\""+ cusNumEventName + "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":" + levelV3 + ",\"CurrencyValue__c\":null}," +
+      "{\"DatabaseName__c\":\"" + dbName + "\", \"LocaleValue__c\":\""+ localV1 + "\",\"Device_Id__c\":\"" + deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Locale\",\"EventName__c\":\"" + localEventName + "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":null,\"CurrencyValue__c\":null}," +
+      "{\"DatabaseName__c\":\"" + dbName + "\", \"LocaleValue__c\":null,\"Device_Id__c\":\"" + deviceId +"\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Text\",\"EventName__c\":\"" + textEventName + "\",\"Id\":null,\"TextValue__c\":\"" + textV + "\",\"FloatValue__c\":null,\"NumberValue__c\":null,\"CurrencyValue__c\":null}," +
+      "{\"DatabaseName__c\":\"" + dbName + "\", \"LocaleValue__c\":null,\"Device_Id__c\":\"" + deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Float\",\"EventName__c\":\"" + floatEventName+ "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":\"" + floatV + "\",\"NumberValue__c\":null,\"CurrencyValue__c\":null}," +
+      "{\"DatabaseName__c\":\"" + dbName + "\", \"LocaleValue__c\":null,\"Device_Id__c\":\"" + deviceId + "\",\"Timestamp__c\":\"" + timestamp + "\",\"ValueType__c\":\"Currency\",\"EventName__c\":\"" + currEventName + "\",\"Id\":null,\"TextValue__c\":null,\"FloatValue__c\":null,\"NumberValue__c\":null,\"CurrencyValue__c\":\""+ currValue+ "\"}]}";
 
   private static JSONObject jsonRecords;
 

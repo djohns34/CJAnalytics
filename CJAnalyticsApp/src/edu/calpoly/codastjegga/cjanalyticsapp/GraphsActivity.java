@@ -1,25 +1,38 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 
-import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ContentProvider;
+import android.content.ContentValues;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.Window;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartSettings;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsDB;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
-public class GraphsActivity extends ListActivity {
+public class GraphsActivity extends ListActivity implements LoaderCallbacks<Cursor>{
   
-  private ArrayAdapter<ChartSettings> adapter;
+  ChartSettingsDB  chartSettingsDB;
+  private ChartSettingsAdapter adapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -28,24 +41,15 @@ public class GraphsActivity extends ListActivity {
     // Show the Up button in the action bar.
     getActionBar().setDisplayHomeAsUpEnabled(true);
     
-    List<ChartSettings> items=new ArrayList<ChartSettings>();
-    int i=0;
-    while(i++<20){
-      //TODO: fix this
-      ChartSettings s=new ChartSettings(null, null, null, null, null);
-      if(i%3==0){
-        s.setType(ChartType.Bar);
-      }else if(i%3==1){
-        s.setType(ChartType.Line);
-      }else{
-        s.setType(ChartType.Pie);
-      }
-      items.add(s);
-    }
-    // Set up the list adapter.
-    adapter=new ChartSettingsAdapter(this, items);
+    
+    /*Initialize the loader that will call the database for ChartSettings*/
+    getLoaderManager().initLoader(0, null, this);
 
+    
+    adapter = new ChartSettingsAdapter(this, null);
+        
     setListAdapter(adapter);
+    registerForContextMenu(getListView());
   }
 
   @Override
@@ -57,6 +61,8 @@ public class GraphsActivity extends ListActivity {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    testAdd();
+    testAdd();
     switch (item.getItemId()) {
     case android.R.id.home:
       // This ID represents the Home or Up button. In the case of this
@@ -72,36 +78,72 @@ public class GraphsActivity extends ListActivity {
     return super.onOptionsItemSelected(item);
   }
   
+  
+  //TODO Remove Me!!
+  public void testAdd(){
+    ChartSettings testSetting=new ChartSettings(ChartType.values()[new Random().nextInt(3)], "DB","NAME", "testMetric", null, null);
+    
+    /*Insert the test setting*/
+    
+    ChartSettingsProvider.insert(getContentResolver(), testSetting);
+  }
+
+  /*Context Menu*/
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v,
+      ContextMenuInfo menuInfo) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.activity_graphs_context, menu);
+    super.onCreateContextMenu(menu, v, menuInfo);
+    
+  }
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    if(item.getItemId()==R.id.context_delete){
+      AdapterContextMenuInfo info=(AdapterContextMenuInfo) item.getMenuInfo();
+      
+
+      /*delete the row specified by the id*/
+      ChartSettingsProvider.delete(getContentResolver(),(int)(info.id));
+      
+      return true;
+    }
+    return false;
+  };
+  /*End Context Menu*/
+  
+
+
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
     final Intent i = new Intent(this, ChartActivity.class);
-    AlertDialog dialog;
-
-    final ArrayList<String> items=new ArrayList<String>();
-    for(ChartType t:ChartType.values()){
-      items.add(t.toString());
-    }
     
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setTitle("Which Chart Type?");
+    ChartSettings s=ChartSettingsProvider.getChartSettings((Cursor) adapter.getItem(position));
     
-    builder.setItems(items.toArray(new String[items.size()]), new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int pos) {
-        
-        //TODO: fix this
-        ChartSettings s=new ChartSettings(null, null, items, null, null);
-        s.setType(ChartType.valueOf(items.get(pos)));
-        
-        s.save(i);
-        startActivity(i);
-        
-      }});
-    
-    
-    dialog=builder.create();
-    dialog.show();
+    s.saveToIntent(i);
+    startActivity(i);
   }
   
   
+  @Override
+  public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+    CursorLoader cursorLoader = ChartSettingsProvider.getCursorLoader(this);
+    
+    return cursorLoader;
+  }
+
+  @Override
+  public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+    adapter.swapCursor(data);
+  }
+
+  @Override
+  public void onLoaderReset(Loader<Cursor> loader) {
+    // data is not available anymore, delete reference
+    adapter.swapCursor(null);
+    setProgressBarIndeterminateVisibility(false); 
+  }
+  
+
 }
 

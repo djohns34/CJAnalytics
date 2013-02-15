@@ -1,8 +1,8 @@
-package edu.calpoly.codastjegga.cjanalyticsapp.chart;
+package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 
 import android.content.Intent;
 
@@ -16,30 +16,39 @@ public class ChartSettings {
 
   //chart type this setting renders
   private ChartType chartType;
+  //Database that this chart belongs
+  private String database;
   //name of the chart, which this setting belongs to
   private String chartName; 
-  //list of metrics the chart's event tracks
-  private List<String> metrics; 
+  //metrics that this chart displays
+  private String metric; 
   //start date
   private Date startDate;
   //end date
   private Date endDate;
+  //persistance id
+  private Long androidID;
 
   /**
    * Default constructor for chart setting 
    */
-  public ChartSettings () {};
+  public ChartSettings () {
+    setType(ChartType.Pie);
+    setChartName("");
+    setMetric("");
+    setDatabase("");
+  };
   
   /**
    * Constructs a chart setting with chart type, chart's name, list
    * of metrics, and start and end date. 
    */
-  public ChartSettings (ChartType chartType, String chartName, 
-      List<String> metrics, Date start, Date end){
+  public ChartSettings (ChartType chartType, String database, String chartName, 
+      String metric, Date start, Date end){
     setType(chartType);
+    setDatabase(database);
     setChartName(chartName);
-    this.metrics = new LinkedList<String>();
-    addMetrics(metrics);
+    setMetric(metric);
     setStartDate(start);
     setEndDate(end);
   }
@@ -74,23 +83,22 @@ public class ChartSettings {
    */
   public String getChartName () {
     return this.chartName;
+  }  
+  
+  /**
+   * Setter for chart name
+   * @param metric the metric name
+   */
+  public void setMetric(String metric) {
+    this.metric=metric;
   }
 
   /**
-   * adds the list of metrics to the chart setting
-   * @param metrics list of metrics (EventNames)
+   * Getter for the metrics
+   * @return the metric name
    */
-  public void addMetrics (List<String> metrics) {
-    if (metrics != null)
-      this.metrics.addAll(metrics);
-  }
-
-  /**
-   * Getter for list of metrics
-   * @return list of metrics (EventNames)
-   */
-  public List<String> getMetrics() {
-    return this.metrics;
+  public String getMetric() {
+    return this.metric;
   }
 
   /**
@@ -125,16 +133,50 @@ public class ChartSettings {
     return this.endDate;
   }
 
-
-  public void save(Intent i) {
-    i.putExtra(ChartType.class.getName(), getType());
-
+  /**
+   * getter for the database name
+   * @return database name
+   */
+  public String getDatabase() {
+    return database;
+  }
+  
+  /**
+   * setter for the database name
+   * @param database the name
+   */
+  public void setDatabase(String database) {
+    this.database = database;
+  }
+  
+  /**getter for the AndroidDB id
+   * @return the id corresponding to the Database row id*/
+  public Long getAndroidID() {
+    if(androidID==null){
+      return -1l;
+    }else{
+      return androidID;
+    }
   }
 
+  /**setter for the androidDB id
+   * @param id the id corresponding to the Database row id*/
+  public void setAndroidID(long id) {
+    this.androidID=id;
+  }
+  
+  
+  
+  public void saveToIntent(Intent i) {
+    i.putExtra(ChartType.class.getName(), getType());
+    
+  }
+  
   public static ChartSettings load(Intent i){
-    ChartSettings chartSetting = new ChartSettings(null, null, null, null, null);
+    ChartSettings chartSetting = new ChartSettings(null, null, null, null, null, null);
     chartSetting.setType((ChartType) i.getExtras().get(ChartType.class.getName()));
     return chartSetting;
   }
+
 
 }
