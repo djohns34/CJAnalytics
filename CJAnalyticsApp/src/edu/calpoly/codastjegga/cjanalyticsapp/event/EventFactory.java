@@ -120,7 +120,7 @@ public class EventFactory {
    */
   public static CurrencyEvent createCurrencyEvent (String eventName, 
       String deviceId, String timestamp, String databaseName, String recordValue) throws NumberFormatException {
-    return new CurrencyEvent(eventName, deviceId, databaseName, timestamp, new BigDecimal(recordValue));
+    return new CurrencyEvent(eventName, deviceId, timestamp, databaseName, new BigDecimal(recordValue));
 
   }
 

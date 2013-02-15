@@ -29,4 +29,6 @@
     <string name="from">From :</string>
     <string name="sampleDate">Feb 10, 2013</string>
     <string name="line">Line</string>
+    <string name="share">Share</string>
+    <string name="edit">Edit</string>
 </resources>
