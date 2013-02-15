@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -144,6 +145,9 @@ public class GraphsActivity extends ListActivity implements LoaderCallbacks<Curs
     setProgressBarIndeterminateVisibility(false); 
   }
   
-
+  public void onClickChartAdd(View view) {
+    Intent intent = new Intent(this, EditActivity.class);
+    startActivity(intent);
+  }
 }
 

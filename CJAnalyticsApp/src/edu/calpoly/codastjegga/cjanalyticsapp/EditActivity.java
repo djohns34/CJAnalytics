@@ -12,114 +12,110 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 
 public class EditActivity extends Activity {
 
-
-  private ToggleButton line;
-  private ToggleButton bar;
-  private ToggleButton pie;
-  private ChartSettings s;
+  private ToggleButton lineButton;
+  private ToggleButton barButton;
+  private ToggleButton pieButton;
+  private ChartSettings chartSettings;
 
   private static final String CONFIRM_SAVE = "Are you sure you want to save?";
   private static final String SAVE = "Save Changes";
 
   protected void onCreate(Bundle savedInstanceState) {
+    Intent intent = this.getIntent();
+
     super.onCreate(savedInstanceState);
     setContentView(R.layout.editchart);
 
-    line=(ToggleButton)findViewById(R.id.line);
-    bar=(ToggleButton)findViewById(R.id.bar);
-    pie=(ToggleButton)findViewById(R.id.pie);
+    lineButton = (ToggleButton) this.findViewById(R.id.line);
+    barButton = (ToggleButton) this.findViewById(R.id.bar);
+    pieButton = (ToggleButton) this.findViewById(R.id.pie);
 
-    s=ChartSettings.load(getIntent());
-
+    // If the intent contains chart data, load it, otherwise, create a new chart
+    if (intent.hasExtra(ChartType.class.getName())) {
+      chartSettings = ChartSettings.load(intent);
+    } else {
+      chartSettings = new ChartSettings();
+    }
   }
 
-
-
-
   public void changeType(View v) {
-    //This is pointless since the buttons are toggle switches, there
-    //state are visible to the user when one edits (changes states)
+    // This is pointless since the buttons are toggle switches, there
+    // state are visible to the user when one edits (changes states)
     // Toast.makeText(this, "Edit", Toast.LENGTH_SHORT).show();
-    if(v.getId()!=R.id.line){
-      line.setChecked(false);
+    if (v.getId() != R.id.line) {
+      lineButton.setChecked(false);
     }
-    if(v.getId()!=R.id.bar){
-      bar.setChecked(false);
+    if (v.getId() != R.id.bar) {
+      barButton.setChecked(false);
     }
-    if(v.getId()!=R.id.pie){
-      pie.setChecked(false);
+    if (v.getId() != R.id.pie) {
+      pieButton.setChecked(false);
     }
 
   }
 
   public void save(View v) {
-
     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-    // set title
     alertDialogBuilder.setTitle(SAVE);
 
-    // set dialog message
-    alertDialogBuilder
-    .setMessage(CONFIRM_SAVE)
-    .setCancelable(false)
-    .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog,int id) {
-        // if this button is clicked, close
-        // current activity
-        save();
-      }
-    })
-    .setNegativeButton("No",new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog,int id) {
-        // if this button is clicked, just close
-        // the dialog box and do nothing
-        dialog.cancel();
-      }
-    });
+    alertDialogBuilder.setMessage(CONFIRM_SAVE);
 
-    // create alert dialog
+    alertDialogBuilder.setCancelable(false);
+
+    alertDialogBuilder.setPositiveButton("Yes",
+        new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            saveChart();
+          }
+        });
+
+    alertDialogBuilder.setNegativeButton("No",
+        new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dialog.cancel();
+          }
+        });
+
     AlertDialog alertDialog = alertDialogBuilder.create();
 
-    // show it
     alertDialog.show();
   }
 
+  private void saveChart() {
+    Intent i = new Intent();
+    
+    chartSettings.setType(getSelectedType());
+    chartSettings.saveToIntent(i);
 
-  private void save () {
-    s.setType(getSelectedType());
-    Intent i=new Intent();
-    s.saveToIntent(i);
-
-    setResult(RESULT_OK,i);
-    finish(); 
+    setResult(RESULT_OK, i);
+    finish();
   }
 
   public void cancel(View v) {
-    //    s.setType(getSelectedType());
-    //    Intent i=new Intent();
-    //    s.save(i);
-    //    
-    //    setResult(RESULT_CANCELED,i);
+    // s.setType(getSelectedType());
+    // Intent i=new Intent();
+    // s.save(i);
+    //
+    // setResult(RESULT_CANCELED,i);
 
     // setResult(RESULT_CANCELED);
     finish();
 
   }
 
-
-  private ChartType getSelectedType(){
-    if(line.isChecked()){
+  private ChartType getSelectedType() {
+    if (lineButton.isChecked()) {
       return ChartType.Line;
-    }   
-    if(bar.isChecked()){
+    }
+    if (barButton.isChecked()) {
       return ChartType.Bar;
     }
-    if(pie.isChecked()){
+    if (pieButton.isChecked()) {
       return ChartType.Pie;
     }
+    
+    // TODO: Handle this some better way than returning null
     return null;
   }
-
-
 }
