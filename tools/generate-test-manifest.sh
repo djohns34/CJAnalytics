@@ -7,3 +7,4 @@ DEFAULT_AM='AndroidManifest.xml'
 CUSTOM_AM='TestAndroidManifest.xml'
 
 sed "s/$DEFAULT_TR/$CUSTOM_TR/" $DEFAULT_AM > $CUSTOM_AM
+mv $CUSTOM_AM $DEFAULT_AM
