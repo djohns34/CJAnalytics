@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,12 +24,10 @@ public class Records {
   private static final String __C = "__c";
   /** constant for value tag **/
   private static final String VALUE = "Value";
- 
-  /** list of events **/
-  private List<Event> eventsList;
+
   /** map of list of events by name (key) **/
   private Map<String, List<Event>> eventsMap;
-  
+
   /**
    * Constructs a list of empty records
    */
@@ -41,15 +40,14 @@ public class Records {
    * @throws JSONException if JSON record is an invalid JSON string 
    */
   public Records (JSONObject records) throws JSONException {
-      init();
-      parseRecords(records);
+    init();
+    parseRecords(records);
   }
-  
+
   private void init() {
-    eventsList = new LinkedList<Event>();
     eventsMap = new HashMap<String, List<Event>>();
   }
-   
+
   /**
    * Adds set of records.
    * @param records json object that represents records from TrackedEvent__c object.
@@ -66,7 +64,7 @@ public class Records {
    * fields.
    */
   private void parseRecords (JSONObject records) throws JSONException {
-   
+
     if (records != null) {
       JSONArray jsonRecordsArr = records.getJSONArray(RECORDS);
       int recordLen = jsonRecordsArr.length();
@@ -75,19 +73,23 @@ public class Records {
         JSONObject recordItem = (JSONObject) jsonRecordsArr.get(recordIndx);
         //parse the event
         addEvent(parseEvent (recordItem));
-        
+
       }
     }
   }
-  
+
   /**
    * Getter for list of all events
    * @return list of all events or empty list of none exist
    */
   public List<Event> getEvents() {
-    return this.eventsList;
+    List<Event> eventList = new LinkedList<Event>();
+    for (Entry<String, List<Event>> event : this.eventsMap.entrySet()) {
+      eventList.addAll(event.getValue());
+    }
+    return eventList;
   }
-  
+
   /**
    * Getter for list of events by event name
    * @param eventName list of events of null if events don't exist
@@ -96,14 +98,12 @@ public class Records {
   public List<Event> getEvents (String eventName) {
     return this.eventsMap.get(eventName);
   }
-  
+
   /**
    * Adds and event into the record
    * @param event an event @see {@link Event}
    */
   public void addEvent (Event event) {
-    //add the event to eventlist
-    eventsList.add(event);
     //get the name of the event
     String eventName = event.getEventName();
     List<Event> events = eventsMap.get(eventName);
@@ -115,9 +115,9 @@ public class Records {
     //put the list back in the event
     eventsMap.put(eventName, events);
   }
-  
-  
-  
+
+
+
   /**
    * Parses a Event from JSON event objection
    * @param records JSONObject that represents records
@@ -127,14 +127,15 @@ public class Records {
    * @return an Event
    */
   private Event parseEvent (JSONObject aEvent) throws JSONException {
- 
+
     String recordType  = aEvent.getString(EventFields.ValueType.getColumnId());
     String eventName    = aEvent.getString(EventFields.EventName.getColumnId());
     String deviceId    = aEvent.getString(EventFields.DeviceId.getColumnId());
     String timestamp   = aEvent.getString(EventFields.TimestampV.getColumnId());
     String recordValue = aEvent.getString(recordType + VALUE + __C);
+    String dbName   = aEvent.getString(EventFields.DatabaseName.getColumnId());
     
-    return EventFactory.createEvent(recordType, eventName, deviceId, timestamp, recordValue);
-    
+    return EventFactory.createEvent(recordType, eventName, deviceId, timestamp, dbName, recordValue);
+
   }
 }

@@ -13,7 +13,7 @@ import junit.framework.TestCase;
  */
 public class NumberEventTest extends TestCase {
 
-	String eventName; String deviceId; String timestamp;
+	String eventName; String deviceId; String timestamp; String databaseName;
 	Integer integerV;
 	NumberEvent numEvent;
 	protected void setUp() throws Exception {
@@ -21,8 +21,9 @@ public class NumberEventTest extends TestCase {
 		eventName = "EventTest";
 		deviceId = "deviceid09876";
 		timestamp = "2013-01-29T08:00:00.000+0000";
+		databaseName = "dbName";
 		integerV= new Integer(100);
-		numEvent = new NumberEvent(eventName, deviceId, timestamp, integerV);
+		numEvent = new NumberEvent(eventName, deviceId, timestamp, databaseName, integerV);
 	}
 	
 	public void testGetterSetter() {

@@ -12,25 +12,26 @@ import junit.framework.TestCase;
 public class EventTest extends TestCase {
 
 
-	String eventName; String deviceId; String timestamp;
+	String eventName; String deviceId; String timestamp; String databaseName;
 	Event event;
 	protected void setUp() throws Exception {
 		super.setUp();
 		eventName = "EventTest";
 		deviceId = "deviceid09876";
 		timestamp = "2013-01-29T08:00:00.000+0000";
-		event = new Event(eventName, deviceId, timestamp);
+		databaseName = "dbName";
+		event = new Event(eventName, deviceId, timestamp, databaseName);
 	}
 
 
-	public void testGetter(){
-		assertEquals(deviceId, event.getDeviceId());
-		assertEquals(eventName, event.getEventName());
-		String expectedDate;
-		expectedDate = DateUtils.parse(timestamp).toString();
-		assertEquals(expectedDate, event.getTimestamp().toString());
+	 public void testGetter(){
+     assertEquals(deviceId, event.getDeviceId());
+     assertEquals(eventName, event.getEventName());
+     String expectedDate;
+     expectedDate = DateUtils.parse(timestamp).toString();
+     assertEquals(expectedDate, event.getTimestamp().toString());
 
-	}
+}
 
 	public void testSetter() {
 		event.setDeviceId("newDivceId");
@@ -42,7 +43,10 @@ public class EventTest extends TestCase {
 		String invalidDate = "123234";
 		event.setTimestamp(invalidDate);
 		assertNull(event.getTimestamp());
-
+		
+		String newDB = "newDB Name";
+		event.setDatabaseName(newDB);
+		assertEquals(newDB, event.getDatabaseName());
 	}
 	
 	public void testToString() {

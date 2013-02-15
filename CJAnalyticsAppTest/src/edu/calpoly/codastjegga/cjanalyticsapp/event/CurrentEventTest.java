@@ -13,7 +13,7 @@ import junit.framework.TestCase;
  */
 public class CurrentEventTest extends TestCase {
 
-	String eventName; String deviceId; String timestamp;
+	String eventName; String deviceId; String timestamp; String databaseName;
 	BigDecimal currency;
 	CurrencyEvent currEvent;
 	protected void setUp() throws Exception {
@@ -21,8 +21,9 @@ public class CurrentEventTest extends TestCase {
 		eventName = "EventTest";
 		deviceId = "deviceid09876";
 		timestamp = "2013-01-29T08:00:00.000+0000";
+		databaseName = "dbName";
 		currency = new BigDecimal(33.99);
-		currEvent = new CurrencyEvent(eventName, deviceId, timestamp, currency);
+		currEvent = new CurrencyEvent(eventName, deviceId, timestamp, databaseName, currency);
 	}
 	
 	public void testGetterSetter() {

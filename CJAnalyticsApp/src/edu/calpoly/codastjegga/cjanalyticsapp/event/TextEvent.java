@@ -17,10 +17,11 @@ public class TextEvent extends Event {
    *            @see {@link Event}
    *           
    * @param timestamp @see {@link Event}
+   * @param databaseName @see {@link Event}
    * @param textValue value of type text
    */
-  public TextEvent (String eventName, String deviceId, String timestamp, String textValue) {
-    super(eventName, deviceId, timestamp);
+  public TextEvent (String eventName, String deviceId, String timestamp, String databaseName, String textValue) {
+    super(eventName, deviceId, timestamp, databaseName);
     this.textVaue = textValue;
   }
   

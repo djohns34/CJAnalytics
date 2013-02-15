@@ -17,10 +17,11 @@ public class NumberEvent extends Event {
    *            @see {@link Event}
    *           
    * @param timestamp @see {@link Event}
+   * @param database @see {@link Event}
    * @param numberValue value of type integer (number)
    */
-  public NumberEvent (String eventName, String deviceId, String timestamp, Integer numberValue) {
-    super(eventName, deviceId, timestamp);
+  public NumberEvent (String eventName, String deviceId, String timestamp, String databaseName, Integer numberValue) {
+    super(eventName, deviceId, timestamp, databaseName);
     this.numberValue = numberValue;
   }
   

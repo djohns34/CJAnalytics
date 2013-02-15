@@ -21,6 +21,7 @@ public class EventFactoryTest extends TestCase {
 	private static final String EVENT_NAME = "Event Name:";
 	private static final String DEVICE_ID = "device----id";
 	private static final String TIMESTAMP = "2013-01-29T08:00:00.000+0000";
+	private static final String DATABASENAME = "DBNAME";
 	//data formatter
 	private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
 	
@@ -56,8 +57,8 @@ public class EventFactoryTest extends TestCase {
 		FloatEvent floatEvent = null;
 		
 		try {
-			currEvent = (CurrencyEvent) EventFactory.createEvent(RecordType.Currency.toString(), 
-					currEventName, DEVICE_ID, TIMESTAMP, CURRV);
+			currEvent = (CurrencyEvent) EventFactory.createEvent(EventType.Currency.toString(), 
+					currEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, CURRV);
 		}
 		catch (Exception exp) 
 		{
@@ -66,8 +67,8 @@ public class EventFactoryTest extends TestCase {
 		validateCurrencyEvent(currEvent);
 		
 		try {
-			textEvent = (TextEvent) EventFactory.createEvent(RecordType.Text.toString(), 
-					textEventName, DEVICE_ID, TIMESTAMP, TEXTV);
+			textEvent = (TextEvent) EventFactory.createEvent(EventType.Text.toString(), 
+					textEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, TEXTV);
 		}
 		catch (Exception exp) 
 		{
@@ -76,8 +77,8 @@ public class EventFactoryTest extends TestCase {
 		validateTextEvent(textEvent);
 		
 		try {
-			localeEvent = (LocaleEvent) EventFactory.createEvent(RecordType.Locale.toString(), 
-					localeEventName, DEVICE_ID, TIMESTAMP, LOCALEV);
+			localeEvent = (LocaleEvent) EventFactory.createEvent(EventType.Locale.toString(), 
+					localeEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, LOCALEV);
 		}
 		catch (Exception exp) 
 		{
@@ -86,8 +87,8 @@ public class EventFactoryTest extends TestCase {
 		validateLocaleEvent(localeEvent);
 		
 		try {
-			numberEvent = (NumberEvent) EventFactory.createEvent(RecordType.Number.toString(), 
-					numberEventName, DEVICE_ID, TIMESTAMP, NUMV);
+			numberEvent = (NumberEvent) EventFactory.createEvent(EventType.Number.toString(), 
+					numberEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, NUMV);
 		}
 		catch (Exception exp) 
 		{
@@ -96,8 +97,8 @@ public class EventFactoryTest extends TestCase {
 		validateNumberEvent(numberEvent);
 		
 		try {
-			floatEvent = (FloatEvent) EventFactory.createEvent(RecordType.Float.toString(), 
-					floatEventName, DEVICE_ID, TIMESTAMP, FLOATV);
+			floatEvent = (FloatEvent) EventFactory.createEvent(EventType.Float.toString(), 
+					floatEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, FLOATV);
 		}
 		catch (Exception exp) 
 		{
@@ -108,7 +109,7 @@ public class EventFactoryTest extends TestCase {
 		FloatEvent invalidEvent = null;
 		try {
 			invalidEvent = (FloatEvent) EventFactory.createEvent("invalidType", 
-					floatEventName, DEVICE_ID, TIMESTAMP, FLOATV);
+					floatEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, FLOATV);
 			fail("Invaid type event was created..EventFactory.createEvent failed to throw an" +
 					"exception");
 		}
@@ -123,8 +124,8 @@ public class EventFactoryTest extends TestCase {
 	public void testCreateFloatEvent() {
 		FloatEvent floatEvent = null;
 		try {
-			floatEvent = (FloatEvent) EventFactory.createEvent(RecordType.Float.toString(), 
-					floatEventName, DEVICE_ID, TIMESTAMP, FLOATV);
+			floatEvent = (FloatEvent) EventFactory.createEvent(EventType.Float.toString(), 
+					floatEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, FLOATV);
 		}
 		catch (Exception exp) 
 		{
@@ -136,8 +137,8 @@ public class EventFactoryTest extends TestCase {
 	public void testCreateLocaleEvent(){
 		LocaleEvent localeEvent = null;
 		try {
-			localeEvent = (LocaleEvent) EventFactory.createEvent(RecordType.Locale.toString(), 
-					localeEventName, DEVICE_ID, TIMESTAMP, LOCALEV);
+			localeEvent = (LocaleEvent) EventFactory.createEvent(EventType.Locale.toString(), 
+					localeEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, LOCALEV);
 		}
 		catch (Exception exp) 
 		{
@@ -150,8 +151,8 @@ public class EventFactoryTest extends TestCase {
 	{
 		NumberEvent numberEvent = null;
 		try {
-			numberEvent = (NumberEvent) EventFactory.createEvent(RecordType.Number.toString(), 
-					numberEventName, DEVICE_ID, TIMESTAMP, NUMV);
+			numberEvent = (NumberEvent) EventFactory.createEvent(EventType.Number.toString(), 
+					numberEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, NUMV);
 		}
 		catch (Exception exp) 
 		{
@@ -163,8 +164,8 @@ public class EventFactoryTest extends TestCase {
 	public void testCreateTextEvent(){
 		TextEvent textEvent = null;
 		try {
-			textEvent = (TextEvent) EventFactory.createEvent(RecordType.Text.toString(), 
-					textEventName, DEVICE_ID, TIMESTAMP, TEXTV);
+			textEvent = (TextEvent) EventFactory.createEvent(EventType.Text.toString(), 
+					textEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, TEXTV);
 		}
 		catch (Exception exp) 
 		{
@@ -176,8 +177,8 @@ public class EventFactoryTest extends TestCase {
 	public void testCreateCurrencyEvent() {
 		CurrencyEvent currEvent = null;
 		try {
-			currEvent = (CurrencyEvent) EventFactory.createEvent(RecordType.Currency.toString(), 
-					currEventName, DEVICE_ID, TIMESTAMP, CURRV);
+			currEvent = (CurrencyEvent) EventFactory.createEvent(EventType.Currency.toString(), 
+					currEventName, DEVICE_ID, TIMESTAMP, DATABASENAME, CURRV);
 		}
 		catch (Exception exp) 
 		{

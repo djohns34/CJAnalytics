@@ -45,7 +45,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
 public class MainActivity extends NativeMainActivity {
 
     private RestClient client;
-    private DataFetcher dataFetcher;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,6 @@ public class MainActivity extends NativeMainActivity {
 	public void onResume(RestClient client) {
         // Keeping reference to rest client
         this.client = client; 
-        dataFetcher = new DataFetcher(client, getString(R.string.api_version));
 		// Show everything
 		findViewById(R.id.root).setVisibility(View.VISIBLE);
 	}
