@@ -28,7 +28,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
   /*New Rows v2*/
   static final String FAVORITE="favorite";
 
-  static final String[] allColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,METRIC,START_DATE,END_DATE};
+  static final String[] allColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,METRIC,START_DATE,END_DATE,FAVORITE};
 
   /*Default visibility for test cases*/
   static final String DATABASE_NAME = "CJAnalytics";

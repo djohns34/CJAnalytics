@@ -2,7 +2,9 @@ package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import android.content.ContentProvider;
@@ -218,6 +220,7 @@ public class ChartSettingsProviderTest extends
 
 
   public void testDBUpgradefromv1() {
+    int dbVersion=-1;
     try {
 
 
@@ -226,7 +229,7 @@ public class ChartSettingsProviderTest extends
 
       DATABASE_VERSION.setAccessible(true);
 
-      int dbVersion = DATABASE_VERSION.getInt(null);
+      dbVersion = DATABASE_VERSION.getInt(null);
 
       
       //Set it to the initial version and only add things that were there then
@@ -236,25 +239,42 @@ public class ChartSettingsProviderTest extends
       values.remove(ChartSettingsDB.FAVORITE);
       
       
-      Cursor cursor = addForUpgrade(values, 1);
+      List<String> allButLast=new ArrayList<String>(Arrays.asList(ChartSettingsDB.allColumns));
+      allButLast.remove(ChartSettingsDB.allColumns.length-1);
+      
+      Cursor cursor = addForUpgrade(values,allButLast.toArray(new String[0]), 1);
 
       //Change to version 2
       changeDBVersion(dbVersion);
 
       testSetting.setAndroidID(-1);
       
+      testSetting.setFavorite(true);
       
       values = ChartSettingsDB.buildQueryValues(testSetting);
       // the orig should still be there
-      Cursor cursor2 = addForUpgrade(values, 2);
+      Cursor cursor2 = addForUpgrade(values,ChartSettingsDB.allColumns, 2);
+      
+      cursor2.moveToFirst();
+      assertEquals("false",cursor2.getString(cursor2.getColumnIndex(ChartSettingsDB.FAVORITE)));
+      cursor2.moveToNext();
+      assertEquals("true",cursor2.getString(cursor2.getColumnIndex(ChartSettingsDB.FAVORITE)));
       
     } catch (Exception e) {
       e.printStackTrace();
-      fail("Test Error");
+      //So the following don't fail
+      if(dbVersion!=-1){
+        try {
+          changeDBVersion(dbVersion);
+        } catch (Exception e2) {
+          //DANG
+        } 
+      }
+      throw new RuntimeException(e.getMessage());
     }
   }
   
-  private Cursor addForUpgrade(ContentValues values, int expectedCount){
+  private Cursor addForUpgrade(ContentValues values,String[] cols, int expectedCount){
 
 
     ContentProvider provider = getProvider();
@@ -263,7 +283,7 @@ public class ChartSettingsProviderTest extends
     assertNotSame("", res.getLastPathSegment());
 
     Cursor cursor = provider.query(ChartSettingsProvider.CONTENT_URI,
-        ChartSettingsDB.allColumns, null, null, null);
+        cols, null, null, null);
     
     assertNotNull(cursor);
     assertEquals(expectedCount, cursor.getCount());

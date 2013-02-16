@@ -54,7 +54,7 @@ public class ChartSettingsProvider extends ContentProvider {
     queryBuilder.setTables(ChartSettingsDB.DATABASE_TABLE);
 
     SQLiteDatabase db = database.getWritableDatabase();
-    Cursor cursor = queryBuilder.query(db, ChartSettingsDB.allColumns, selection,
+    Cursor cursor = queryBuilder.query(db, projection, selection,
         selectionArgs, null, null, sortOrder);
 
     // Make sure that potential listeners are getting notified
