@@ -30,17 +30,17 @@ public class ChartSettingsDBTest extends AndroidTestCase{
 
   
   public void testBuildQuerryValues(){
-    testSetting.setAndroidID(3l);
+    testSetting.setAndroidID(3);
     
-    ContentValues values = ChartSettingsDB.buildQuerryValues(testSetting);
+    ContentValues values = ChartSettingsDB.buildQueryValues(testSetting);
     
     assertEquals("3", values.get(ChartSettingsDB.KEY_ROWID));
-    assertEquals(testSetting.getType().toString(),values.get(ChartSettingsDB.chartType));
-    assertEquals(testSetting.getChartName(),values.get(ChartSettingsDB.chartName));
-    assertEquals(testSetting.getDatabase(),values.get(ChartSettingsDB.database));
-    assertEquals(testSetting.getMetric(),values.get(ChartSettingsDB.metric));
-    assertEquals(DateUtils.format(testSetting.getStartDate()),values.get(ChartSettingsDB.startDate));
-    assertEquals(DateUtils.format(testSetting.getEndDate()),values.get(ChartSettingsDB.endDate));
+    assertEquals(testSetting.getType().toString(),values.get(ChartSettingsDB.CHART_TYPE));
+    assertEquals(testSetting.getChartName(),values.get(ChartSettingsDB.CHART_NAME));
+    assertEquals(testSetting.getDatabase(),values.get(ChartSettingsDB.DATABASE));
+    assertEquals(testSetting.getMetric(),values.get(ChartSettingsDB.METRIC));
+    assertEquals(DateUtils.format(testSetting.getStartDate()),values.get(ChartSettingsDB.START_DATE));
+    assertEquals(DateUtils.format(testSetting.getEndDate()),values.get(ChartSettingsDB.END_DATE));
     
   }
 }

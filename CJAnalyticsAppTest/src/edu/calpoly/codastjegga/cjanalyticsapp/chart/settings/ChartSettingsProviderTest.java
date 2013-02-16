@@ -41,7 +41,7 @@ public class ChartSettingsProviderTest extends
 
   public void testAdd() {
 
-    ContentValues values = ChartSettingsDB.buildQuerryValues(testSetting);
+    ContentValues values = ChartSettingsDB.buildQueryValues(testSetting);
 
     ContentProvider provider = getProvider();
     Uri res = provider.insert(ChartSettingsProvider.CONTENT_URI, values);
@@ -55,7 +55,7 @@ public class ChartSettingsProviderTest extends
   }
 
   public void testUpdate() {
-    ContentValues values = ChartSettingsDB.buildQuerryValues(testSetting);
+    ContentValues values = ChartSettingsDB.buildQueryValues(testSetting);
 
     ContentProvider provider = getProvider();
     Uri res = provider.insert(ChartSettingsProvider.CONTENT_URI, values);
@@ -71,7 +71,7 @@ public class ChartSettingsProviderTest extends
 
     // Update
     testSetting.setType(ChartType.Bar);
-    values = ChartSettingsDB.buildQuerryValues(testSetting);
+    values = ChartSettingsDB.buildQueryValues(testSetting);
 
     int updated = provider.update(ChartSettingsProvider.CONTENT_URI, values,
         ChartSettingsDB.KEY_ROWID + "= ? ", new String[] { rowId.toString() });
@@ -87,7 +87,7 @@ public class ChartSettingsProviderTest extends
   }
 
   public void testDelete() {
-    ContentValues values = ChartSettingsDB.buildQuerryValues(testSetting);
+    ContentValues values = ChartSettingsDB.buildQueryValues(testSetting);
 
     ContentProvider provider = getProvider();
     Uri res = provider.insert(ChartSettingsProvider.CONTENT_URI, values);
@@ -113,17 +113,27 @@ public class ChartSettingsProviderTest extends
 
   
   static Integer helperRowToDelete=3;
+
+  boolean calledUpdate=false;
+  boolean calledInsert=false;
+  boolean calledDelete=false;
   public void testHelpers() {
     MockContentResolver mock = new MockContentResolver();
     mock.addProvider(ChartSettingsProvider.AUTHORITY,
         new ChartSettingsMockContentProvider());
 
-    ChartSettingsProvider.insert(mock, testSetting);
+    ChartSettingsProvider.saveSettings(mock, testSetting);
+    assertTrue(calledInsert);
+    
     // The helper should have updated the id
-    assertNotSame(Long.valueOf(-1l), testSetting.getAndroidID());
+    assertNotSame(-1, testSetting.getAndroidID());
 
-    ChartSettingsProvider.update(mock, testSetting);
+    //Should be calling the update method
+    ChartSettingsProvider.saveSettings(mock, testSetting);
+    assertTrue(calledUpdate);
+    
     ChartSettingsProvider.delete(mock, helperRowToDelete);
+    assertTrue(calledDelete);
 
   }
 
@@ -131,18 +141,24 @@ public class ChartSettingsProviderTest extends
 
     public Uri insert(Uri uri, ContentValues values) {
       assertEquals(ChartSettingsProvider.CONTENT_URI, uri);
-      assertEquals(ChartSettingsDB.buildQuerryValues(testSetting), values);
+      
+      ContentValues expected=ChartSettingsDB.buildQueryValues(testSetting);
+      expected.remove(ChartSettingsDB.KEY_ROWID);
+      assertEquals(expected, values);
+      calledInsert=true;
       return Uri.parse(ChartSettingsProvider.BASE_PATH + "/1");
     }
 
     public int update(Uri uri, ContentValues values, String selection,
         String[] selectionArgs) {
       assertEquals(ChartSettingsProvider.CONTENT_URI, uri);
-      assertEquals(ChartSettingsDB.buildQuerryValues(testSetting), values);
+      assertEquals(ChartSettingsDB.buildQueryValues(testSetting), values);
       assertEquals(selection, ChartSettingsDB.KEY_ROWID + "= ? ");
 
       assertEquals(Arrays.asList(testSetting.getAndroidID().toString()),
           Arrays.asList(selectionArgs));
+      
+      calledUpdate=true;
       return 1;
     }
 
@@ -152,6 +168,8 @@ public class ChartSettingsProviderTest extends
       assertEquals(selection, ChartSettingsDB.KEY_ROWID + "= ? ");
       assertEquals(Arrays.asList(helperRowToDelete.toString()),
           Arrays.asList(selectionArgs));
+      
+      calledDelete=true;
       return 1;
     }
 

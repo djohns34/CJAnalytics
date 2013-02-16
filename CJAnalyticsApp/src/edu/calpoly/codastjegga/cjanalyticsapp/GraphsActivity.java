@@ -4,35 +4,26 @@ import java.util.Random;
 
 import android.app.ListActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentProvider;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Toast;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsDB;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
 public class GraphsActivity extends ListActivity implements LoaderCallbacks<Cursor>{
   
-  ChartSettingsDB  chartSettingsDB;
   private ChartSettingsAdapter adapter;
 
   @Override
@@ -86,7 +77,7 @@ public class GraphsActivity extends ListActivity implements LoaderCallbacks<Curs
     
     /*Insert the test setting*/
     
-    ChartSettingsProvider.insert(getContentResolver(), testSetting);
+    ChartSettingsProvider.saveSettings(getContentResolver(), testSetting);
   }
 
   /*Context Menu*/

@@ -34,6 +34,9 @@ public class Event {
   private Date timestamp;
   //name of the database that this event is part of
   private String databaseName;
+
+  //
+  static final long NOT_PERSISTED=-1l;
   
   
   /**

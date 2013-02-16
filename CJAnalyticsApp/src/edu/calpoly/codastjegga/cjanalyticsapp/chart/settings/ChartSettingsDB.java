@@ -13,19 +13,19 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
  * Defines operations to add, list, update, and remove ChartSettings.
  * 
  */
-public class ChartSettingsDB {
+ class ChartSettingsDB {
 
 
   /*Row names*/
   static final String KEY_ROWID = BaseColumns._ID;
-  static final  String chartType ="ChartType";
-  static final  String chartName="ChartName"; 
-  static final  String database="database";
-  static final  String metric="metric"; 
-  static final  String startDate="startDate";
-  static final  String endDate="endDate";
+  static final  String CHART_TYPE ="ChartType";
+  static final  String CHART_NAME="ChartName"; 
+  static final  String DATABASE="database";
+  static final  String METRIC="metric"; 
+  static final  String START_DATE="startDate";
+  static final  String END_DATE="endDate";
 
-  static final String[] allColumns={KEY_ROWID,chartType,chartName,database,metric,startDate,endDate};
+  static final String[] allColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,METRIC,START_DATE,END_DATE};
 
   /*Default visibility for test cases*/
   static final String DATABASE_NAME = "CJAnalytics";
@@ -37,12 +37,12 @@ public class ChartSettingsDB {
    */
   private static final String DATABASE_CREATE =
       "create table "+DATABASE_TABLE+" ("+KEY_ROWID+" integer primary key autoincrement, "
-          + chartType+" text not null,"
-          + chartName+" text not null,"
-          + database+" text not null,"
-          + metric+" text not null,"
-          + startDate+" text,"
-          + endDate+" text);";
+          + CHART_TYPE+" text not null,"
+          + CHART_NAME+" text not null,"
+          + DATABASE+" text not null,"
+          + METRIC+" text not null,"
+          + START_DATE+" text,"
+          + END_DATE+" text);";
 
 
   private static final int DATABASE_VERSION = 1;
@@ -62,43 +62,43 @@ public class ChartSettingsDB {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-      /*Not implemented, for now*/
+      //TODO Not implemented, for now
     }
   }
 
   
   /**
-   * Converts the items in the cursor at the current positon into a chart settings object
-   * @param c
-   * @return
+   * Converts the items in the cursor at the current position into a chart settings object
+   * @param cursor the cursor that contains the settings values
+   * @return an equivalent {@link ChartSettings} object 
    */
-  static ChartSettings getChartSettings(Cursor c) {
+  static ChartSettings getChartSettings(Cursor cursor) {
     ChartSettings settings=new ChartSettings();
-    settings.setAndroidID(c.getInt(c.getColumnIndex(KEY_ROWID)));
-    settings.setType(ChartType.valueOf(c.getString(c.getColumnIndex(chartType))));
-    settings.setChartName(c.getString(c.getColumnIndex(chartName)));
-    settings.setDatabase(c.getString(c.getColumnIndex(database)));
-    settings.setMetric(c.getString(c.getColumnIndex(metric)));
-    settings.setStartDate(DateUtils.parse(c.getString(c.getColumnIndex(startDate))));
-    settings.setEndDate(DateUtils.parse(c.getString(c.getColumnIndex(endDate))));
+    settings.setAndroidID(cursor.getInt(cursor.getColumnIndex(KEY_ROWID)));
+    settings.setType(ChartType.valueOf(cursor.getString(cursor.getColumnIndex(CHART_TYPE))));
+    settings.setChartName(cursor.getString(cursor.getColumnIndex(CHART_NAME)));
+    settings.setDatabase(cursor.getString(cursor.getColumnIndex(DATABASE)));
+    settings.setMetric(cursor.getString(cursor.getColumnIndex(METRIC)));
+    settings.setStartDate(DateUtils.parse(cursor.getString(cursor.getColumnIndex(START_DATE))));
+    settings.setEndDate(DateUtils.parse(cursor.getString(cursor.getColumnIndex(END_DATE))));
     return settings;
   }
   
   /**
-   * Converts the chartsettings object into something that can be added to a db
-   * @param c
+   * Converts the {@link ChartSettings} object into something that can be added to a db
+   * @param setting the setting to convert
    * @return
    */
-  static ContentValues buildQuerryValues(ChartSettings setting){
+  static ContentValues buildQueryValues(ChartSettings setting){
     ContentValues values=new ContentValues();
 
     values.put(KEY_ROWID, setting.getAndroidID().toString());
-    values.put(chartType, setting.getType().toString());
-    values.put(chartName, setting.getChartName());
-    values.put(database, setting.getDatabase());
-    values.put(metric, setting.getMetric());
-    values.put(startDate, DateUtils.format(setting.getStartDate()));
-    values.put(endDate, DateUtils.format(setting.getEndDate()));
+    values.put(CHART_TYPE, setting.getType().toString());
+    values.put(CHART_NAME, setting.getChartName());
+    values.put(DATABASE, setting.getDatabase());
+    values.put(METRIC, setting.getMetric());
+    values.put(START_DATE, DateUtils.format(setting.getStartDate()));
+    values.put(END_DATE, DateUtils.format(setting.getEndDate()));
     return values;
   }
 }

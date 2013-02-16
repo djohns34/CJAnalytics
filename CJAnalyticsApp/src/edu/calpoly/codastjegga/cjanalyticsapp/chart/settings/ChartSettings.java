@@ -27,8 +27,12 @@ public class ChartSettings {
   //end date
   private Date endDate;
   //persistance id
-  private Long androidID;
+  private Integer androidID;
 
+
+  //The settings is not saved to the database
+  static final Integer NOT_PERSISTED=-1;
+  
   /**
    * Default constructor for chart setting 
    */
@@ -151,9 +155,9 @@ public class ChartSettings {
   
   /**getter for the AndroidDB id
    * @return the id corresponding to the Database row id*/
-  public Long getAndroidID() {
+  public Integer getAndroidID() {
     if(androidID==null){
-      return -1l;
+      return NOT_PERSISTED;
     }else{
       return androidID;
     }
@@ -161,7 +165,7 @@ public class ChartSettings {
 
   /**setter for the androidDB id
    * @param id the id corresponding to the Database row id*/
-  public void setAndroidID(long id) {
+  public void setAndroidID(int id) {
     this.androidID=id;
   }
   

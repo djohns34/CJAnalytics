@@ -9,7 +9,6 @@ import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsDB;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
 public class ChartSettingsAdapter extends CursorAdapter  {
