@@ -1,22 +1,10 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 
 
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
-import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
-import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Intent;
-import android.database.CharArrayBuffer;
-import android.database.ContentObserver;
-import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.net.Uri;
-import android.os.Bundle;
-import android.test.ActivityTestCase;
 import android.test.AndroidTestCase;
-import android.test.mock.MockCursor;
-import junit.framework.TestCase;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
 
 
 public class ChartSettingsDBTest extends AndroidTestCase{
@@ -29,7 +17,7 @@ public class ChartSettingsDBTest extends AndroidTestCase{
   }
 
   
-  public void testBuildQuerryValues(){
+  public void testBuildQueryValues(){
     testSetting.setAndroidID(3);
     
     ContentValues values = ChartSettingsDB.buildQueryValues(testSetting);
@@ -41,6 +29,7 @@ public class ChartSettingsDBTest extends AndroidTestCase{
     assertEquals(testSetting.getMetric(),values.get(ChartSettingsDB.METRIC));
     assertEquals(DateUtils.format(testSetting.getStartDate()),values.get(ChartSettingsDB.START_DATE));
     assertEquals(DateUtils.format(testSetting.getEndDate()),values.get(ChartSettingsDB.END_DATE));
+    assertEquals(testSetting.getFavorite(), values.getAsBoolean(ChartSettingsDB.FAVORITE));
     
   }
 }

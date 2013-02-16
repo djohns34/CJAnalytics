@@ -1,12 +1,17 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.concurrent.CountDownLatch;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.test.ProviderTestCase2;
 import android.test.mock.MockContentProvider;
@@ -53,6 +58,29 @@ public class ChartSettingsProviderTest extends
     assertNotNull(cursor);
     assertEquals(1, cursor.getCount());
   }
+  
+  public void testWhere(){
+    ContentValues values = ChartSettingsDB.buildQueryValues(testSetting);
+
+    ContentProvider provider = getProvider();
+    Uri res = provider.insert(ChartSettingsProvider.CONTENT_URI, values);
+
+    assertNotSame("", res.getLastPathSegment());
+
+    Cursor cursor = provider.query(ChartSettingsProvider.CONTENT_URI,
+        ChartSettingsDB.allColumns, null, null, null);
+    assertNotNull(cursor);
+    assertEquals(1, cursor.getCount());
+    
+    
+    //New for this one
+    cursor = provider.query(ChartSettingsProvider.CONTENT_URI,
+        ChartSettingsDB.allColumns, ChartSettingsProvider.DB_EQUALS, new String[]{"hola"}, null);
+    assertNotNull(cursor);
+    assertEquals(0, cursor.getCount());
+    
+  }
+  
 
   public void testUpdate() {
     ContentValues values = ChartSettingsDB.buildQueryValues(testSetting);
@@ -74,7 +102,7 @@ public class ChartSettingsProviderTest extends
     values = ChartSettingsDB.buildQueryValues(testSetting);
 
     int updated = provider.update(ChartSettingsProvider.CONTENT_URI, values,
-        ChartSettingsDB.KEY_ROWID + "= ? ", new String[] { rowId.toString() });
+        ChartSettingsProvider.ROWID_EQUALS, new String[] { rowId.toString() });
 
     assertEquals(1, updated);
 
@@ -117,6 +145,8 @@ public class ChartSettingsProviderTest extends
   boolean calledUpdate=false;
   boolean calledInsert=false;
   boolean calledDelete=false;
+  
+  
   public void testHelpers() {
     MockContentResolver mock = new MockContentResolver();
     mock.addProvider(ChartSettingsProvider.AUTHORITY,
@@ -134,7 +164,16 @@ public class ChartSettingsProviderTest extends
     
     ChartSettingsProvider.delete(mock, helperRowToDelete);
     assertTrue(calledDelete);
-
+    
+    
+    CursorLoader loader=ChartSettingsProvider.getCursorLoader(getContext(), null);
+    assertNull(loader.getSelection());
+    assertNull(loader.getSelectionArgs());
+    
+    loader=ChartSettingsProvider.getCursorLoader(getContext(), "DATA");
+    assertEquals(ChartSettingsProvider.DB_EQUALS,loader.getSelection());
+    assertEquals(Arrays.asList("DATA"),Arrays.asList(loader.getSelectionArgs()));
+    
   }
 
   class ChartSettingsMockContentProvider extends MockContentProvider {
@@ -175,4 +214,93 @@ public class ChartSettingsProviderTest extends
 
   }
 
+  
+
+
+  public void testDBUpgradefromv1() {
+    try {
+
+
+      Field DATABASE_VERSION = ChartSettingsDB.class
+          .getDeclaredField("DATABASE_VERSION");
+
+      DATABASE_VERSION.setAccessible(true);
+
+      int dbVersion = DATABASE_VERSION.getInt(null);
+
+      
+      //Set it to the initial version and only add things that were there then
+      changeDBVersion(1);
+
+      ContentValues values = ChartSettingsDB.buildQueryValues(testSetting);
+      values.remove(ChartSettingsDB.FAVORITE);
+      
+      
+      Cursor cursor = addForUpgrade(values, 1);
+
+      //Change to version 2
+      changeDBVersion(dbVersion);
+
+      testSetting.setAndroidID(-1);
+      
+      
+      values = ChartSettingsDB.buildQueryValues(testSetting);
+      // the orig should still be there
+      Cursor cursor2 = addForUpgrade(values, 2);
+      
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("Test Error");
+    }
+  }
+  
+  private Cursor addForUpgrade(ContentValues values, int expectedCount){
+
+
+    ContentProvider provider = getProvider();
+    Uri res = provider.insert(ChartSettingsProvider.CONTENT_URI, values);
+
+    assertNotSame("", res.getLastPathSegment());
+
+    Cursor cursor = provider.query(ChartSettingsProvider.CONTENT_URI,
+        ChartSettingsDB.allColumns, null, null, null);
+    
+    assertNotNull(cursor);
+    assertEquals(expectedCount, cursor.getCount());
+    
+    return cursor;
+  
+}
+  
+  /**Closing the SQLiteOpenHelper (database) in ChartSettingsProvider
+   * and updating the versionNumber in the object fores onUpgrade to get called
+   * @throws NoSuchFieldException 
+   * @throws IllegalAccessException 
+   * @throws IllegalArgumentException 
+   */
+  private void changeDBVersion(int newVersion) throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException{
+    Field database=getProvider().getClass().getDeclaredField("database");
+    database.setAccessible(true);
+    
+    SQLiteOpenHelper dbObj=(SQLiteOpenHelper) database.get(getProvider());
+    dbObj.close();
+
+      // Change the version
+    Field version=dbObj.getClass().getSuperclass().getDeclaredField("mNewVersion");
+    version.setAccessible(true);
+    version.set(dbObj, newVersion);
+    
+    
+    //Change the database create string
+    Field createString=dbObj.getClass().getDeclaringClass().getDeclaredField("DATABASE_CREATE");
+    createString.setAccessible(true);
+    
+    Field createField=dbObj.getClass().getDeclaringClass().getDeclaredField("DATABASE_CREATE_V"+newVersion);
+    createField.setAccessible(true);
+    String newCreate=(String) createField.get(null);
+    newCreate+=");";
+    
+    createString.set(null, newCreate);
+    
+  }
 }

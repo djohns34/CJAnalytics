@@ -119,7 +119,8 @@ public class GraphsActivity extends ListActivity implements LoaderCallbacks<Curs
   
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-    CursorLoader cursorLoader = ChartSettingsProvider.getCursorLoader(this);
+    //TODO Specify database name
+    CursorLoader cursorLoader = ChartSettingsProvider.getCursorLoader(this,null);
     
     return cursorLoader;
   }

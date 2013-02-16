@@ -33,8 +33,9 @@ public class ChartSettingsProvider extends ContentProvider {
   static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
       + "/" + BASE_PATH);
   
-  //SQL where clause
-  private static final String ROWID_EQUALS =ChartSettingsDB.KEY_ROWID+"= ? ";
+  //SQL where clauses
+  static final String ROWID_EQUALS =ChartSettingsDB.KEY_ROWID+"= ? ";
+  static final String DB_EQUALS =ChartSettingsDB.DATABASE+"= ? ";
 
   @Override
   public boolean onCreate() {
@@ -158,12 +159,20 @@ public class ChartSettingsProvider extends ContentProvider {
   }
   
   /**
-   * Helper method to create a CursorLoader 
+   * Helper method to create a CursorLoader
    * @param activity the activity calling this method.
+   * @param database The database (app) that we want the metrics of. Null means you want all of the settings.
    * @return the CursorLoader to be used in a {@link LoaderCallbacks}.
    */
-  public static final CursorLoader getCursorLoader(Context activity) {
-    return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allColumns, null, null, null);
+  public static final CursorLoader getCursorLoader(Context activity,String database) {
+    String selection=null;
+    String[] selectionArgs=null;
+    if(database!=null){
+      selection=DB_EQUALS;
+      selectionArgs=new String[]{database};
+    }
+    
+    return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allColumns, selection, selectionArgs, null);
   }
   
   /**

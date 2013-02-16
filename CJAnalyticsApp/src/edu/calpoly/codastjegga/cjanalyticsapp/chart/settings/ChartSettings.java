@@ -28,6 +28,8 @@ public class ChartSettings {
   private Date endDate;
   //persistance id
   private Integer androidID;
+  
+  private Boolean favorite;
 
 
   //The settings is not saved to the database
@@ -41,6 +43,7 @@ public class ChartSettings {
     setChartName("");
     setMetric("");
     setDatabase("");
+    setFavorite(false);
   };
   
   /**
@@ -55,6 +58,7 @@ public class ChartSettings {
     setMetric(metric);
     setStartDate(start);
     setEndDate(end);
+    setFavorite(false);
   }
 
   /**
@@ -169,6 +173,21 @@ public class ChartSettings {
     this.androidID=id;
   }
   
+  /**
+   * Getter for the favorite variable
+   * @return true if this is a user favorite.
+   */
+  public Boolean getFavorite() {
+    return favorite;
+  }
+  /**
+   * Setter for the favorite variable
+   * @param favorite the new value.
+   */
+  public void setFavorite(Boolean favorite) {
+    this.favorite = favorite;
+  }
+
   
   
   public void saveToIntent(Intent i) {
@@ -181,6 +200,7 @@ public class ChartSettings {
     chartSetting.setType((ChartType) i.getExtras().get(ChartType.class.getName()));
     return chartSetting;
   }
+
 
 
 }

@@ -24,6 +24,9 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
   static final  String METRIC="metric"; 
   static final  String START_DATE="startDate";
   static final  String END_DATE="endDate";
+  
+  /*New Rows v2*/
+  static final String FAVORITE="favorite";
 
   static final String[] allColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,METRIC,START_DATE,END_DATE};
 
@@ -35,17 +38,26 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
   /**
    * Database creation sql statement
    */
-  private static final String DATABASE_CREATE =
+  
+  private static final String  V1_TO_V2 =   FAVORITE+ " text not null DEFAULT 'false'";
+  
+  private static final String DATABASE_CREATE_V1 =
       "create table "+DATABASE_TABLE+" ("+KEY_ROWID+" integer primary key autoincrement, "
           + CHART_TYPE+" text not null,"
           + CHART_NAME+" text not null,"
           + DATABASE+" text not null,"
           + METRIC+" text not null,"
           + START_DATE+" text,"
-          + END_DATE+" text);";
+          + END_DATE+" text";
+  
+  
+  private static final String DATABASE_CREATE_V2=DATABASE_CREATE_V1+","+V1_TO_V2;
+  
+  //Not final due to Unit Testing, using reflection to modify so we can create a v1 db and then upgrade it
+  private static String DATABASE_CREATE =DATABASE_CREATE_V2+ ");";
 
 
-  private static final int DATABASE_VERSION = 1;
+  private static final int DATABASE_VERSION = 2;
 
 
   static class DatabaseHelper extends SQLiteOpenHelper {
@@ -62,7 +74,10 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-      //TODO Not implemented, for now
+      if(newVersion ==2){
+        String v1ToV2="ALTER TABLE " +DATABASE_TABLE +" ADD COLUMN "+V1_TO_V2+";";
+        db.execSQL(v1ToV2);
+      }
     }
   }
 
@@ -81,6 +96,8 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
     settings.setMetric(cursor.getString(cursor.getColumnIndex(METRIC)));
     settings.setStartDate(DateUtils.parse(cursor.getString(cursor.getColumnIndex(START_DATE))));
     settings.setEndDate(DateUtils.parse(cursor.getString(cursor.getColumnIndex(END_DATE))));
+    settings.setFavorite(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(FAVORITE))));
+    
     return settings;
   }
   
@@ -91,14 +108,16 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
    */
   static ContentValues buildQueryValues(ChartSettings setting){
     ContentValues values=new ContentValues();
-
-    values.put(KEY_ROWID, setting.getAndroidID().toString());
+    if(!setting.getAndroidID().equals(ChartSettings.NOT_PERSISTED)){
+      values.put(KEY_ROWID, setting.getAndroidID().toString());
+    }
     values.put(CHART_TYPE, setting.getType().toString());
     values.put(CHART_NAME, setting.getChartName());
     values.put(DATABASE, setting.getDatabase());
     values.put(METRIC, setting.getMetric());
     values.put(START_DATE, DateUtils.format(setting.getStartDate()));
     values.put(END_DATE, DateUtils.format(setting.getEndDate()));
+    values.put(FAVORITE, setting.getFavorite().toString());
     return values;
   }
 }
