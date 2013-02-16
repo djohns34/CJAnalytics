@@ -1,6 +1,7 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 
 import java.util.EnumSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
@@ -111,9 +113,14 @@ public class DataFetcherTest extends TestCase {
     }
 
     try {
-      List<String> dbNameList = DataFetcher.getDatabasesName(apiV, client);
+      List<Dashboard> dashboardList = DataFetcher.getDatabasesName(apiV, client);
       //check the list is not null
-      assertNotNull(dbNameList);
+      assertNotNull(dashboardList);
+      //create a list of db names
+      List<String> dbNameList = new LinkedList<String>();
+      for (Dashboard db : dashboardList)
+        dbNameList.add(db.getDashboardName());
+      
       //check the length of the string
       assertEquals(dbName.length, dbNameList.size());
       for (String db : dbName)

@@ -17,9 +17,6 @@ public class EditActivity extends Activity {
   private ToggleButton pieButton;
   private ChartSettings chartSettings;
 
-  private static final String CONFIRM_SAVE = "Are you sure you want to save?";
-  private static final String SAVE = "Save Changes";
-
   protected void onCreate(Bundle savedInstanceState) {
     Intent intent = this.getIntent();
 
@@ -55,31 +52,7 @@ public class EditActivity extends Activity {
   }
 
   public void save(View v) {
-    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-    alertDialogBuilder.setTitle(SAVE);
-
-    alertDialogBuilder.setMessage(CONFIRM_SAVE);
-
-    alertDialogBuilder.setCancelable(false);
-
-    alertDialogBuilder.setPositiveButton("Yes",
-        new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            saveChart();
-          }
-        });
-
-    alertDialogBuilder.setNegativeButton("No",
-        new DialogInterface.OnClickListener() {
-          public void onClick(DialogInterface dialog, int id) {
-            dialog.cancel();
-          }
-        });
-
-    AlertDialog alertDialog = alertDialogBuilder.create();
-
-    alertDialog.show();
+    saveChart();
   }
 
   private void saveChart() {

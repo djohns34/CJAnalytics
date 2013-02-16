@@ -1,19 +1,22 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
-import android.os.Bundle;
-import android.app.Activity;
+import java.util.LinkedList;
+import java.util.List;
+
 import android.app.ListActivity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.support.v4.app.NavUtils;
+import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 
 public class DashboardsActivity extends ListActivity {
 
-  private ArrayAdapter<String> adapter;
+  private ArrayAdapter<Dashboard> adapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +25,23 @@ public class DashboardsActivity extends ListActivity {
     // Show the Up button in the action bar.
     getActionBar().setDisplayHomeAsUpEnabled(true);
     
+    //get the list of dashboards
+    List<Dashboard> dashboards = getDashboards();
     // Set up the list adapter.
-    adapter = new ArrayAdapter<String>(this, R.layout.activity_dashboard_item);
-    adapter.add("Dashboard 1");
+    adapter = new ArrayAdapter<Dashboard>(this, 
+        R.layout.activity_dashboard_item,
+        dashboards);
+   
     setListAdapter(adapter);
+  }
+  
+  private List<Dashboard> getDashboards() {
+    //TODO:Implement this method Jeremy : call datafetch.getDashboards...
+    // THE REST OF THE CODE IS HARDCODED FOR TESTING
+    List<Dashboard> db = new LinkedList<Dashboard> ();
+    db.add(new Dashboard("Temple Run"));
+    
+    return db;
   }
 
   @Override
@@ -53,8 +69,11 @@ public class DashboardsActivity extends ListActivity {
   }
 
   @Override
-  protected void onListItemClick(ListView l, View v, int position, long id) {
+  protected void onListItemClick(ListView listView, View view, int position, long id) {
+    Dashboard db = (Dashboard)listView.getItemAtPosition(position);
+    
     Intent intent = new Intent(this, GraphsActivity.class);
+    intent.putExtra(Dashboard.class.toString(), db);
     startActivity(intent);
   }
 }

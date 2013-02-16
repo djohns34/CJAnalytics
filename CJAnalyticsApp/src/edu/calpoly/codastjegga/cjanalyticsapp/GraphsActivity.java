@@ -21,25 +21,36 @@ import android.widget.ListView;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
+import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 
 public class GraphsActivity extends ListActivity implements LoaderCallbacks<Cursor>{
   
   private ChartSettingsAdapter adapter;
+  private Dashboard dashboard;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_graphs);
+    
+    //initializes the GraphActivity such as dashboard and adapter
+  }
+  
+  private void init() {
+    //get the extras from the intent
+    Bundle extras = getIntent().getExtras();
+    //get the dashboard, it should never be null
+    assert(dashboard != null);
+    dashboard = (Dashboard) extras.get(Dashboard.class.toString());
+    
     // Show the Up button in the action bar.
     getActionBar().setDisplayHomeAsUpEnabled(true);
     
-    
     /*Initialize the loader that will call the database for ChartSettings*/
     getLoaderManager().initLoader(0, null, this);
-
-    
+     
     adapter = new ChartSettingsAdapter(this, null);
-        
+    
     setListAdapter(adapter);
     registerForContextMenu(getListView());
   }

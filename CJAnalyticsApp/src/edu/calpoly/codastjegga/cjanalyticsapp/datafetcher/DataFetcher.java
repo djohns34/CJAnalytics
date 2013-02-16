@@ -1,7 +1,6 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,10 +14,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.salesforce.androidsdk.rest.RestClient;
-import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
@@ -129,7 +128,7 @@ public class DataFetcher {
    *           If client fails to send request to salesforce.com or if
    *           Salesforce return back a invalid JSONObject in response.
    */
-  public static List<String> getDatabasesName(String apiVersion,
+  public static List<Dashboard> getDatabasesName(String apiVersion,
       RestClient client) throws Exception {
     // query for list getting the database
     String dBNameQuery = buildQuery(CUSTOM_OBJ_NAME,
@@ -161,9 +160,9 @@ public class DataFetcher {
    * @throws JSONException
    *           if recordsObj is an invalid JSON obejection
    */
-  private static List<String> parseDBRecords(JSONObject recordsObj)
+  private static List<Dashboard> parseDBRecords(JSONObject recordsObj)
       throws JSONException {
-    List<String> result = new LinkedList<String>();
+    List<Dashboard> result = new LinkedList<Dashboard>();
     if (recordsObj != null) {
       JSONArray jsonRecordsArr = recordsObj.getJSONArray(RECORDS);
       int recordLen = jsonRecordsArr.length();
@@ -172,7 +171,7 @@ public class DataFetcher {
         JSONObject recordItem = (JSONObject) jsonRecordsArr.get(recordIndx);
         String dbName = recordItem.getString(EventFields.DatabaseName
             .getColumnId());
-        result.add(dbName);
+        result.add(new Dashboard(dbName));
 
       }
     }
