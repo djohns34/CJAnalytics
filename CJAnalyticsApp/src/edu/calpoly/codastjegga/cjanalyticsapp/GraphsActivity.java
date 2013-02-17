@@ -34,6 +34,7 @@ public class GraphsActivity extends ListActivity implements LoaderCallbacks<Curs
     setContentView(R.layout.activity_graphs);
     
     //initializes the GraphActivity such as dashboard and adapter
+    init();
   }
   
   private void init() {
