@@ -79,11 +79,15 @@ public class MainActivity extends NativeMainActivity {
 	
 	@Override
 	public void onResume(RestClient client) {
-        // Keeping reference to rest client
-        this.client = client; 
+	  //set apps application
+	  CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp) getApplicationContext();
+	  //store the rest client for global use
+	  cjAnalyApp.setRestClient(client);
 		// Show everything
 		findViewById(R.id.root).setVisibility(View.VISIBLE);
 	}
+	
+ 
 
 	/**
 	 * Called when "Logout" option is clicked. 

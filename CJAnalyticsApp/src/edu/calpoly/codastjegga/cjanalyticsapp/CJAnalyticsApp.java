@@ -29,6 +29,7 @@ package edu.calpoly.codastjegga.cjanalyticsapp;
 import android.app.Activity;
 
 import com.salesforce.androidsdk.app.ForceApp;
+import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.security.Encryptor;
 
 
@@ -37,6 +38,8 @@ import com.salesforce.androidsdk.security.Encryptor;
  */
 public class CJAnalyticsApp extends ForceApp {
 
+  private RestClient client;
+  
 	@Override
 	public Class<? extends Activity> getMainActivityClass() {
 		return MainActivity.class;
@@ -46,4 +49,20 @@ public class CJAnalyticsApp extends ForceApp {
 	protected String getKey(String name) {
 		return Encryptor.hash(name + "x;lksalk1jsadihh23lia;lsdhasd2", name + "112;kaslkxs0-12;skcxn1203ph");
 	}
+	
+	/**
+	 * Setter for rest client
+	 * @param client @see {@link RestClient}
+	 */
+  public void setRestClient (RestClient client) {
+    this.client = client;
+  }
+  
+  /**
+   * Getter for restClient
+   * @return rest client
+   */
+  public RestClient getRestClient () {
+    return this.client;
+  }
 }

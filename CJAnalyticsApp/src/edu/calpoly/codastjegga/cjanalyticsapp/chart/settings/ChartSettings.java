@@ -1,5 +1,6 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
@@ -12,7 +13,13 @@ import android.content.Intent;
  * @author Gagandeep rv 8d8a192
  *
  */
-public class ChartSettings {
+public class ChartSettings implements Serializable {
+  
+  public static String DATABASE = "DATABASE";
+  public static String CHART_NAME = "CHARTNAME";
+  public static String START_DATE = "STARTDATE";
+  public static String END_DATE = "ENDDATE";
+  public static String METRIC = "METRIC";
 
   //chart type this setting renders
   private ChartType chartType;
@@ -192,12 +199,21 @@ public class ChartSettings {
   
   public void saveToIntent(Intent i) {
     i.putExtra(ChartType.class.getName(), getType());
-    
+    i.putExtra(CHART_NAME, getChartName());
+    i.putExtra(DATABASE, getDatabase());
+    i.putExtra(START_DATE, getStartDate());
+    i.putExtra(END_DATE, getEndDate());   
+    i.putExtra(METRIC, getMetric());
   }
   
   public static ChartSettings load(Intent i){
-    ChartSettings chartSetting = new ChartSettings(null, null, null, null, null, null);
+    ChartSettings chartSetting = new ChartSettings();
     chartSetting.setType((ChartType) i.getExtras().get(ChartType.class.getName()));
+    chartSetting.setChartName((String) i.getExtras().get(CHART_NAME));
+    chartSetting.setDatabase((String) i.getExtras().get(DATABASE));
+    chartSetting.setStartDate((Date) i.getExtras().get(START_DATE));
+    chartSetting.setEndDate((Date) i.getExtras().get(END_DATE));
+    chartSetting.setMetric((String)i.getExtras().get(METRIC));
     return chartSetting;
   }
 

@@ -32,7 +32,7 @@ public class GraphsActivity extends ListActivity implements LoaderCallbacks<Curs
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_graphs);
-    
+    init();
     //initializes the GraphActivity such as dashboard and adapter
   }
   
@@ -84,7 +84,7 @@ public class GraphsActivity extends ListActivity implements LoaderCallbacks<Curs
   
   //TODO Remove Me!!
   public void testAdd(){
-    ChartSettings testSetting=new ChartSettings(ChartType.values()[new Random().nextInt(3)], "DB","NAME", "testMetric", null, null);
+    ChartSettings testSetting=new ChartSettings(ChartType.values()[new Random().nextInt(3)], "Temple Run","Graph Name", "Wage", null, null);
     
     /*Insert the test setting*/
     
@@ -122,8 +122,8 @@ public class GraphsActivity extends ListActivity implements LoaderCallbacks<Curs
     final Intent i = new Intent(this, ChartActivity.class);
     
     ChartSettings s=ChartSettingsProvider.getChartSettings((Cursor) adapter.getItem(position));
-    
     s.saveToIntent(i);
+    
     startActivity(i);
   }
   
@@ -150,6 +150,9 @@ public class GraphsActivity extends ListActivity implements LoaderCallbacks<Curs
   
   public void onClickChartAdd(View view) {
     Intent intent = new Intent(this, EditActivity.class);
+    ChartSettings chartSetting = new ChartSettings();
+    chartSetting.setDatabase(dashboard.getDashboardName());
+    intent.putExtra(ChartSettings.class.getName(), chartSetting);
     startActivity(intent);
   }
 }

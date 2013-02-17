@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/editChartParentLayout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
@@ -13,6 +14,7 @@
 
         <EditText
             android:id="@+id/graphName"
+            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -35,9 +37,7 @@
                 android:layout_height="wrap_content"
                 android:textOn="Raw"
                 android:textOff="Raw" />-->
-
-
-
+
             <ToggleButton
                 android:id="@+id/line"
                 android:layout_width="0dp"
@@ -47,7 +47,7 @@
                 android:onClick="changeType"
                 android:text="@string/line"
                 android:textOff="Line"
-                android:textOn="&quot;&quot;" />
+                android:textOn="Line" />
 
             <ToggleButton
                 android:id="@+id/bar"
@@ -74,9 +74,9 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
+
             <Spinner
-                android:id="@+id/spinner1"
+                android:id="@+id/metricsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dip"
@@ -106,7 +106,7 @@
                         android:paddingTop="10dip"
                         android:text="@string/to"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
                     <TextView
                         android:id="@+id/toDate"
                         android:layout_width="wrap_content"
@@ -114,11 +114,13 @@
                         android:layout_marginLeft="18dp"
                         android:clickable="true"
                         android:linksClickable="true"
+                        android:onClick="setToFromDate"
                         android:paddingBottom="10dip"
                         android:paddingRight="10dip"
                         android:paddingTop="10dip"
                         android:text="@string/sampleDate"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
+
                 </TableRow>
 
                 <TableRow
@@ -138,18 +140,20 @@
                         android:paddingTop="10dip"
                         android:text="@string/from"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
                     <TextView
-                        android:id="@+id/TextView03"
+                        android:id="@+id/fromDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
                         android:clickable="true"
+                        android:onClick="setToFromDate"
                         android:paddingBottom="10dip"
                         android:paddingRight="10dip"
                         android:paddingTop="10dip"
                         android:text="@string/sampleDate"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
+
                 </TableRow>
 
                 <TableRow

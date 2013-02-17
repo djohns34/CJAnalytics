@@ -78,9 +78,9 @@ public class ChartActivity extends Activity {
 
   public void onEditButtonClick(View v) {
     if(s!=null){
-      final Intent i = new Intent(this, EditActivity.class);
-      s.saveToIntent(i);
-      startActivityForResult(i, 0);
+      final Intent intent = new Intent(this, EditActivity.class);
+      s.saveToIntent(intent);
+      startActivityForResult(intent, 0);
     }
 
   }
