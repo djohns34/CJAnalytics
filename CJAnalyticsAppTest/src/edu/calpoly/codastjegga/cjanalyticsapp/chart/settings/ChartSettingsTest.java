@@ -30,8 +30,8 @@ public class ChartSettingsTest extends TestCase{
   public void testSave(){
     Intent i=new Intent();
     settings.saveToIntent(i);
-    
-    assertEquals(1, i.getExtras().size());
+    ChartType actual = (ChartType)i.getExtras().get(ChartType.class.getName());
+    assertEquals(ChartType.Pie, actual);
   }
 
   public void testLoad(){
