@@ -74,11 +74,13 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
+
             <Spinner
                 android:id="@+id/metricsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/metrics"
+ 
                 android:paddingBottom="10dip"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip"
@@ -96,7 +98,7 @@
                     android:paddingBottom="10dip" >
 
                     <TextView
-                        android:id="@+id/TextView02"
+                        android:id="@+id/TextView01"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
@@ -104,16 +106,15 @@
                         android:paddingBottom="10dip"
                         android:paddingRight="10dip"
                         android:paddingTop="10dip"
-                        android:text="@string/to"
+                        android:text="@string/from"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
                     <TextView
-                        android:id="@+id/toDate"
+                        android:id="@+id/fromDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
                         android:clickable="true"
-                        android:linksClickable="true"
                         android:onClick="setToFromDate"
                         android:paddingBottom="10dip"
                         android:paddingRight="10dip"
@@ -130,7 +131,7 @@
                     android:paddingBottom="10dip" >
 
                     <TextView
-                        android:id="@+id/TextView01"
+                        android:id="@+id/TextView02"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
@@ -138,15 +139,16 @@
                         android:paddingBottom="10dip"
                         android:paddingRight="10dip"
                         android:paddingTop="10dip"
-                        android:text="@string/from"
+                        android:text="@string/to"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
                     <TextView
-                        android:id="@+id/fromDate"
+                        android:id="@+id/toDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
                         android:clickable="true"
+                        android:linksClickable="true"
                         android:onClick="setToFromDate"
                         android:paddingBottom="10dip"
                         android:paddingRight="10dip"
@@ -166,6 +168,8 @@
                     android:id="@+id/tableRow4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
+
+
                 </TableRow>
             </TableLayout>
         </LinearLayout>

@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -25,6 +27,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
@@ -40,6 +43,8 @@ public class EditActivity extends FragmentActivity {
   private static final String DATE_PICKER_TITLE = "Date Picker";
 
   private static final DateFormat dateFormater = new SimpleDateFormat("MM-dd-yyyy");
+  
+  private static final String LOADING_METRICS = "Loading Metrics...";
   private ToggleButton lineButton;
   private ToggleButton barButton;
   private ToggleButton pieButton;
@@ -48,9 +53,11 @@ public class EditActivity extends FragmentActivity {
   private Spinner metricsList;
   private TextView toDateText, fromDateText;
   private Calendar toDate, fromDate;
+  private Calendar prevToDate, prevFromDate;
   private LinearLayout editChartLayout;
   private ProgressDialog progressBar;
   private ArrayAdapter<String> metricsAdapter;
+  
 
   protected void onCreate(Bundle savedInstanceState) {
     Intent intent = this.getIntent();
@@ -68,6 +75,7 @@ public class EditActivity extends FragmentActivity {
     editChartLayout = (LinearLayout) this.findViewById(R.id.editChartParentLayout);
     progressBar = new ProgressDialog(this);
 
+
     toDate = Calendar.getInstance();
     fromDate = Calendar.getInstance();
 
@@ -78,11 +86,32 @@ public class EditActivity extends FragmentActivity {
     } else {
       chartSettings = new ChartSettings();
     }
+    initToggle();
     initMetricAdapter();
     initMetricsList();
     initChartSettingInView();
     updateDateView();
 
+  }
+  
+  private void initToggle() {
+    uncheckAllToggleSwitches();
+    ChartType chartType = chartSettings.getType();
+    
+    switch (chartType) {
+    case Bar:
+      barButton.toggle();
+      break;
+    case Line:
+      lineButton.toggle();
+      break;
+    case Pie:
+      pieButton.toggle();
+      break;
+    default:
+      break;
+      
+    }
   }
 
 
@@ -110,8 +139,15 @@ public class EditActivity extends FragmentActivity {
     metricsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     metricsList.setAdapter(metricsAdapter);
 
+//    String metric = chartSettings.getMetric();
+//    if (metric != null) {
+//      metricsAdapter.add(metric);
+//    }
+   
+
   }
 
+  
   private void initMetricsList() {
     String dbName = chartSettings.getDatabase();
     getMetricsMap().execute(dbName);
@@ -122,6 +158,8 @@ public class EditActivity extends FragmentActivity {
     return new AsyncTask<String, Void, List<String>> () {
 
       protected void onPreExecute() {
+        progressBar.setMessage(LOADING_METRICS);
+        
         progressBar.show();
       }
       @Override
@@ -165,13 +203,13 @@ public class EditActivity extends FragmentActivity {
     uncheckAllToggleSwitches();
     switch (v.getId()){
     case R.id.line:
-      lineButton.setChecked(true);
+      lineButton.toggle();
       break;
     case R.id.bar:
-      barButton.setChecked(true);
+      barButton.toggle();
       break;
     case R.id.pie:
-      pieButton.setChecked(true);
+      pieButton.toggle();
       break;
     default:
       Log.i(EditActivity.class.getName(), "toggle switch's change type was called on unknown graph/chart type");
@@ -189,22 +227,29 @@ public class EditActivity extends FragmentActivity {
   }
 
   private void saveChart() {
-    Intent i = new Intent();
-
+    Intent intent = new Intent();
+    chartSettings.setChartName(chartName.getText().toString());
     chartSettings.setType(getSelectedType());
-    chartSettings.saveToIntent(i);
+    chartSettings.setStartDate(toDate.getTime());
+    chartSettings.setEndDate(fromDate.getTime());
+    chartSettings.setMetric(getMetric());
+    chartSettings.saveToIntent(intent);
 
-    setResult(RESULT_OK, i);
+    setResult(RESULT_OK, intent);
     finish();
+  }
+  
+  private String getMetric() {
+    return (String)metricsList.getSelectedItem();
   }
 
   public void setToFromDate (View view) {
     switch (view.getId()) {
     case R.id.toDate:
-      showDatePickerDialog(toDate);
+      showDatePickerDialog(toDate, getToDatePickerCallback());
       break;
     case R.id.fromDate:
-      showDatePickerDialog(fromDate);
+      showDatePickerDialog(fromDate, getFromDatePickerCallback());
       break;
     }
 
@@ -215,7 +260,7 @@ public class EditActivity extends FragmentActivity {
    * http://androidtrainningcenter.blogspot.com/2012/10/creating-datepicker-using.html
    * @param calendar
    */
-  protected void showDatePickerDialog(Calendar calendar) {
+  protected void showDatePickerDialog(Calendar calendar, DatePickerDialog.OnDateSetListener callback) {
     //create a date picker fragment
     DatePickerFragment datePickerFrag = new DatePickerFragment();
     Bundle args = new Bundle();
@@ -227,7 +272,7 @@ public class EditActivity extends FragmentActivity {
     //set the arguments
     datePickerFrag.setArguments(args);
     //set the callback for date picker, which is called when user clicks set
-    datePickerFrag.setCallBack(getDatePickerCallback(calendar));
+    datePickerFrag.setCallBack(callback);
     //show the date picker dialog
     datePickerFrag.show(getFragmentManager(), DATE_PICKER_TITLE);
 
@@ -239,14 +284,44 @@ public class EditActivity extends FragmentActivity {
    * @param calendar calendar whose date to set after the user clicks 'set' in the date picker
    * @return a date picker callback listener that updates the view with the new date
    */
-  private DatePickerDialog.OnDateSetListener getDatePickerCallback (final Calendar calendar) {
+  private DatePickerDialog.OnDateSetListener getToDatePickerCallback () {
     return new DatePickerDialog.OnDateSetListener() {
 
       @Override
       public void onDateSet(DatePicker view, int year, int monthOfYear,
           int dayOfMonth) {
-        calendar.set(year, monthOfYear, dayOfMonth);
+        Calendar newDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+        if (newDate.after(fromDate)) {
+          Toast toast = Toast.makeText(getApplicationContext(), "Invalid To-Date\nTo date cannot occur after from-Date",  Toast.LENGTH_SHORT);
+          toast.show();
+        }else {
+        toDate = newDate;
         updateDateView();
+        }
+      }
+    };
+  }
+  
+  /**
+   * Returns a date picker callback listener that sets the date in the calendar
+   * and updates the text on the screen
+   * @param calendar calendar whose date to set after the user clicks 'set' in the date picker
+   * @return a date picker callback listener that updates the view with the new date
+   */
+  private DatePickerDialog.OnDateSetListener getFromDatePickerCallback () {
+    return new DatePickerDialog.OnDateSetListener() {
+
+      @Override
+      public void onDateSet(DatePicker view, int year, int monthOfYear,
+          int dayOfMonth) {
+        Calendar newDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+        if (newDate.before(toDate)) {
+          Toast toast = Toast.makeText(getApplicationContext(), "Invalid From-Date\nFrom-date cannot occur after to-Date",  Toast.LENGTH_SHORT);
+          toast.show();
+        }else {
+        fromDate = newDate;
+        updateDateView();
+        }
       }
     };
   }
