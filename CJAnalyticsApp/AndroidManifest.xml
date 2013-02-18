@@ -78,8 +78,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.calpoly.codastjegga.cjanalyticsapp.MainActivity" />
         </activity>
+        
         <activity
-            android:name="edu.calpoly.codastjegga.cjanalyticsapp.GraphsActivity"
+            android:name="edu.calpoly.codastjegga.cjanalyticsapp.FavoriteGraphsActivity"
+            android:label="@string/title_favorite_graphs"
+            android:parentActivityName="edu.calpoly.codastjegga.cjanalyticsapp.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.calpoly.codastjegga.cjanalyticsapp.MainActivity" />
+        </activity>
+        
+        
+        <activity
+            android:name="edu.calpoly.codastjegga.cjanalyticsapp.StoredGraphsActivity"
             android:label="@string/title_graphs"
             android:parentActivityName="edu.calpoly.codastjegga.cjanalyticsapp.DashboardsActivity" >
             <meta-data

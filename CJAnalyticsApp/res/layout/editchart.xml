@@ -37,7 +37,8 @@
                 android:layout_height="wrap_content"
                 android:textOn="Raw"
                 android:textOff="Raw" />-->
-
+
+
             <ToggleButton
                 android:id="@+id/line"
                 android:layout_width="0dp"
@@ -74,7 +75,8 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
+
+
             <Spinner
                 android:id="@+id/metricsList"
                 android:layout_width="match_parent"
@@ -106,7 +108,9 @@
                         android:paddingTop="10dip"
                         android:text="@string/to"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
+
+
                     <TextView
                         android:id="@+id/toDate"
                         android:layout_width="wrap_content"
@@ -140,7 +144,10 @@
                         android:paddingTop="10dip"
                         android:text="@string/from"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
+
+
+
                     <TextView
                         android:id="@+id/fromDate"
                         android:layout_width="wrap_content"

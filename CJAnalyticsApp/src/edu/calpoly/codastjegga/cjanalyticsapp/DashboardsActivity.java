@@ -72,7 +72,7 @@ public class DashboardsActivity extends ListActivity {
   protected void onListItemClick(ListView listView, View view, int position, long id) {
     Dashboard db = (Dashboard)listView.getItemAtPosition(position);
     
-    Intent intent = new Intent(this, GraphsActivity.class);
+    Intent intent = new Intent(this, StoredGraphsActivity.class);
     intent.putExtra(Dashboard.class.toString(), db);
     startActivity(intent);
   }

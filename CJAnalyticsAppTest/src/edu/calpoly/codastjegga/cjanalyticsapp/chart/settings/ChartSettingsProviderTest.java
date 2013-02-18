@@ -166,8 +166,11 @@ public class ChartSettingsProviderTest extends
     
     ChartSettingsProvider.delete(mock, helperRowToDelete);
     assertTrue(calledDelete);
-    
-    
+  }
+   
+  public void testCursorLoaders(){
+	  
+	//Graphs selection
     CursorLoader loader=ChartSettingsProvider.getCursorLoader(getContext(), null);
     assertNull(loader.getSelection());
     assertNull(loader.getSelectionArgs());
@@ -175,6 +178,12 @@ public class ChartSettingsProviderTest extends
     loader=ChartSettingsProvider.getCursorLoader(getContext(), "DATA");
     assertEquals(ChartSettingsProvider.DB_EQUALS,loader.getSelection());
     assertEquals(Arrays.asList("DATA"),Arrays.asList(loader.getSelectionArgs()));
+    
+    
+    //Favorites
+    loader=ChartSettingsProvider.getFavoriteCursorLoader(getContext());
+    assertEquals(ChartSettingsProvider.FAVORITE_EQUALS,loader.getSelection());
+    assertEquals(Arrays.asList(Boolean.TRUE.toString()),Arrays.asList(loader.getSelectionArgs()));
     
   }
 
