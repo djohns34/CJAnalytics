@@ -28,8 +28,8 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:enabled="false"
-            android:text="@string/favorites" />
+            android:text="@string/favorites"
+            android:onClick="onFavoritesClick" />
     </LinearLayout>
 
     <LinearLayout

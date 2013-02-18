@@ -20,8 +20,10 @@
 
     <string name="title_dashboards">Dashboards</string>
     <string name="title_graphs">Graphs</string>
+    <string name="title_favorite_graphs">Favorite Graphs</string>
     <string name="no_dashboards">No dashboards have been set up.</string>
     <string name="no_graphs">No graphs have been created.</string>
+    <string name="no_favorite_graphs">You have no favorite graphs.</string>
     <string name="editGraphInitTitle">Enter Graph Name</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>

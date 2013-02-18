@@ -36,6 +36,7 @@ public class ChartSettingsProvider extends ContentProvider {
   //SQL where clauses
   static final String ROWID_EQUALS =ChartSettingsDB.KEY_ROWID+"= ? ";
   static final String DB_EQUALS =ChartSettingsDB.DATABASE+"= ? ";
+  static final String FAVORITE_EQUALS =ChartSettingsDB.FAVORITE+"= ?";
 
   @Override
   public boolean onCreate() {
@@ -174,6 +175,18 @@ public class ChartSettingsProvider extends ContentProvider {
     
     return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allColumns, selection, selectionArgs, null);
   }
+  
+  /**
+   * Helper method to create a cursor loader for favorite graphs
+   * @param activity the activity calling this method.
+   * @return a cursor loader that only loads favorite graph
+   */
+  public static final CursorLoader getFavoriteCursorLoader(Context activity) {
+    
+    return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allColumns, FAVORITE_EQUALS, new String[]{Boolean.TRUE.toString()}, null);
+  }
+  
+  
   
   /**
    * 

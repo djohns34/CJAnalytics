@@ -196,5 +196,4 @@
             android:text="@string/save" >
         </Button>
     </LinearLayout>
-
 </LinearLayout>
