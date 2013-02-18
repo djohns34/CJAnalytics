@@ -291,8 +291,8 @@ public class EditActivity extends FragmentActivity {
       public void onDateSet(DatePicker view, int year, int monthOfYear,
           int dayOfMonth) {
         Calendar newDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
-        if (newDate.after(fromDate)) {
-          Toast toast = Toast.makeText(getApplicationContext(), "Invalid To-Date\nTo date cannot occur after from-Date",  Toast.LENGTH_SHORT);
+        if (newDate.before(fromDate)) {
+          Toast toast = Toast.makeText(getApplicationContext(), "Invalid To-Date. To date cannot occur before from-Date",  Toast.LENGTH_SHORT);
           toast.show();
         }else {
         toDate = newDate;
@@ -315,8 +315,8 @@ public class EditActivity extends FragmentActivity {
       public void onDateSet(DatePicker view, int year, int monthOfYear,
           int dayOfMonth) {
         Calendar newDate = new GregorianCalendar(year, monthOfYear, dayOfMonth);
-        if (newDate.before(toDate)) {
-          Toast toast = Toast.makeText(getApplicationContext(), "Invalid From-Date\nFrom-date cannot occur after to-Date",  Toast.LENGTH_SHORT);
+        if (newDate.after(toDate)) {
+          Toast toast = Toast.makeText(getApplicationContext(), "Invalid From-Date. From-date cannot occur after to-Date",  Toast.LENGTH_SHORT);
           toast.show();
         }else {
         fromDate = newDate;
