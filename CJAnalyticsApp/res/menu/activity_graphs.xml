@@ -3,8 +3,15 @@
     <item
         android:id="@+id/menu_settings"
         android:orderInCategory="100"
-        android:showAsAction="ifRoom"
-        android:title="@string/addrandomgraphs"/>
-    <item android:id="@+id/new_graph_menu_item" android:title="@string/new_graph_title" android:showAsAction="ifRoom" android:orderInCategory="50" android:onClick="@string/onclick_chart_add"></item>
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/addrandomgraphs" android:icon="@drawable/iconpack_shuffle"/>
 
+    <item
+        android:id="@+id/new_graph_menu_item"
+        android:icon="@drawable/iconpack_add"
+        android:onClick="@string/onclick_chart_add"
+        android:orderInCategory="50"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/new_graph_title">
+    </item>
 </menu>
