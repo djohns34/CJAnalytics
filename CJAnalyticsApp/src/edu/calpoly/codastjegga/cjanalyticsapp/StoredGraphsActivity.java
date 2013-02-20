@@ -2,22 +2,14 @@ package edu.calpoly.codastjegga.cjanalyticsapp;
 
 import java.util.Random;
 
-import android.app.ListActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ListView;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;

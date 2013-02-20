@@ -2,13 +2,11 @@ package edu.calpoly.codastjegga.cjanalyticsapp.chart;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.BarChart;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 
 public class CJPieChart implements ChartProvider{

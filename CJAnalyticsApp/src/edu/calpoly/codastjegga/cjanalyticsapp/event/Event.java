@@ -1,18 +1,12 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.event;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONObject;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
-
-import android.util.Log;
 
 /**
  * An Event represents a TrackedEvents Object.

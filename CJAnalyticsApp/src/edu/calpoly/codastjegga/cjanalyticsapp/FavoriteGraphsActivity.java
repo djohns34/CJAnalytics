@@ -1,10 +1,10 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
 public class FavoriteGraphsActivity extends GraphsActivity{
 

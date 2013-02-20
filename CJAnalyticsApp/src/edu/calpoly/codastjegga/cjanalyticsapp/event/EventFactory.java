@@ -1,7 +1,6 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.event;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 
 /**
  * EventFactory class are helper constructors for creating Event's.

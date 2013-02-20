@@ -7,12 +7,12 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.ListView;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
