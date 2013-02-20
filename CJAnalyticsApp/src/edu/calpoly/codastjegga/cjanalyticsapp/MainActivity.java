@@ -35,9 +35,6 @@ import com.salesforce.androidsdk.rest.ClientManager.LoginOptions;
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.ui.NativeMainActivity;
 
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
-import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
-
 
 /**
  * Main activity
@@ -106,4 +103,9 @@ public class MainActivity extends NativeMainActivity {
 	  Intent intent = new Intent(this, FavoriteGraphsActivity.class);
 	  startActivity(intent);
 	} 
+	
+	public void onRecentClick(View v) {
+    Intent intent = new Intent(this, RecentGraphsActivity.class);
+    startActivity(intent);
+  } 
 }

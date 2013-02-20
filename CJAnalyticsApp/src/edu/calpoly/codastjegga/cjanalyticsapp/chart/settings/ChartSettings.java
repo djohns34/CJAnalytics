@@ -3,9 +3,8 @@ package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 import java.io.Serializable;
 import java.util.Date;
 
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
-
 import android.content.Intent;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 
 /**
  * Contains setting information about a chart.

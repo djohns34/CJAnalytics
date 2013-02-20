@@ -34,9 +34,17 @@
         <ImageView
             android:id="@+id/graphImage"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="72dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/sf__icon" />
+            android:scaleType="fitEnd"
+            android:src="@drawable/pie_graph_48x48x32" />
+        
+          <ImageView
+            android:id="@+id/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@android:drawable/btn_star_big_on" />
 
     </RelativeLayout>

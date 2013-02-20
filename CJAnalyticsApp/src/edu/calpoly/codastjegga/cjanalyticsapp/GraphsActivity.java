@@ -6,14 +6,19 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
 
 /**
- * A parent class of stored/recent/favorite graphs that handles the list of the activity.
+ * A parent class of stored/recent/favorite graphs that handles the list of the activity, and common components such as the context menu
  * @author Daniel
  *
  */
@@ -66,12 +71,8 @@ public abstract class GraphsActivity extends ListActivity implements LoaderCallb
 
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
-    final Intent i = new Intent(this, ChartActivity.class);
-    
-    ChartSettings s=ChartSettingsProvider.getChartSettings((Cursor) adapter.getItem(position));
-    s.saveToIntent(i);
-    
-    startActivity(i);
+    final Intent intent = new Intent(this, ChartActivity.class);
+    startActivityWithSettings(intent, position);
   }
   
   
@@ -90,6 +91,46 @@ public abstract class GraphsActivity extends ListActivity implements LoaderCallb
     // data is not available anymore, delete reference
     adapter.swapCursor(null);
     setProgressBarIndeterminateVisibility(false); 
+  }
+  
+
+  /*Context Menu*/
+  @Override
+  public void onCreateContextMenu(ContextMenu menu, View v,
+      ContextMenuInfo menuInfo) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.activity_graphs_context, menu);
+    super.onCreateContextMenu(menu, v, menuInfo);
+    
+  }
+  
+  @Override
+  public boolean onContextItemSelected(MenuItem item) {
+    boolean handled=false;
+    AdapterContextMenuInfo info=(AdapterContextMenuInfo) item.getMenuInfo();   
+    if(item.getItemId()==R.id.context_delete){
+      /*delete the row specified by the id*/
+      ChartSettingsProvider.delete(getContentResolver(),(int)(info.id));
+      
+      handled= true;
+    }else if(item.getItemId()==R.id.context_edit){
+      Intent intent = new Intent(this, EditActivity.class);
+      startActivityWithSettings(intent, info.position);
+      handled=true;
+    }
+    return handled;
+  };
+  
+  /**
+   * Starts the activity specified by the intent after adding the settings at the position specified to the intent
+   * @param intent the intent to start the activity
+   * @param position the position of the settings in the list
+   */
+  
+  private void startActivityWithSettings(Intent intent,int position){
+    ChartSettings settings=ChartSettingsProvider.getChartSettings((Cursor) adapter.getItem(position));
+    settings.saveToIntent(intent);
+    startActivity(intent);
   }
 }
 

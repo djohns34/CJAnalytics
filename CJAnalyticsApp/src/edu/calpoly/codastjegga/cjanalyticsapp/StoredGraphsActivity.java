@@ -2,22 +2,14 @@ package edu.calpoly.codastjegga.cjanalyticsapp;
 
 import java.util.Random;
 
-import android.app.ListActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ListView;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
@@ -82,33 +74,8 @@ public class StoredGraphsActivity extends GraphsActivity{
     ChartSettingsProvider.saveSettings(getContentResolver(), testSetting);
   }
 
-  /*Context Menu*/
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.activity_graphs_context, menu);
-    super.onCreateContextMenu(menu, v, menuInfo);
-    
-  }
-  
-  @Override
-  public boolean onContextItemSelected(MenuItem item) {
-    if(item.getItemId()==R.id.context_delete){
-      AdapterContextMenuInfo info=(AdapterContextMenuInfo) item.getMenuInfo();
-      
-
-      /*delete the row specified by the id*/
-      ChartSettingsProvider.delete(getContentResolver(),(int)(info.id));
-      
-      return true;
-    }
-    return false;
-  };
-  /*End Context Menu*/
-  
-  
-  public void onClickChartAdd(View view) {
+ 
+  public void onClickChartAdd(MenuItem item) {
     Intent intent = new Intent(this, EditActivity.class);
     ChartSettings chartSetting = new ChartSettings();
     chartSetting.setDatabase(dashboard.getDashboardName());
@@ -116,8 +83,4 @@ public class StoredGraphsActivity extends GraphsActivity{
     intent.putExtra(ChartSettings.class.getName(), chartSetting);
     startActivity(intent);
   }
-
-
-
-
 }

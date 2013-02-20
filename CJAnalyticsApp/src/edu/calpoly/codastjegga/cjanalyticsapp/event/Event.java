@@ -1,18 +1,11 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.event;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
 import org.json.JSONObject;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
-
-import android.util.Log;
 
 /**
  * An Event represents a TrackedEvents Object.
@@ -141,10 +134,10 @@ public class Event {
   }
   
   protected JSONObject getJSONObject() {
-    Map map = new HashMap<String, String>();
+    HashMap<String, String> map = new HashMap<String, String>();
     map.put(EVENTNAME, eventName);
     map.put(DEVICEID, deviceId);
-    map.put(TIMPSTAMP, timestamp);
+    map.put(TIMPSTAMP, timestamp.toString());
     map.put(DATABASENAME, databaseName);
     
     return new JSONObject(map);
