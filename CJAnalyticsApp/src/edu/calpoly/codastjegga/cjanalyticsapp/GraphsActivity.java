@@ -93,7 +93,7 @@ public abstract class GraphsActivity extends ListActivity implements LoaderCallb
     setProgressBarIndeterminateVisibility(false); 
   }
   
-  
+
   /*Context Menu*/
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,

@@ -19,32 +19,5 @@
             android:layout_centerInParent="true" />
 -->
     </RelativeLayout>
-    
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
-
-
-        <Button
-            android:id="@+id/editButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onEditButtonClick"
-            android:text="@string/edit" >
-
-        </Button>
-
-
-        <Button
-            android:id="@+id/shareButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/share" >
-
-        </Button>
-    </LinearLayout>
 
 </LinearLayout>

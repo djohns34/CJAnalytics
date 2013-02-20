@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -75,14 +77,19 @@ public class ChartActivity extends Activity {
     };
 
   }
-
-  public void onEditButtonClick(View v) {
+  
+  public void onEditButtonClick(MenuItem menu) {
     if(s!=null){
       final Intent intent = new Intent(this, EditActivity.class);
       s.saveToIntent(intent);
       startActivityForResult(intent, 0);
     }
-
+  }
+  
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.activity_graph, menu);
+    return true;
   }
 
   @Override
