@@ -135,10 +135,10 @@ public class Event {
   }
   
   protected JSONObject getJSONObject() {
-    Map map = new HashMap<String, String>();
+    HashMap<String, String> map = new HashMap<String, String>();
     map.put(EVENTNAME, eventName);
     map.put(DEVICEID, deviceId);
-    map.put(TIMPSTAMP, timestamp);
+    map.put(TIMPSTAMP, timestamp.toString());
     map.put(DATABASENAME, databaseName);
     
     return new JSONObject(map);
