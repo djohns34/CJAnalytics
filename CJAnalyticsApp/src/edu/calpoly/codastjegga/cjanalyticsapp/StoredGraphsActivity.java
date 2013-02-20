@@ -82,32 +82,7 @@ public class StoredGraphsActivity extends GraphsActivity{
     ChartSettingsProvider.saveSettings(getContentResolver(), testSetting);
   }
 
-  /*Context Menu*/
-  @Override
-  public void onCreateContextMenu(ContextMenu menu, View v,
-      ContextMenuInfo menuInfo) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.activity_graphs_context, menu);
-    super.onCreateContextMenu(menu, v, menuInfo);
-    
-  }
-  
-  @Override
-  public boolean onContextItemSelected(MenuItem item) {
-    if(item.getItemId()==R.id.context_delete){
-      AdapterContextMenuInfo info=(AdapterContextMenuInfo) item.getMenuInfo();
-      
-
-      /*delete the row specified by the id*/
-      ChartSettingsProvider.delete(getContentResolver(),(int)(info.id));
-      
-      return true;
-    }
-    return false;
-  };
-  /*End Context Menu*/
-  
-  
+ 
   public void onClickChartAdd(View view) {
     Intent intent = new Intent(this, EditActivity.class);
     ChartSettings chartSetting = new ChartSettings();

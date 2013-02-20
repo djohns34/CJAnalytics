@@ -106,4 +106,9 @@ public class MainActivity extends NativeMainActivity {
 	  Intent intent = new Intent(this, FavoriteGraphsActivity.class);
 	  startActivity(intent);
 	} 
+	
+	public void onRecentClick(View v) {
+    Intent intent = new Intent(this, RecentGraphsActivity.class);
+    startActivity(intent);
+  } 
 }

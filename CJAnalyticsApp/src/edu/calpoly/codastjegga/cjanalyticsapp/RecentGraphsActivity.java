@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class FavoriteGraphsActivity extends GraphsActivity{
+public class RecentGraphsActivity extends GraphsActivity{
 
   @Override
   int getContentView() {
@@ -15,11 +15,12 @@ public class FavoriteGraphsActivity extends GraphsActivity{
 
   @Override
   void init() {
-    ((TextView)findViewById(android.R.id.empty)).setText(R.string.no_favorite_graphs);
+    ((TextView)findViewById(android.R.id.empty)).setText(R.string.no_recent_graphs);
   }
 
   @Override
   Loader<Cursor> createLoader(int id, Bundle args) {
+    //TODO change this so it gets a loader for recent graphs
     return ChartSettingsProvider.getFavoriteCursorLoader(this);
   }
 }
