@@ -13,8 +13,6 @@ import java.util.Map;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -102,6 +100,7 @@ public class EditActivity extends FragmentActivity {
       toDate = (Calendar) savedInstanceState.get(SAVED_TO_DATE);
       fromDate = (Calendar) savedInstanceState.get(SAVED_FROM_DATE);
       metricsAdapter.addAll(metricsList);
+      metricsSPinner.setAdapter(metricsAdapter);
       selectMetricInSpinner();
     } else {      
       initToggle();
@@ -163,8 +162,8 @@ public class EditActivity extends FragmentActivity {
   } 
   
   protected void onStop () {
+   // datePickerFrag.dismiss();
     super.onStop();
-    datePickerFrag.dismiss();
   }
 
   private void initMetricList() {
@@ -207,6 +206,9 @@ public class EditActivity extends FragmentActivity {
 
           return dbList;
         } catch (Exception e) {
+          Log.e("Edit Activity loading metrics", "unable to load metrics", e);
+          Toast toast = Toast.makeText(getApplicationContext(), "Unable to load metrics",  Toast.LENGTH_SHORT);
+          toast.show();
           //if an error occurs, return empty list
           return new LinkedList<String>();
         }
@@ -216,6 +218,7 @@ public class EditActivity extends FragmentActivity {
       protected void onPostExecute(List<String> result) {
         metricsList = new ArrayList<String>(result);
         metricsAdapter.addAll(result);
+        metricsSPinner.setAdapter(metricsAdapter);
         selectMetricInSpinner();
         //remove the progress bar
         progressBar.dismiss();
@@ -376,7 +379,7 @@ public class EditActivity extends FragmentActivity {
    * @author gagandeep
    *
    */
-  private class DatePickerFragment extends DialogFragment {
+  public static class DatePickerFragment extends DialogFragment {
     //callback for datepicker dialog, called after user clicks set
     private DatePickerDialog.OnDateSetListener callback;
     //field for year, month, and day
