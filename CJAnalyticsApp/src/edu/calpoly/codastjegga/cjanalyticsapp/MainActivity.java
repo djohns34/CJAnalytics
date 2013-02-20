@@ -35,9 +35,6 @@ import com.salesforce.androidsdk.rest.ClientManager.LoginOptions;
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.ui.NativeMainActivity;
 
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
-import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
-
 
 /**
  * Main activity
