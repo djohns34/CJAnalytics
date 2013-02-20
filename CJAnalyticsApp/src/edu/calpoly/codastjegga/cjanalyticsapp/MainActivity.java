@@ -41,8 +41,6 @@ import com.salesforce.androidsdk.ui.NativeMainActivity;
  */
 public class MainActivity extends NativeMainActivity {
 
-    private RestClient client;
-
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

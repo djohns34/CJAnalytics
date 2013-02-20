@@ -23,7 +23,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,13 +55,10 @@ public class EditActivity extends FragmentActivity {
   private Spinner metricsSPinner;
   private TextView toDateText, fromDateText;
   private Calendar toDate, fromDate;
-  private Calendar prevToDate, prevFromDate;
-  private LinearLayout editChartLayout;
   private ProgressDialog progressBar;
   private ArrayAdapter<String> metricsAdapter;
   private ArrayList<String> metricsList;
   private DatePickerFragment datePickerFrag;
-  private int DIALOG_ID = 1;
 
   protected void onCreate(Bundle savedInstanceState) {
 
@@ -79,7 +75,6 @@ public class EditActivity extends FragmentActivity {
     metricsSPinner = (Spinner) this.findViewById(R.id.metricsList);
     toDateText = (TextView) this.findViewById(R.id.toDate);
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
-    editChartLayout = (LinearLayout) this.findViewById(R.id.editChartParentLayout);
     progressBar = new ProgressDialog(this);
 
     //create new metrics adapter
@@ -307,7 +302,6 @@ public class EditActivity extends FragmentActivity {
     args.putInt(DAY, calendar.get(Calendar.DAY_OF_MONTH));
     //set the arguments
     datePickerFrag.setArguments(args);
-    DatePickerDialog.OnDateSetListener callback;
     //set the callback for date picker, which is called when user clicks set 
     datePickerFrag.setCallBack(getDatePickerCallback(dateType));
     onAttachFragment(datePickerFrag);
