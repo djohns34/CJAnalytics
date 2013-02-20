@@ -75,7 +75,7 @@ public class StoredGraphsActivity extends GraphsActivity{
   }
 
  
-  public void onClickChartAdd(View view) {
+  public void onClickChartAdd(MenuItem item) {
     Intent intent = new Intent(this, EditActivity.class);
     ChartSettings chartSetting = new ChartSettings();
     chartSetting.setDatabase(dashboard.getDashboardName());
@@ -83,8 +83,4 @@ public class StoredGraphsActivity extends GraphsActivity{
     intent.putExtra(ChartSettings.class.getName(), chartSetting);
     startActivity(intent);
   }
-
-
-
-
 }

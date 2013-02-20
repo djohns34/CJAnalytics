@@ -37,4 +37,7 @@
     <string name="share">Share</string>
     <string name="edit">Edit</string>
     <string name="metrics">Metrics</string>
+    <string name="addrandomgraphs">Add Random</string>
+    <string name="onclick_chart_add">onClickChartAdd</string>
+    <string name="new_graph_title">New Graph</string>
 </resources>
