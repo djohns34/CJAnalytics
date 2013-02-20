@@ -63,10 +63,9 @@ public class EditActivity extends FragmentActivity {
   protected void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
-    
+ 
     Intent intent = this.getIntent();
-    setContentView(R.layout.editchart);
-    
+    setContentView(R.layout.activity_edit_chart);
 
     lineButton = (ToggleButton) this.findViewById(R.id.line);
     barButton = (ToggleButton) this.findViewById(R.id.bar);

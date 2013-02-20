@@ -24,7 +24,7 @@ public class ChartActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.chart);
+    setContentView(R.layout.activity_view_chart);
     getActionBar().setDisplayHomeAsUpEnabled(true);
 
 

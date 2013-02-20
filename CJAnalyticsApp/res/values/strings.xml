@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">CJ Analytics</string>
-    <string name="welcome">Welcome %s</string>
     <string name="logout_button">Logout</string>
     <string name="show_chart_button">Show Chart</string>
+
     <string name="title_chart">Chart</string>
     <string name="title_edit">Edit Chart</string>
+    <string name="title_dashboards">Dashboards</string>
+    <string name="title_graphs">Graphs</string>
+    <string name="title_favorite_graphs">Favorite Graphs</string>
+    <string name="title_recent_graphs">Recent Graphs</string>
     
     <string name="chart_name">View Chart</string>
     <string name="recent">Recent</string>
@@ -19,14 +22,11 @@
     <string name="delete">Delete</string>
     <string name="edit">Edit</string>
 
-    <string name="title_dashboards">Dashboards</string>
-    <string name="title_graphs">Graphs</string>
-    <string name="title_favorite_graphs">Favorite Graphs</string>
-    <string name="title_recent_graphs">Recent Graphs</string>
     <string name="no_dashboards">No dashboards have been set up.</string>
     <string name="no_graphs">No graphs have been created.</string>
     <string name="no_favorite_graphs">You have no favorite graphs.</string>
     <string name="no_recent_graphs">You have no recent graphs.</string>
+    
     <string name="editGraphInitTitle">Enter Graph Name</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
