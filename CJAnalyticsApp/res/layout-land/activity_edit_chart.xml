@@ -117,9 +117,7 @@
                         android:layout_marginLeft="18dp"
                         android:clickable="true"
                         android:onClick="setToFromDate"
-                        android:paddingBottom="2dip"
-                        android:paddingRight="2dip"
-                        android:paddingTop="2dip"
+                        android:padding="10dip"
                         android:text="@string/sampleDate"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -143,9 +141,7 @@
                         android:clickable="true"
                         android:linksClickable="true"
                         android:onClick="setToFromDate"
-                        android:paddingBottom="10dip"
-                        android:paddingRight="10dip"
-                        android:paddingTop="10dip"
+                        android:padding="10dip"
                         android:text="@string/sampleDate"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
                 </TableRow>
