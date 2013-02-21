@@ -1,5 +1,7 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 
+import java.util.Date;
+
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -54,9 +56,13 @@ public class ChartSettingsProvider extends ContentProvider {
     // Set the table
     queryBuilder.setTables(ChartSettingsDB.DATABASE_TABLE);
 
+    //The recent graphs request the number to list in the uri, nowhere else to put it
+    String limit=uri.getQueryParameter(ChartSettingsDB.LAST_VIEWED);
+    
+    
     SQLiteDatabase db = database.getWritableDatabase();
     Cursor cursor = queryBuilder.query(db, projection, selection,
-        selectionArgs, null, null, sortOrder);
+        selectionArgs, null, null, sortOrder,limit);
 
     // Make sure that potential listeners are getting notified
     cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -160,6 +166,21 @@ public class ChartSettingsProvider extends ContentProvider {
   }
   
   /**
+   *Should be called whenever the last viewed time should be updated
+   *
+   * @param resolver the ContentResolver of the activity calling the method
+   * @param settings The {@link ChartSettings} to update time ons.
+   **/
+  public static void graphViewed(ContentResolver resolver,ChartSettings settings) {
+    ContentValues values=new ContentValues();
+    values.put(ChartSettingsDB.LAST_VIEWED, (int)new Date().getTime());
+    
+    resolver.update(CONTENT_URI, values, ROWID_EQUALS,
+        new String[] { settings.getAndroidID().toString()});
+    
+  }
+  
+  /**
    * Helper method to create a CursorLoader
    * @param activity the activity calling this method.
    * @param database The database (app) that we want the metrics of. Null means you want all of the settings.
@@ -173,7 +194,7 @@ public class ChartSettingsProvider extends ContentProvider {
       selectionArgs=new String[]{database};
     }
     
-    return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allColumns, selection, selectionArgs, null);
+    return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allSettingsColumns, selection, selectionArgs, null);
   }
   
   /**
@@ -183,9 +204,15 @@ public class ChartSettingsProvider extends ContentProvider {
    */
   public static final CursorLoader getFavoriteCursorLoader(Context activity) {
     
-    return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allColumns, FAVORITE_EQUALS, new String[]{Boolean.TRUE.toString()}, null);
+    return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allSettingsColumns, FAVORITE_EQUALS, new String[]{Boolean.TRUE.toString()}, null);
   }
   
+  public static  CursorLoader getRecentCursorLoader(Context activity,Integer howMany) { 
+    //odebutler.com cursorloaders can't pass a limit value, tack it onto the uri
+    Uri LIMIT_URI=CONTENT_URI.buildUpon().appendQueryParameter(ChartSettingsDB.LAST_VIEWED, howMany.toString()).build();
+    
+    return new CursorLoader(activity, LIMIT_URI, ChartSettingsDB.allSettingsColumns, ChartSettingsDB.LAST_VIEWED_NOT_NULL, null, ChartSettingsDB.LAST_VIEWED +" "+ ChartSettingsDB.DESC);
+  }
   
   
   /**
@@ -197,4 +224,9 @@ public class ChartSettingsProvider extends ContentProvider {
   public static final  ChartSettings getChartSettings(Cursor cursor) {
     return ChartSettingsDB.getChartSettings(cursor);
   }
+
+
+
+
+
 }

@@ -7,12 +7,12 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ListView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
@@ -71,11 +71,13 @@ public abstract class GraphsActivity extends ListActivity implements LoaderCallb
 
   @Override
   protected void onListItemClick(ListView l, View v, int position, long id) {
-    final Intent intent = new Intent(this, ChartActivity.class);
-    startActivityWithSettings(intent, position);
+    startChartActivity(position);
   }
   
   
+
+
+
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {
     return createLoader(id, args);
@@ -93,7 +95,7 @@ public abstract class GraphsActivity extends ListActivity implements LoaderCallb
     setProgressBarIndeterminateVisibility(false); 
   }
   
-
+  
   /*Context Menu*/
   @Override
   public void onCreateContextMenu(ContextMenu menu, View v,
@@ -114,23 +116,48 @@ public abstract class GraphsActivity extends ListActivity implements LoaderCallb
       
       handled= true;
     }else if(item.getItemId()==R.id.context_edit){
-      Intent intent = new Intent(this, EditActivity.class);
-      startActivityWithSettings(intent, info.position);
+      startEditActivity(info.position);
       handled=true;
     }
     return handled;
   };
   
+
   /**
-   * Starts the activity specified by the intent after adding the settings at the position specified to the intent
-   * @param intent the intent to start the activity
-   * @param position the position of the settings in the list
+   * Updates the last viewed row of the specified setting and starts it chart activity
+   * @param position the position of the setting to render
    */
+  private void startChartActivity(int position) {
+    ChartSettings setting = getSettingsAt(position);
+    ChartSettingsProvider.graphViewed(getContentResolver(), setting);
+    startActivityWithSettings(new Intent(this,ChartActivity.class),setting);
+  }
   
-  private void startActivityWithSettings(Intent intent,int position){
-    ChartSettings settings=ChartSettingsProvider.getChartSettings((Cursor) adapter.getItem(position));
+  /**
+   * Begins to edit the settings at the specified index
+   * @param position the setting to edit
+   */
+  private void startEditActivity(int position) {
+    startActivityWithSettings(new Intent(this,EditActivity.class),getSettingsAt(position));
+  }
+  
+  /**
+   * Saves the settings to the intent and then starts the activity
+   * @param intent the intent to start
+   * @param settings the settings to save
+   */
+  private void startActivityWithSettings(Intent intent,ChartSettings settings){
     settings.saveToIntent(intent);
     startActivity(intent);
+  }
+  /**
+   * Returns the settings at the specified index
+   * @param position
+   * @return
+   */
+  private ChartSettings getSettingsAt(int position){
+    return ChartSettingsProvider.getChartSettings((Cursor) adapter.getItem(position));
+    
   }
 }
 

@@ -1,12 +1,15 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
-import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
 public class RecentGraphsActivity extends GraphsActivity{
+  
+  /*Maybe a setting at some time*/
+  int howMany=5;
 
   @Override
   int getContentView() {
@@ -21,6 +24,6 @@ public class RecentGraphsActivity extends GraphsActivity{
   @Override
   Loader<Cursor> createLoader(int id, Bundle args) {
     //TODO change this so it gets a loader for recent graphs
-    return ChartSettingsProvider.getFavoriteCursorLoader(this);
+    return ChartSettingsProvider.getRecentCursorLoader(this,howMany);
   }
 }
