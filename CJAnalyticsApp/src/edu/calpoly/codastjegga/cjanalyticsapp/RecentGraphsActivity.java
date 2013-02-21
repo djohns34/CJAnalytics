@@ -23,7 +23,6 @@ public class RecentGraphsActivity extends GraphsActivity{
 
   @Override
   Loader<Cursor> createLoader(int id, Bundle args) {
-    //TODO change this so it gets a loader for recent graphs
     return ChartSettingsProvider.getRecentCursorLoader(this,howMany);
   }
 }
