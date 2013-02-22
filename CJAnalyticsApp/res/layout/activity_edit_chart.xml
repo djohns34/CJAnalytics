@@ -14,13 +14,13 @@
 
         <EditText
             android:id="@+id/graphName"
-            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/editGraphInitTitle"
             android:maxLines="1"
+            android:singleLine="true"
             android:textSize="25sp" >
 
             <requestFocus />
@@ -36,7 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOn="Raw"
-                android:textOff="Raw" />-->
+                android:textOff="Raw" />
+            -->
 
             <ToggleButton
                 android:id="@+id/line"
@@ -74,13 +75,12 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
+
             <Spinner
                 android:id="@+id/metricsList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/metrics"
- 
                 android:paddingBottom="10dip"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip"
@@ -121,7 +121,6 @@
                         android:paddingTop="10dip"
                         android:text="@string/sampleDate"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
                 </TableRow>
 
                 <TableRow
@@ -155,7 +154,6 @@
                         android:paddingTop="10dip"
                         android:text="@string/sampleDate"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
                 </TableRow>
 
                 <TableRow
@@ -168,8 +166,6 @@
                     android:id="@+id/tableRow4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
-
-
                 </TableRow>
             </TableLayout>
         </LinearLayout>
@@ -196,4 +192,5 @@
             android:text="@string/save" >
         </Button>
     </LinearLayout>
+
 </LinearLayout>

@@ -1,18 +1,27 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
+import android.app.Activity;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
+import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 
 public class DashboardsActivity extends ListActivity {
 
@@ -25,22 +34,15 @@ public class DashboardsActivity extends ListActivity {
     // Show the Up button in the action bar.
     getActionBar().setDisplayHomeAsUpEnabled(true);
     
-    //get the list of dashboards
-    List<Dashboard> dashboards = getDashboards();
-    // Set up the list adapter.
-    adapter = new ArrayAdapter<Dashboard>(this, 
-        R.layout.activity_dashboard_item,
-        dashboards);
-   
-    setListAdapter(adapter);
+    new DashboardTask().execute();
   }
-  
+
   private List<Dashboard> getDashboards() {
-    //TODO:Implement this method Jeremy : call datafetch.getDashboards...
+    // TODO:Implement this method Jeremy : call datafetch.getDashboards...
     // THE REST OF THE CODE IS HARDCODED FOR TESTING
-    List<Dashboard> db = new LinkedList<Dashboard> ();
+    List<Dashboard> db = new LinkedList<Dashboard>();
     db.add(new Dashboard("Temple Run"));
-    
+
     return db;
   }
 
@@ -69,11 +71,60 @@ public class DashboardsActivity extends ListActivity {
   }
 
   @Override
-  protected void onListItemClick(ListView listView, View view, int position, long id) {
-    Dashboard db = (Dashboard)listView.getItemAtPosition(position);
-    
+  protected void onListItemClick(ListView listView, View view, int position,
+      long id) {
+    Dashboard db = (Dashboard) listView.getItemAtPosition(position);
+
     Intent intent = new Intent(this, StoredGraphsActivity.class);
     intent.putExtra(Dashboard.class.toString(), db);
     startActivity(intent);
+  }
+
+  /**
+   * A helper method that returns a async task to fetch metrics from Salesforce
+   * 
+   * @return asyncTask to fetch metrics from Salesforce
+   */
+  private class DashboardTask extends AsyncTask<Void, Void, List<Dashboard>> {
+    private View loading;
+    private View list;
+    @Override
+    protected List<Dashboard> doInBackground(Void... params) {
+      CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp) getApplicationContext();
+      try {
+        return DataFetcher.getDatabasesName(getString(R.string.api_version),
+            cjAnalyApp.getRestClient());
+      } catch (Exception e) {
+        Log.e("Dashboard Activity", "Could not load dashboard names", e);
+        // if an error occurs, return empty list
+        return null;
+      }
+    }
+
+    protected void onPreExecute() {
+      loading = findViewById(R.id.loading);
+      list = findViewById(R.id.view);
+      
+      loading.setVisibility(View.VISIBLE);
+      list.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onPostExecute(List<Dashboard> result) {
+      List<Dashboard> dashboards;
+      if (result != null) {
+        dashboards = new ArrayList<Dashboard>(result);
+      } else {
+        Toast.makeText(getApplicationContext(), "Unable to load dashboards",
+            Toast.LENGTH_SHORT).show();
+        dashboards = new ArrayList<Dashboard>();
+      }
+      adapter = new ArrayAdapter<Dashboard>(DashboardsActivity.this,
+          R.layout.activity_dashboard_item, dashboards);
+      setListAdapter(adapter);
+      
+      loading.setVisibility(View.GONE);
+      list.setVisibility(View.VISIBLE);
+    }
   }
 }
