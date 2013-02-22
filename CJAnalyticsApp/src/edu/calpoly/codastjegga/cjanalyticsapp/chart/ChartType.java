@@ -5,7 +5,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.R;
 public enum ChartType {
   Pie(CJPieChart.class,R.drawable.pie_chart), 
   Bar(CJBarChart.class,R.drawable.bar_chart), 
-  Line(CJPieChart.class,R.drawable.line_chart);
+  Line(CJLineChart.class,R.drawable.line_chart);
 
 
   private Class<? extends ChartProvider> provider;
