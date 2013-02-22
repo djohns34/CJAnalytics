@@ -60,7 +60,7 @@ public abstract class GraphsActivity extends ListActivity implements LoaderCallb
     init();
     
     /*Initialize the loader that will call the database for ChartSettings*/
-    getLoaderManager().initLoader(0, null, this);     
+    getLoaderManager().initLoader(0, getIntent().getExtras(), this);     
     adapter = new ChartSettingsAdapter(this, null);
     
     setListAdapter(adapter);

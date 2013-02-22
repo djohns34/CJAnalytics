@@ -27,7 +27,8 @@ public class StoredGraphsActivity extends GraphsActivity{
   @Override
   Loader<Cursor> createLoader(int id, Bundle args) {
     //TODO Specify database name
-    return  ChartSettingsProvider.getCursorLoader(this,null);
+    Dashboard dashboard = (Dashboard) args.get(Dashboard.class.toString());
+    return  ChartSettingsProvider.getCursorLoader(this, dashboard.getDashboardName());
   }
   
   @Override
