@@ -11,7 +11,7 @@ public class ChartTypeTest extends TestCase{
     assertEquals(CJPieChart.class, ChartType.Pie.getProvider().getClass());
   }
   public void testLineChart(){
-    assertEquals(CJPieChart.class, ChartType.Line.getProvider().getClass());
+    assertEquals(CJLineChart.class, ChartType.Line.getProvider().getClass());
   }
   public void testBarChart(){
     assertEquals(CJBarChart.class, ChartType.Bar.getProvider().getClass());
