@@ -78,7 +78,7 @@ public class ChartActivity extends Activity {
 
   }
   
-  public void onEditButtonClick(MenuItem menu) {
+  public void onClickEditButton(MenuItem menu) {
     if(s!=null){
       final Intent intent = new Intent(this, EditActivity.class);
       s.saveToIntent(intent);
@@ -96,13 +96,7 @@ public class ChartActivity extends Activity {
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if(resultCode==RESULT_OK){
-
       getRenderTask().execute(data);
-
     }
-
   }
-
-
-
 }
