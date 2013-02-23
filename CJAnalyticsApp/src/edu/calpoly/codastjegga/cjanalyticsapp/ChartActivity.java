@@ -15,39 +15,36 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartProvider;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 
 public class ChartActivity extends Activity {
-
-  ChartSettings s;
+  ChartSettings chartSettings;
   ProgressBar spinner;
   ViewGroup layoutChart;
-
   AsyncTask<Intent, Void, ChartProvider> task;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_view_chart);
     getActionBar().setDisplayHomeAsUpEnabled(true);
 
-
     layoutChart = (ViewGroup) findViewById(R.id.chart);
 
-    spinner =new ProgressBar(this);
+    spinner = new ProgressBar(this);
     spinner.setIndeterminate(true);
 
     getRenderTask().execute(getIntent());
+  };
 
-  };    
-
-
-  private AsyncTask<Intent, Void, ChartProvider> getRenderTask(){
+  private AsyncTask<Intent, Void, ChartProvider> getRenderTask() {
     return new AsyncTask<Intent, Void, ChartProvider>() {
       @Override
       protected void onPreExecute() {
         super.onPreExecute();
 
-        LayoutParams p=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+        LayoutParams p = new LayoutParams(LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT);
         p.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
         layoutChart.removeAllViews();
-        layoutChart.addView(spinner,p);
+        layoutChart.addView(spinner, p);
         spinner.setVisibility(View.VISIBLE);
       }
 
@@ -59,10 +56,9 @@ public class ChartActivity extends Activity {
           e.printStackTrace();
         }
 
-        s = ChartSettings.load(params[0]);
+        chartSettings = ChartSettings.load(params[0]);
 
-        ChartProvider c = s.getType().getProvider();
-        return c;
+        return chartSettings.getType().getProvider();
       }
 
       @Override
@@ -72,20 +68,18 @@ public class ChartActivity extends Activity {
         layoutChart.removeAllViews();
 
         layoutChart.addView(result.getView(ChartActivity.this));
-
       }
     };
-
   }
-  
+
   public void onClickEditButton(MenuItem menu) {
-    if(s!=null){
+    if (chartSettings != null) {
       final Intent intent = new Intent(this, EditActivity.class);
-      s.saveToIntent(intent);
+      chartSettings.saveToIntent(intent);
       startActivityForResult(intent, 0);
     }
   }
-  
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.activity_graph, menu);
@@ -95,7 +89,7 @@ public class ChartActivity extends Activity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    if(resultCode==RESULT_OK){
+    if (resultCode == RESULT_OK) {
       getRenderTask().execute(data);
     }
   }
