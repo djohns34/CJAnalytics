@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.http.ParseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -268,9 +269,8 @@ public class DataFetcher {
     JSONObject data;
     try {
       data = reponse.asJSONObject();
-    } catch (Exception ex) {
-      throw new Exception("Internal error, unable to parse response as JSON",
-          ex);
+    } catch (ParseException ex) {
+      throw new ParseException("Internal error, unable to parse response as JSON");
     }
     //create and return records created from the data
     return new Records(data);
