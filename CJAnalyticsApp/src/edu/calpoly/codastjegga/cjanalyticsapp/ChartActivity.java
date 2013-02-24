@@ -58,20 +58,24 @@ public class ChartActivity extends Activity {
 
       @Override
       protected List<Event> doInBackground(Void... params) {
-        Records records = null;
-         
-        try {
-          records = DataFetcher.getDatabaseRecords(getString(R.string.api_version), 
-                                         ((CJAnalyticsApp)getApplication()).getRestClient() , 
-                                         chartSettings.getDatabase(), chartSettings.getMetric(), 
-                                         chartSettings.getEventType());
-        } catch (Exception e) {
-          Log.e(this.getClass().getName(), "Unable to get records", e);
-          return null;
-        }
+        List<Event> events = null;
 
-        return records.getEvents();
+        if(chartSettings != null) {
+
+          try {
+            Records records = DataFetcher.getDatabaseRecords(getString(R.string.api_version), 
+                ((CJAnalyticsApp)getApplication()).getRestClient() , 
+                chartSettings.getDatabase(), chartSettings.getMetric(), 
+                chartSettings.getEventType());
+            events = records.getEvents();
+          } catch (Exception e) {
+            Log.e(this.getClass().getName(), "Unable to get records", e);
+            return null;
+          }
+        }
+        return events;
       }
+
 
       @Override
       protected void onPostExecute(List<Event> result) {
@@ -80,13 +84,12 @@ public class ChartActivity extends Activity {
         layoutChart.removeAllViews();
         if (result != null && chartSettings != null) {
           ChartProvider provider = chartSettings.getType().getProvider();
-          
           layoutChart.addView(provider.getGraphicalView(ChartActivity.this, result));
         }
       }
     };
   }
-  
+
 
 
   public void onClickEditButton(MenuItem menu) {
