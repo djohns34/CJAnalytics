@@ -1,5 +1,7 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.chart;
 
+import java.util.List;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart.Type;
@@ -8,11 +10,13 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
+
 import android.content.Context;
 import android.graphics.Color;
 
 public class CJBarChart implements ChartProvider{
-  public GraphicalView getView(Context context) {
+  public GraphicalView getGraphicalView(Context context, List<Event> events) {
     
     
     XYMultipleSeriesDataset data=new XYMultipleSeriesDataset();

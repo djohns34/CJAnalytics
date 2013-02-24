@@ -1,5 +1,7 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.chart;
 
+import java.util.List;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -7,11 +9,13 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
+
 import android.content.Context;
 import android.graphics.Color;
 
 public class CJLineChart implements ChartProvider {
-  public GraphicalView getView(Context context) {
+  public GraphicalView getGraphicalView(Context context, List<Event> events) {
     XYMultipleSeriesDataset data = new XYMultipleSeriesDataset();
     XYMultipleSeriesRenderer ren = new XYMultipleSeriesRenderer();
     XYSeriesRenderer xysr;

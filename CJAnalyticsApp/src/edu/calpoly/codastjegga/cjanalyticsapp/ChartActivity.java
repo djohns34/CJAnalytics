@@ -1,9 +1,12 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartProvider;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
+import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
 
 public class ChartActivity extends Activity {
   ChartSettings chartSettings;
@@ -30,12 +36,14 @@ public class ChartActivity extends Activity {
 
     spinner = new ProgressBar(this);
     spinner.setIndeterminate(true);
-
-    getRenderTask().execute(getIntent());
+    //load in the chart setting info
+    chartSettings = ChartSettings.load(getIntent());
+    //render the chart with the specified chart setting
+    getRenderTask().execute();
   };
 
-  private AsyncTask<Intent, Void, ChartProvider> getRenderTask() {
-    return new AsyncTask<Intent, Void, ChartProvider>() {
+  private AsyncTask<Void, Void, List<Event>> getRenderTask() {
+    return new AsyncTask<Void, Void, List<Event>>() {
       @Override
       protected void onPreExecute() {
         super.onPreExecute();
@@ -49,28 +57,37 @@ public class ChartActivity extends Activity {
       }
 
       @Override
-      protected ChartProvider doInBackground(Intent... params) {
+      protected List<Event> doInBackground(Void... params) {
+        Records records = null;
+         
         try {
-          Thread.sleep(2000);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
+          records = DataFetcher.getDatabaseRecords(getString(R.string.api_version), 
+                                         ((CJAnalyticsApp)getApplication()).getRestClient() , 
+                                         chartSettings.getDatabase(), chartSettings.getMetric(), 
+                                         chartSettings.getEventType());
+        } catch (Exception e) {
+          Log.e(this.getClass().getName(), "Unable to get records", e);
+          return null;
         }
 
-        chartSettings = ChartSettings.load(params[0]);
-
-        return chartSettings.getType().getProvider();
+        return records.getEvents();
       }
 
       @Override
-      protected void onPostExecute(ChartProvider result) {
+      protected void onPostExecute(List<Event> result) {
         super.onPostExecute(result);
         spinner.setVisibility(View.GONE);
         layoutChart.removeAllViews();
-
-        layoutChart.addView(result.getView(ChartActivity.this));
+        if (result != null && chartSettings != null) {
+          ChartProvider provider = chartSettings.getType().getProvider();
+          
+          layoutChart.addView(provider.getGraphicalView(ChartActivity.this, result));
+        }
       }
     };
   }
+  
+
 
   public void onClickEditButton(MenuItem menu) {
     if (chartSettings != null) {
@@ -89,8 +106,9 @@ public class ChartActivity extends Activity {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
+    chartSettings = ChartSettings.load(data);
     if (resultCode == RESULT_OK) {
-      getRenderTask().execute(data);
+      getRenderTask().execute();
     }
   }
 }
