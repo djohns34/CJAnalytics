@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -225,8 +226,8 @@ public class EditActivity extends FragmentActivity {
         try {
           Map<String, EventType> metrics = DataFetcher.getDatabaseMetrics(getString(R.string.api_version), cjAnalyApp.getRestClient(), dbName);
           List<String> dbList = new LinkedList<String> (); 
-          for (String metric : metrics.keySet()) {
-            dbList.add(metric);
+          for (Entry<String, EventType> metric : metrics.entrySet()) {
+            dbList.add(metric.getKey() + " : " + metric.getValue());
 
           }
 

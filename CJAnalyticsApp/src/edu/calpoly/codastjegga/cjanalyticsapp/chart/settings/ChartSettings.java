@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.content.Intent;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 
 /**
  * Contains setting information about a chart.
@@ -19,6 +20,7 @@ public class ChartSettings implements Serializable {
   public static String START_DATE = "STARTDATE";
   public static String END_DATE = "ENDDATE";
   public static String METRIC = "METRIC";
+  public static String EVENT_TYPE = "EVENT_TYPE";
 
   //chart type this setting renders
   private ChartType chartType;
@@ -36,6 +38,9 @@ public class ChartSettings implements Serializable {
   private Integer androidID;
   
   private Boolean favorite;
+  
+  //type of event associated with the metric
+  private EventType eventType;
 
 
   //The settings is not saved to the database
@@ -65,6 +70,7 @@ public class ChartSettings implements Serializable {
     setStartDate(start);
     setEndDate(end);
     setFavorite(false);
+    setEventType(null);
   }
 
   /**
@@ -81,6 +87,22 @@ public class ChartSettings implements Serializable {
    */
   public ChartType getType(){
     return chartType;
+  }
+  
+  /**
+   * Setter for event type
+   * @param eventType the type of event the metric corresponds to
+   */
+  public void setEventType(EventType eventType){
+    this.eventType = eventType;
+  }
+
+  /**
+   * Setter for event type
+   * @return chart type this setting is associated with
+   */
+  public EventType getEventType(){
+    return eventType;
   }
 
   /**
@@ -203,6 +225,7 @@ public class ChartSettings implements Serializable {
     i.putExtra(START_DATE, getStartDate());
     i.putExtra(END_DATE, getEndDate());   
     i.putExtra(METRIC, getMetric());
+    i.putExtra(EVENT_TYPE, getEventType());
   }
   
   public static ChartSettings load(Intent i){
@@ -213,6 +236,7 @@ public class ChartSettings implements Serializable {
     chartSetting.setStartDate((Date) i.getExtras().get(START_DATE));
     chartSetting.setEndDate((Date) i.getExtras().get(END_DATE));
     chartSetting.setMetric((String)i.getExtras().get(METRIC));
+    chartSetting.setEventType((EventType)i.getExtras().get(EVENT_TYPE));
     return chartSetting;
   }
 
