@@ -29,7 +29,7 @@ public class ChartActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_view_chart);
+    setContentView(R.layout.activity_chart);
     getActionBar().setDisplayHomeAsUpEnabled(true);
 
     layoutChart = (ViewGroup) findViewById(R.id.chart);
@@ -102,7 +102,7 @@ public class ChartActivity extends Activity {
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.activity_graph, menu);
+    getMenuInflater().inflate(R.menu.activity_chart, menu);
     return true;
   }
 

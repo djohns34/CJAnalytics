@@ -56,7 +56,7 @@ public class ChartSettingsProvider extends ContentProvider {
     // Set the table
     queryBuilder.setTables(ChartSettingsDB.DATABASE_TABLE);
 
-    //The recent graphs request the number to list in the uri, nowhere else to put it
+    //The recent charts request the number to list in the uri, nowhere else to put it
     String limit=uri.getQueryParameter(ChartSettingsDB.LAST_VIEWED);
     
     
@@ -171,7 +171,7 @@ public class ChartSettingsProvider extends ContentProvider {
    * @param resolver the ContentResolver of the activity calling the method
    * @param settings The {@link ChartSettings} to update time ons.
    **/
-  public static void graphViewed(ContentResolver resolver,ChartSettings settings) {
+  public static void chartViewed(ContentResolver resolver,ChartSettings settings) {
     ContentValues values=new ContentValues();
     values.put(ChartSettingsDB.LAST_VIEWED, (int)new Date().getTime());
     
@@ -198,9 +198,9 @@ public class ChartSettingsProvider extends ContentProvider {
   }
   
   /**
-   * Helper method to create a cursor loader for favorite graphs
+   * Helper method to create a cursor loader for favorite charts
    * @param activity the activity calling this method.
-   * @return a cursor loader that only loads favorite graph
+   * @return a cursor loader that only loads favorite chart
    */
   public static final CursorLoader getFavoriteCursorLoader(Context activity) {
     

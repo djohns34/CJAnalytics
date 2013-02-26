@@ -170,7 +170,7 @@ public class ChartSettingsProviderTest extends
     updatingTime=true;
     
     //Should also call the update method
-    ChartSettingsProvider.graphViewed(mock,testSetting);
+    ChartSettingsProvider.chartViewed(mock,testSetting);
     
     ChartSettingsProvider.delete(mock, helperRowToDelete);
     assertTrue(calledDelete);
@@ -178,7 +178,7 @@ public class ChartSettingsProviderTest extends
    
   public void testCursorLoaders(){
 	  
-	//Graphs selection
+	//Charts selection
     CursorLoader loader=ChartSettingsProvider.getCursorLoader(getContext(), null);
     assertNull(loader.getSelection());
     assertNull(loader.getSelectionArgs());

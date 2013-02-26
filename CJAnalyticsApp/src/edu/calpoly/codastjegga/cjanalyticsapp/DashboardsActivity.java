@@ -75,7 +75,7 @@ public class DashboardsActivity extends ListActivity {
       long id) {
     Dashboard db = (Dashboard) listView.getItemAtPosition(position);
 
-    Intent intent = new Intent(this, StoredGraphsActivity.class);
+    Intent intent = new Intent(this, StoredChartsActivity.class);
     intent.putExtra(Dashboard.class.toString(), db);
     startActivity(intent);
   }

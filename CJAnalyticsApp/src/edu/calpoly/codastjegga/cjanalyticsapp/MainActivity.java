@@ -98,12 +98,12 @@ public class MainActivity extends NativeMainActivity {
     startActivity(intent);
 	}	
 	public void onFavoritesClick(View v) {
-	  Intent intent = new Intent(this, FavoriteGraphsActivity.class);
+	  Intent intent = new Intent(this, FavoriteChartsActivity.class);
 	  startActivity(intent);
 	} 
 	
 	public void onRecentClick(View v) {
-    Intent intent = new Intent(this, RecentGraphsActivity.class);
+    Intent intent = new Intent(this, RecentChartsActivity.class);
     startActivity(intent);
   } 
 }

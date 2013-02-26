@@ -10,14 +10,14 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 
-public class StoredGraphsActivity extends GraphsActivity{
+public class StoredChartsActivity extends ChartsActivity{
   
   private Dashboard dashboard;
 
   
   @Override
   int getContentView() {
-    return R.layout.activity_graphs;
+    return R.layout.activity_charts;
   }
   @Override
   Loader<Cursor> createLoader(int id, Bundle args) {
@@ -38,7 +38,7 @@ public class StoredGraphsActivity extends GraphsActivity{
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.activity_graphs, menu);
+    getMenuInflater().inflate(R.menu.activity_charts, menu);
     return true;
   }
 

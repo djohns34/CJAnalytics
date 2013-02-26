@@ -6,16 +6,16 @@ import android.os.Bundle;
 import android.widget.TextView;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
-public class FavoriteGraphsActivity extends GraphsActivity{
+public class FavoriteChartsActivity extends ChartsActivity{
 
   @Override
   int getContentView() {
-    return R.layout.activity_graphs_no_add;
+    return R.layout.activity_charts_no_add;
   }
 
   @Override
   void init() {
-    ((TextView)findViewById(android.R.id.empty)).setText(R.string.no_favorite_graphs);
+    ((TextView)findViewById(android.R.id.empty)).setText(R.string.no_favorite_charts);
   }
 
   @Override

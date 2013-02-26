@@ -73,7 +73,7 @@ public class EditActivity extends FragmentActivity {
     lineButton = (ToggleButton) this.findViewById(R.id.line);
     barButton = (ToggleButton) this.findViewById(R.id.bar);
     pieButton = (ToggleButton) this.findViewById(R.id.pie);
-    chartName = (EditText) this.findViewById(R.id.graphName);
+    chartName = (EditText) this.findViewById(R.id.chartName);
     metricsSPinner = (Spinner) this.findViewById(R.id.metricsList);
     toDateText = (TextView) this.findViewById(R.id.toDate);
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
@@ -191,7 +191,7 @@ public class EditActivity extends FragmentActivity {
 
 
   private void selectMetricInSpinner() {
-    //select the metric that is set to the current chart/graph setting
+    //select the metric that is set to the current chart/chart setting
     String metric = chartSettings.getMetric();
     int position = metricsAdapter.getPosition(metric);
     metricsSPinner.setSelection(position);
@@ -284,7 +284,7 @@ public class EditActivity extends FragmentActivity {
       pieButton.toggle();
       break;
     default:
-      Log.i(EditActivity.class.getName(), "toggle switch's change type was called on unknown graph/chart type");
+      Log.i(EditActivity.class.getName(), "toggle switch's change type was called on unknown chart/chart type");
     }
   }
 
@@ -307,7 +307,7 @@ public class EditActivity extends FragmentActivity {
     chartSettings.setMetric(getMetric());
     chartSettings.saveToIntent(intent);
 
-    //save the graph to db
+    //save the chart to db
     ChartSettingsProvider.saveSettings(getContentResolver(), chartSettings);
     //result the intent with ok 
     setResult(RESULT_OK, intent);

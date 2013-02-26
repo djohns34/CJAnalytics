@@ -18,11 +18,11 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvid
 
 
 /**
- * A parent class of stored/recent/favorite graphs that handles the list of the activity, and common components such as the context menu
+ * A parent class of stored/recent/favorite charts that handles the list of the activity, and common components such as the context menu
  * @author Daniel
  *
  */
-public abstract class GraphsActivity extends ListActivity implements LoaderCallbacks<Cursor>{
+public abstract class ChartsActivity extends ListActivity implements LoaderCallbacks<Cursor>{
   
   private ChartSettingsAdapter adapter;
 
@@ -101,7 +101,7 @@ public abstract class GraphsActivity extends ListActivity implements LoaderCallb
   public void onCreateContextMenu(ContextMenu menu, View v,
       ContextMenuInfo menuInfo) {
     MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.activity_graphs_context, menu);
+    inflater.inflate(R.menu.activity_charts_context, menu);
     super.onCreateContextMenu(menu, v, menuInfo);
     
   }
@@ -129,7 +129,7 @@ public abstract class GraphsActivity extends ListActivity implements LoaderCallb
    */
   private void startChartActivity(int position) {
     ChartSettings setting = getSettingsAt(position);
-    ChartSettingsProvider.graphViewed(getContentResolver(), setting);
+    ChartSettingsProvider.chartViewed(getContentResolver(), setting);
     startActivityWithSettings(new Intent(this,ChartActivity.class),setting);
   }
   

@@ -27,7 +27,7 @@ public class ChartSettingsAdapter extends CursorAdapter  {
 
   @Override
   public View newView(Context context, Cursor cursor, ViewGroup parent) {
-    return inflater.inflate(R.layout.activity_graph_item, null);
+    return inflater.inflate(R.layout.activity_charts_item, null);
   }
 
 
@@ -37,16 +37,16 @@ public class ChartSettingsAdapter extends CursorAdapter  {
     ChartSettings settings =ChartSettingsProvider.getChartSettings(cursor);
     
     //Get the text boxes from the listitem.xml file
-    TextView graphName =(TextView)view.findViewById(R.id.graphname);
-    TextView graphMetric =(TextView)view.findViewById(R.id.graphmetric);
-    ImageView image=(ImageView) view.findViewById(R.id.graphImage);
+    TextView chartName =(TextView)view.findViewById(R.id.chartname);
+    TextView chartMetric =(TextView)view.findViewById(R.id.chartmetric);
+    ImageView image=(ImageView) view.findViewById(R.id.chartImage);
 
     ImageView favorite=(ImageView) view.findViewById(R.id.favorite);
 
     
     //Assign the appropriate data from our alert object above
-    graphName.setText(settings.getChartName());
-    graphMetric.setText(settings.getMetric());
+    chartName.setText(settings.getChartName());
+    chartMetric.setText(settings.getMetric());
     image.setImageResource(settings.getType().getIcon());
     if(settings.getFavorite()){
       favorite.setImageResource(R.drawable.rating_important);

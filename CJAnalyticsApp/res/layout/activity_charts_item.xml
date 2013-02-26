@@ -3,7 +3,7 @@
         android:layout_height="fill_parent" >
         
           <ImageView
-              android:id="@+id/graphImage"
+              android:id="@+id/chartImage"
               android:layout_width="wrap_content"
               android:layout_height="72dp"
               android:layout_alignParentLeft="true"
@@ -12,12 +12,12 @@
               android:src="@drawable/pie_chart" />
 
           <TextView
-              android:id="@+id/graphname"
+              android:id="@+id/chartname"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:layout_alignParentTop="true"
               android:layout_toLeftOf="@+id/favorite"
-              android:layout_toRightOf="@+id/graphImage"
+              android:layout_toRightOf="@+id/chartImage"
               android:ellipsize="end"
               android:maxLines="1"
               android:scrollHorizontally="true"
@@ -25,11 +25,11 @@
               android:textAppearance="?android:attr/textAppearanceLarge" />
 
           <TextView
-              android:id="@+id/graphmetric"
+              android:id="@+id/chartmetric"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_alignBottom="@+id/graphImage"
-              android:layout_alignLeft="@+id/graphname"
+              android:layout_alignBottom="@+id/chartImage"
+              android:layout_alignLeft="@+id/chartname"
               android:layout_toLeftOf="@+id/favorite"
               android:ellipsize="end"
               android:maxLines="1"
@@ -41,7 +41,7 @@
               android:id="@+id/favorite"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_alignBottom="@+id/graphmetric"
+              android:layout_alignBottom="@+id/chartmetric"
               android:layout_alignParentRight="true"
               android:layout_alignParentTop="true"
               android:src="@drawable/rating_important" />
