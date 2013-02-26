@@ -1,5 +1,6 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,7 +9,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import android.app.Activity;
@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -40,7 +41,7 @@ public class EditActivity extends FragmentActivity {
   private static final String DAY = "day";
   private static final String MONTH = "month";
   private static final String YEAR = "year";
-  private static final String SAVED_METRICS_LIST = "savedmetricslist";
+  private static final String SAVED_EVENT_LIST = "savedeventlist";
   private static final String SAVED_TO_DATE = "savedtodate";
   private static final String SAVED_FROM_DATE = "savedfromdate";
 
@@ -54,13 +55,14 @@ public class EditActivity extends FragmentActivity {
   private ToggleButton pieButton;
   private ChartSettings chartSettings;
   private EditText chartName;
-  private Spinner metricsSPinner;
+  private Spinner eventSpinner;
   private TextView toDateText, fromDateText;
   private Calendar toDate, fromDate;
-  private ArrayAdapter<String> metricsAdapter;
-  private ArrayList<String> metricsList;
+  //private ArrayAdapter<String> metricsAdapter;
+  private EventAdapter eventAdapter;
+  private List<Pair<String, EventType>> eventsListModel;
   private DatePickerFragment datePickerFrag;
-  private MetricTask metricTask;
+  private EventFetecherTask eventFetcherTask;
 
   protected void onCreate(Bundle savedInstanceState) {
 
@@ -74,15 +76,15 @@ public class EditActivity extends FragmentActivity {
     barButton = (ToggleButton) this.findViewById(R.id.bar);
     pieButton = (ToggleButton) this.findViewById(R.id.pie);
     chartName = (EditText) this.findViewById(R.id.chartName);
-    metricsSPinner = (Spinner) this.findViewById(R.id.metricsList);
+    eventSpinner = (Spinner) this.findViewById(R.id.metricsList);
     toDateText = (TextView) this.findViewById(R.id.toDate);
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
 
-    //create new metrics adapter
-    metricsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-    metricsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    //set up the adapter to metrics list
-    metricsSPinner.setAdapter(metricsAdapter);
+    //create new event adapter
+    eventAdapter = new EventAdapter(this);
+   
+    //set up the adapter to events list
+    eventSpinner.setAdapter(eventAdapter);
 
     // This class should always contain chartSetting in its intent
     // If the intent contains chart data, load it, otherwise, create a new chart
@@ -91,21 +93,26 @@ public class EditActivity extends FragmentActivity {
     } else {
       chartSettings = new ChartSettings();
     }
+    
     if (savedInstanceState != null) {
-      metricsList = savedInstanceState.getStringArrayList(SAVED_METRICS_LIST);
+      eventsListModel = (List<Pair<String, EventType>>) savedInstanceState.getSerializable(SAVED_EVENT_LIST);
       toDate = (Calendar) savedInstanceState.get(SAVED_TO_DATE);
       fromDate = (Calendar) savedInstanceState.get(SAVED_FROM_DATE);
-      if (metricsList == null) {
-        initMetricList();
+      //if there wasn't an event model saved
+      if (eventsListModel == null) {
+        //initialize the events list
+        initEventsList();
       }
+      //ELSE
       else {
-        metricsAdapter.addAll(metricsList);
-        metricsSPinner.setAdapter(metricsAdapter);
-        selectMetricInSpinner();
+        //
+        eventAdapter.setEventsList(eventsListModel);
+        eventSpinner.setAdapter(eventAdapter);
+        selectEventInSpinner();
       }
     } else {      
       initToggle();
-      initMetricList();
+      initEventsList();
       initChartSettingInView();
     }
     updateDateView();
@@ -116,8 +123,8 @@ public class EditActivity extends FragmentActivity {
   protected void onDestroy() {
     // TODO Auto-generated method stub
     super.onDestroy();
-    if (metricTask != null) {
-      metricTask.cancel(true);
+    if (eventFetcherTask != null) {
+      eventFetcherTask.cancel(true);
     }
     
   }
@@ -127,7 +134,7 @@ public class EditActivity extends FragmentActivity {
   protected void onSaveInstanceState(Bundle outState) {
     // TODO Auto-generated method stub
     super.onSaveInstanceState(outState);
-    outState.putStringArrayList(SAVED_METRICS_LIST, metricsList);
+    outState.putSerializable(SAVED_EVENT_LIST, (Serializable) eventsListModel);
     outState.putSerializable(SAVED_TO_DATE, toDate);
     outState.putSerializable(SAVED_FROM_DATE, fromDate);
   }  
@@ -180,21 +187,22 @@ public class EditActivity extends FragmentActivity {
     super.onStop();
   }
 
-  private void initMetricList() {
+  private void initEventsList() {
     //load the metrics list
     String dbName = chartSettings.getDatabase();
-    metricTask = new MetricTask(this);
-    metricTask.execute(dbName);
+    eventFetcherTask = new EventFetecherTask(this);
+    eventFetcherTask.execute(dbName);
 
   }
 
 
 
-  private void selectMetricInSpinner() {
-    //select the metric that is set to the current chart/chart setting
-    String metric = chartSettings.getMetric();
-    int position = metricsAdapter.getPosition(metric);
-    metricsSPinner.setSelection(position);
+  private void selectEventInSpinner() {
+    //select the metric name and type that is set to the current chart/chart setting
+    String metricName = chartSettings.getMetric();
+    EventType metricType = chartSettings.getEventType();
+    int position = eventAdapter.getPosition(Pair.create(metricName, metricType));
+    eventSpinner.setSelection(position);
   }
 
 
@@ -202,12 +210,12 @@ public class EditActivity extends FragmentActivity {
    * A helper method that returns a async task to fetch metrics from Salesforce
    * @return asyncTask to fetch metrics from Salesforce
    */
-  private  class MetricTask extends AsyncTask<String, Void, List<String>> {
+  private  class EventFetecherTask extends AsyncTask<String, Void, List<Pair<String, EventType>>> {
       private ProgressDialog dialog;
       private Activity activity;
       private static final String LOADING_METRICS = "Loading Metrics...";
       
-      public MetricTask(Activity activity) {
+      public EventFetecherTask(Activity activity) {
         this.activity = activity;
       }
       protected void onPreExecute() {
@@ -220,18 +228,12 @@ public class EditActivity extends FragmentActivity {
         dialog.show();
       }
       @Override
-      protected List<String> doInBackground(String... params) {
+      protected List<Pair<String, EventType>> doInBackground(String... params) {
         CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp)activity.getApplicationContext();
         String dbName = params[0];
         try {
-          Map<String, EventType> metrics = DataFetcher.getDatabaseMetrics(getString(R.string.api_version), cjAnalyApp.getRestClient(), dbName);
-          List<String> dbList = new LinkedList<String> (); 
-          for (Entry<String, EventType> metric : metrics.entrySet()) {
-            dbList.add(metric.getKey() + " : " + metric.getValue());
+          return DataFetcher.getDatabaseMetrics(getString(R.string.api_version), cjAnalyApp.getRestClient(), dbName);
 
-          }
-
-          return dbList;
         } catch (Exception e) {
 
           Log.e("Edit Activity loading metrics", "unable to load metrics", e);
@@ -241,19 +243,19 @@ public class EditActivity extends FragmentActivity {
       }
 
       @Override
-      protected void onPostExecute(List<String> result) {
+      protected void onPostExecute(List<Pair<String, EventType>> result) {
         if (activity != null) {
           if (result != null) {
-            metricsList = new ArrayList<String>(result);
-            metricsAdapter.addAll(result);
+            eventsListModel = result;
+            eventAdapter.setEventsList(result);
           }
           else { 
             Toast toast = Toast.makeText(getApplicationContext(), "Unable to load metrics",  Toast.LENGTH_SHORT);
             toast.show();
-            metricsList = new ArrayList<String>();
+            eventsListModel = new ArrayList<Pair<String, EventType>>();
           }
-          metricsSPinner.setAdapter(metricsAdapter);
-          selectMetricInSpinner();
+          eventSpinner.setAdapter(eventAdapter);
+          selectEventInSpinner();
         }
         //remove the progress bar
         dialog.dismiss();
@@ -315,7 +317,7 @@ public class EditActivity extends FragmentActivity {
   }
 
   private String getMetric() {
-    return (String)metricsSPinner.getSelectedItem();
+    return (String)eventSpinner.getSelectedItem();
   }
 
   public void setToFromDate (View view) {
