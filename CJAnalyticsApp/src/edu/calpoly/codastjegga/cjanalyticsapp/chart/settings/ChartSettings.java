@@ -21,6 +21,7 @@ public class ChartSettings implements Serializable {
   public static String END_DATE = "ENDDATE";
   public static String METRIC = "METRIC";
   public static String EVENT_TYPE = "EVENT_TYPE";
+  public static String ANDROID_ID = "ANDROID_ID";
 
   //chart type this setting renders
   private ChartType chartType;
@@ -226,6 +227,7 @@ public class ChartSettings implements Serializable {
     i.putExtra(END_DATE, getEndDate());   
     i.putExtra(METRIC, getMetric());
     i.putExtra(EVENT_TYPE, getEventType());
+    i.putExtra(ANDROID_ID, getAndroidID());
   }
   
   public static ChartSettings load(Intent i){
@@ -237,6 +239,7 @@ public class ChartSettings implements Serializable {
     chartSetting.setEndDate((Date) i.getExtras().get(END_DATE));
     chartSetting.setMetric((String)i.getExtras().get(METRIC));
     chartSetting.setEventType((EventType)i.getExtras().get(EVENT_TYPE));
+    chartSetting.setAndroidID(i.getExtras().getInt(ANDROID_ID));
     return chartSetting;
   }
 
