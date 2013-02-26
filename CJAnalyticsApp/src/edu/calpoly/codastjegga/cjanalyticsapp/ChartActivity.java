@@ -1,11 +1,20 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+
+import org.achartengine.GraphicalView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Toast;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartProvider;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
@@ -99,6 +109,60 @@ public class ChartActivity extends Activity {
       startActivityForResult(intent, 0);
     }
   }
+  public void onClickShareButton(MenuItem menu){
+boolean shared=false;
+    
+    try {
+    for (int i = 0; i < layoutChart.getChildCount();i++){
+      if(layoutChart.getChildAt(i) instanceof GraphicalView){
+        // Get the achartengine view object
+        GraphicalView view=(GraphicalView) layoutChart.getChildAt(i);
+        
+        
+        //Convert it to a bmp
+        Bitmap bmp=view.toBitmap();
+
+        File extStorage = Environment.getExternalStorageDirectory();
+        //Save the image to a folder on the sd card
+        File cj = new File(extStorage, "CodastJegga");
+        cj.mkdir();
+        File file = new File(cj, "Chart.png");
+
+
+        FileOutputStream outStream= new FileOutputStream(file);
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+        outStream.flush();
+        outStream.close();
+
+        //Get the path of the image
+        Uri uri=Uri.parse("file://" + file.getAbsolutePath());
+
+        //Create the intent to share the image
+        if (uri != null) {
+          Intent share = new Intent(Intent.ACTION_SEND);
+          share.setType("image/png");
+
+          share.putExtra(Intent.EXTRA_STREAM, uri);
+
+          shared = true;
+
+          startActivity(Intent.createChooser(share, "Share"));
+        }
+
+        break;
+          
+        }
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    if(!shared){
+      Toast.makeText(this, "Error Sharing Chart", Toast.LENGTH_LONG).show();
+    }
+  }
+  
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
