@@ -28,7 +28,7 @@ public class ChartSettingsDBTest extends AndroidTestCase{
     assertEquals(testSetting.getType().toString(),values.get(ChartSettingsDB.CHART_TYPE));
     assertEquals(testSetting.getChartName(),values.get(ChartSettingsDB.CHART_NAME));
     assertEquals(testSetting.getDatabase(),values.get(ChartSettingsDB.DATABASE));
-    assertEquals(testSetting.getMetric(),values.get(ChartSettingsDB.METRIC));
+    assertEquals(testSetting.getEventName(),values.get(ChartSettingsDB.METRIC));
     assertEquals(DateUtils.format(testSetting.getStartDate()),values.get(ChartSettingsDB.START_DATE));
     assertEquals(DateUtils.format(testSetting.getEndDate()),values.get(ChartSettingsDB.END_DATE));
     assertEquals(testSetting.getFavorite(), values.getAsBoolean(ChartSettingsDB.FAVORITE));

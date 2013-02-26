@@ -12,6 +12,9 @@
         android:layout_alignParentTop="true"
         android:hint="EventName"
         android:paddingLeft="5dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView

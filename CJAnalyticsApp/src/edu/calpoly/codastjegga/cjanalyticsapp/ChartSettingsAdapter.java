@@ -46,7 +46,7 @@ public class ChartSettingsAdapter extends CursorAdapter  {
     
     //Assign the appropriate data from our alert object above
     chartName.setText(settings.getChartName());
-    chartMetric.setText(settings.getMetric());
+    chartMetric.setText(settings.getEventName());
     image.setImageResource(settings.getType().getIcon());
     if(settings.getFavorite()){
       favorite.setImageResource(R.drawable.rating_important);

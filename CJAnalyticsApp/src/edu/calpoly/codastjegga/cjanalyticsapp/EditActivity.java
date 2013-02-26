@@ -44,8 +44,8 @@ public class EditActivity extends FragmentActivity {
   private static final String SAVED_EVENT_LIST = "savedeventlist";
   private static final String SAVED_TO_DATE = "savedtodate";
   private static final String SAVED_FROM_DATE = "savedfromdate";
-
   private static final String DATE_PICKER_TITLE = "Date Picker";
+  private static final String ON_SAVE_INVALID_NAME_MESSAGE_ERROR = "Invalid Chart Name, please enter a chart name.";
 
   private static final DateFormat dateFormater = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -82,7 +82,7 @@ public class EditActivity extends FragmentActivity {
 
     //create new event adapter
     eventAdapter = new EventAdapter(this);
-   
+
     //set up the adapter to events list
     eventSpinner.setAdapter(eventAdapter);
 
@@ -93,9 +93,9 @@ public class EditActivity extends FragmentActivity {
     } else {
       chartSettings = new ChartSettings();
     }
-    
+
     if (savedInstanceState != null) {
-      eventsListModel = (List<Pair<String, EventType>>) savedInstanceState.getSerializable(SAVED_EVENT_LIST);
+      eventsListModel = (List<Pair<String, EventType>>)savedInstanceState.getSerializable(SAVED_EVENT_LIST);
       toDate = (Calendar) savedInstanceState.get(SAVED_TO_DATE);
       fromDate = (Calendar) savedInstanceState.get(SAVED_FROM_DATE);
       //if there wasn't an event model saved
@@ -105,7 +105,6 @@ public class EditActivity extends FragmentActivity {
       }
       //ELSE
       else {
-        //
         eventAdapter.setEventsList(eventsListModel);
         eventSpinner.setAdapter(eventAdapter);
         selectEventInSpinner();
@@ -117,8 +116,8 @@ public class EditActivity extends FragmentActivity {
     }
     updateDateView();
   }
-  
-  
+
+
   @Override
   protected void onDestroy() {
     // TODO Auto-generated method stub
@@ -126,7 +125,7 @@ public class EditActivity extends FragmentActivity {
     if (eventFetcherTask != null) {
       eventFetcherTask.cancel(true);
     }
-    
+
   }
 
 
@@ -199,9 +198,9 @@ public class EditActivity extends FragmentActivity {
 
   private void selectEventInSpinner() {
     //select the metric name and type that is set to the current chart/chart setting
-    String metricName = chartSettings.getMetric();
+    String eventName = chartSettings.getEventName();
     EventType metricType = chartSettings.getEventType();
-    int position = eventAdapter.getPosition(Pair.create(metricName, metricType));
+    int position = eventAdapter.getPosition(Pair.create(eventName, metricType));
     eventSpinner.setSelection(position);
   }
 
@@ -211,63 +210,63 @@ public class EditActivity extends FragmentActivity {
    * @return asyncTask to fetch metrics from Salesforce
    */
   private  class EventFetecherTask extends AsyncTask<String, Void, List<Pair<String, EventType>>> {
-      private ProgressDialog dialog;
-      private Activity activity;
-      private static final String LOADING_METRICS = "Loading Metrics...";
-      
-      public EventFetecherTask(Activity activity) {
-        this.activity = activity;
-      }
-      protected void onPreExecute() {
-        showDialog();
-      }
+    private ProgressDialog dialog;
+    private Activity activity;
+    private static final String LOADING_METRICS = "Loading Metrics...";
 
-      private void showDialog() {
-        dialog = new ProgressDialog(activity); 
-        dialog.setMessage(LOADING_METRICS);
-        dialog.show();
+    public EventFetecherTask(Activity activity) {
+      this.activity = activity;
+    }
+    protected void onPreExecute() {
+      showDialog();
+    }
+
+    private void showDialog() {
+      dialog = new ProgressDialog(activity); 
+      dialog.setMessage(LOADING_METRICS);
+      dialog.show();
+    }
+    @Override
+    protected List<Pair<String, EventType>> doInBackground(String... params) {
+      CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp)activity.getApplicationContext();
+      String dbName = params[0];
+      try {
+        return DataFetcher.getDatabaseMetrics(getString(R.string.api_version), cjAnalyApp.getRestClient(), dbName);
+
+      } catch (Exception e) {
+
+        Log.e("Edit Activity loading metrics", "unable to load metrics", e);
+        //if an error occurs, return empty list
+        return null;
       }
-      @Override
-      protected List<Pair<String, EventType>> doInBackground(String... params) {
-        CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp)activity.getApplicationContext();
-        String dbName = params[0];
-        try {
-          return DataFetcher.getDatabaseMetrics(getString(R.string.api_version), cjAnalyApp.getRestClient(), dbName);
+    }
 
-        } catch (Exception e) {
-
-          Log.e("Edit Activity loading metrics", "unable to load metrics", e);
-          //if an error occurs, return empty list
-          return null;
+    @Override
+    protected void onPostExecute(List<Pair<String, EventType>> result) {
+      if (activity != null) {
+        if (result != null) {
+          eventsListModel = result;
+          eventAdapter.setEventsList(result);
         }
-      }
-
-      @Override
-      protected void onPostExecute(List<Pair<String, EventType>> result) {
-        if (activity != null) {
-          if (result != null) {
-            eventsListModel = result;
-            eventAdapter.setEventsList(result);
-          }
-          else { 
-            Toast toast = Toast.makeText(getApplicationContext(), "Unable to load metrics",  Toast.LENGTH_SHORT);
-            toast.show();
-            eventsListModel = new ArrayList<Pair<String, EventType>>();
-          }
-          eventSpinner.setAdapter(eventAdapter);
-          selectEventInSpinner();
+        else { 
+          Toast toast = Toast.makeText(getApplicationContext(), "Unable to load metrics",  Toast.LENGTH_SHORT);
+          toast.show();
+          eventsListModel = new ArrayList<Pair<String, EventType>>();
         }
-        //remove the progress bar
-        dialog.dismiss();
-
+        eventSpinner.setAdapter(eventAdapter);
+        selectEventInSpinner();
       }
-      @Override
-      protected void onCancelled() {
-        // TODO Auto-generated method stub
-        super.onCancelled();
-      }
+      //remove the progress bar
+      dialog.dismiss();
 
-    };
+    }
+    @Override
+    protected void onCancelled() {
+      // TODO Auto-generated method stub
+      super.onCancelled();
+    }
+
+  };
 
 
   public void changeType(View v) {
@@ -297,7 +296,14 @@ public class EditActivity extends FragmentActivity {
   }
 
   public void save(View v) {
-    saveChart();
+    //IF the chart name is empty
+    if (chartName.getText().length() == 0) {
+      Toast.makeText(this, ON_SAVE_INVALID_NAME_MESSAGE_ERROR , Toast.LENGTH_SHORT).show();
+     
+    }
+    else {
+      saveChart();
+    }
   }
 
   private void saveChart() {
@@ -306,7 +312,10 @@ public class EditActivity extends FragmentActivity {
     chartSettings.setType(getSelectedType());
     chartSettings.setStartDate(toDate.getTime());
     chartSettings.setEndDate(fromDate.getTime());
-    chartSettings.setMetric(getMetric());
+    //get the selected event name and type
+    Pair<String, EventType> eventInfo = getSelectedEvent();   
+    chartSettings.setEventName(eventInfo.first);
+    chartSettings.setEventType(eventInfo.second);
     chartSettings.saveToIntent(intent);
 
     //save the chart to db
@@ -315,9 +324,16 @@ public class EditActivity extends FragmentActivity {
     setResult(RESULT_OK, intent);
     finish();
   }
+  
+  public void cancel(View v) {
+    setResult(RESULT_CANCELED);
+    finish();
 
-  private String getMetric() {
-    return (String)eventSpinner.getSelectedItem();
+  }
+  
+  @SuppressWarnings("unchecked")
+  private Pair<String, EventType> getSelectedEvent() {
+    return (Pair<String, EventType>)eventSpinner.getSelectedItem();
   }
 
   public void setToFromDate (View view) {
@@ -458,17 +474,7 @@ public class EditActivity extends FragmentActivity {
     }    
   }
 
-  public void cancel(View v) {
-    // s.setType(getSelectedType());
-    // Intent i=new Intent();
-    // s.save(i);
-    //
-    // setResult(RESULT_CANCELED,i);
 
-    // setResult(RESULT_CANCELED);
-    finish();
-
-  }
 
   private ChartType getSelectedType() {
     if (lineButton.isChecked()) {

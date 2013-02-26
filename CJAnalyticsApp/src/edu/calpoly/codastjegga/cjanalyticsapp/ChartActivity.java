@@ -75,7 +75,7 @@ public class ChartActivity extends Activity {
           try {
             Events records = DataFetcher.getDatabaseRecords(getString(R.string.api_version), 
                 ((CJAnalyticsApp)getApplication()).getRestClient() , 
-                chartSettings.getDatabase(), chartSettings.getMetric(), 
+                chartSettings.getDatabase(), chartSettings.getEventName(), 
                 chartSettings.getEventType());
             events = records.getEvents();
           } catch (Exception e) {
@@ -110,47 +110,47 @@ public class ChartActivity extends Activity {
     }
   }
   public void onClickShareButton(MenuItem menu){
-boolean shared=false;
-    
+    boolean shared=false;
+
     try {
-    for (int i = 0; i < layoutChart.getChildCount();i++){
-      if(layoutChart.getChildAt(i) instanceof GraphicalView){
-        // Get the achartengine view object
-        GraphicalView view=(GraphicalView) layoutChart.getChildAt(i);
-        
-        
-        //Convert it to a bmp
-        Bitmap bmp=view.toBitmap();
-
-        File extStorage = Environment.getExternalStorageDirectory();
-        //Save the image to a folder on the sd card
-        File cj = new File(extStorage, "CodastJegga");
-        cj.mkdir();
-        File file = new File(cj, "Chart.png");
+      for (int i = 0; i < layoutChart.getChildCount();i++){
+        if(layoutChart.getChildAt(i) instanceof GraphicalView){
+          // Get the achartengine view object
+          GraphicalView view=(GraphicalView) layoutChart.getChildAt(i);
 
 
-        FileOutputStream outStream= new FileOutputStream(file);
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-        outStream.flush();
-        outStream.close();
+          //Convert it to a bmp
+          Bitmap bmp=view.toBitmap();
 
-        //Get the path of the image
-        Uri uri=Uri.parse("file://" + file.getAbsolutePath());
+          File extStorage = Environment.getExternalStorageDirectory();
+          //Save the image to a folder on the sd card
+          File cj = new File(extStorage, "CodastJegga");
+          cj.mkdir();
+          File file = new File(cj, "Chart.png");
 
-        //Create the intent to share the image
-        if (uri != null) {
-          Intent share = new Intent(Intent.ACTION_SEND);
-          share.setType("image/png");
 
-          share.putExtra(Intent.EXTRA_STREAM, uri);
+          FileOutputStream outStream= new FileOutputStream(file);
+          bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+          outStream.flush();
+          outStream.close();
 
-          shared = true;
+          //Get the path of the image
+          Uri uri=Uri.parse("file://" + file.getAbsolutePath());
 
-          startActivity(Intent.createChooser(share, "Share"));
-        }
+          //Create the intent to share the image
+          if (uri != null) {
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("image/png");
 
-        break;
-          
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+
+            shared = true;
+
+            startActivity(Intent.createChooser(share, "Share"));
+          }
+
+          break;
+
         }
       }
     } catch (FileNotFoundException e) {
@@ -162,7 +162,7 @@ boolean shared=false;
       Toast.makeText(this, "Error Sharing Chart", Toast.LENGTH_LONG).show();
     }
   }
-  
+
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -173,9 +173,14 @@ boolean shared=false;
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    chartSettings = ChartSettings.load(data);
-    if (resultCode == RESULT_OK) {
+    switch (resultCode) {
+    case RESULT_OK :
+      chartSettings = ChartSettings.load(data);
       getRenderTask().execute();
+      break;
+
+    case RESULT_CANCELED:
+      break;
     }
   }
 }
