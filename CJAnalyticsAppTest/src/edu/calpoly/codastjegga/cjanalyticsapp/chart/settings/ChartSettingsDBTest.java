@@ -4,6 +4,7 @@ package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 import android.content.ContentValues;
 import android.test.AndroidTestCase;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
 
 
@@ -14,6 +15,7 @@ public class ChartSettingsDBTest extends AndroidTestCase{
   protected void setUp() throws Exception {
     super.setUp();
     testSetting=new ChartSettings(ChartType.Pie, "Test", "testMetric", null, null, null);
+    testSetting.setEventType(EventType.Text);
   }
 
   

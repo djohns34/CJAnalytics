@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
 
 /**
@@ -35,9 +36,13 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
   static final String LAST_VIEWED="lastViewed";
   public static final String LAST_VIEWED_NOT_NULL = LAST_VIEWED +" is not null";
   
+  /*New Row v4*/
+  public static String EVENT_TYPE = "eventType";
   
-  /*Does not include the Laxt viewed becuase that is only used in SQL calls*/
-  static final String[] allSettingsColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,METRIC,START_DATE,END_DATE,FAVORITE};
+  
+  
+  /*Does not include the Last viewed because that is only used in SQL calls*/
+  static final String[] allSettingsColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,METRIC,START_DATE,END_DATE,FAVORITE,EVENT_TYPE};
 
   /*Default visibility for test cases*/
   static final String DATABASE_NAME = "CJAnalytics";
@@ -48,28 +53,21 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
    * Database creation sql statement
    */
   
-  private static final String  V1_TO_V2 =   FAVORITE+ " text not null DEFAULT 'false'";
-  
-  private static final String  V2_TO_V3 =   LAST_VIEWED+ " INTEGER";
-  
-  private static final String DATABASE_CREATE_V1 =
+  private static final String DATABASE_CREATE =
       "create table "+DATABASE_TABLE+" ("+KEY_ROWID+" integer primary key autoincrement, "
           + CHART_TYPE+" text not null,"
           + CHART_NAME+" text not null,"
+          + EVENT_TYPE+ " text not null,"
           + DATABASE+" text not null,"
           + METRIC+" text not null,"
           + START_DATE+" text,"
-          + END_DATE+" text";
+          + END_DATE+" text,"
+          + FAVORITE+ " text not null,"
+          + LAST_VIEWED + " INTEGER)";
   
   
-  private static final String DATABASE_CREATE_V2=DATABASE_CREATE_V1+","+V1_TO_V2;
-  private static final String DATABASE_CREATE_V3=DATABASE_CREATE_V2+","+V2_TO_V3;
-  
-  //Not final due to Unit Testing, using reflection to modify so we can create a v1 db and then upgrade it
-  private static String DATABASE_CREATE =DATABASE_CREATE_V3+ ");";
-
-
-  private static final int DATABASE_VERSION = 3;
+  /*Any databases before version 4 didn't hold all of the information required, I decided to wipe it all out and start clean*/
+  private static final int DATABASE_VERSION = 4;
 
 
 
@@ -88,13 +86,8 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){
-      if(oldVersion <2 && newVersion >=2){
-        String v1ToV2="ALTER TABLE " +DATABASE_TABLE +" ADD COLUMN "+V1_TO_V2+";";
-        db.execSQL(v1ToV2);
-      }if(oldVersion <3 && newVersion >=3){
-        String v2ToV3="ALTER TABLE " +DATABASE_TABLE +" ADD COLUMN "+V2_TO_V3+";";
-        db.execSQL(v2ToV3);
-      }
+      db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+      onCreate(db);
     }
   }
 
@@ -114,6 +107,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
     settings.setStartDate(DateUtils.parse(cursor.getString(cursor.getColumnIndex(START_DATE))));
     settings.setEndDate(DateUtils.parse(cursor.getString(cursor.getColumnIndex(END_DATE))));
     settings.setFavorite(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(FAVORITE))));
+    settings.setEventType(EventType.valueOf(cursor.getString(cursor.getColumnIndex(EVENT_TYPE))));
     
     return settings;
   }
@@ -135,6 +129,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
     values.put(START_DATE, DateUtils.format(setting.getStartDate()));
     values.put(END_DATE, DateUtils.format(setting.getEndDate()));
     values.put(FAVORITE, setting.getFavorite().toString());
+    values.put(EVENT_TYPE, setting.getEventType().name());
     return values;
   }
 }
