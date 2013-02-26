@@ -3,6 +3,7 @@ package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 import java.io.IOException;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +14,8 @@ import org.apache.http.ParseException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Pair;
 
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestRequest;
@@ -193,7 +196,7 @@ public class DataFetcher {
    *           If client fails to send request to salesforce.com or if
    *           Salesforce return back a invalid JSONObjection in response.
    */
-  public static Map<String, EventType> getDatabaseMetrics(String apiVersion,
+  public static List<Pair<String, EventType>> getDatabaseMetrics(String apiVersion,
       RestClient client, String databaseName) throws Exception {
     String getDBNameQuery = buildQuery(CUSTOM_OBJ_NAME, EnumSet.of(
         EventFields.DatabaseName, EventFields.EventName, EventFields.ValueType));
@@ -201,6 +204,7 @@ public class DataFetcher {
     String whereClause = WHERE + " " + EventFields.DatabaseName.getColumnId()
         + " = '" + databaseName + "'";
     String dbMetricQuery = getDBNameQuery + " " + whereClause;
+    
     RestResponse reponse = sendSyncRequest(dbMetricQuery, apiVersion, client);
 
     JSONObject databases;
@@ -213,9 +217,10 @@ public class DataFetcher {
     return parseMetricRecords(databases);
   }
 
-  private static Map<String, EventType> parseMetricRecords(JSONObject recordsObj)
+  private static List<Pair<String, EventType>> parseMetricRecords(JSONObject recordsObj)
       throws JSONException {
-    Map<String, EventType> result = new HashMap<String, EventType>();
+    List<Pair<String, EventType>> result = new LinkedList<Pair<String, EventType>>();
+    HashSet<String> storedEvent = new HashSet<String>();
     if (recordsObj != null) {
       JSONArray jsonRecordsArr = recordsObj.getJSONArray(RECORDS);
       int recordLen = jsonRecordsArr.length();
@@ -225,11 +230,16 @@ public class DataFetcher {
         //get the event name
         String eventName = recordItem.getString(EventFields.EventName
             .getColumnId());
-        //get the event type
-        String eventType = recordItem.getString(EventFields.ValueType
-            .getColumnId());
-        //put event name and type in result map
-        result.put(eventName, EventType.valueOf(eventType));
+        //IF the event is not added to the return list
+        if (!storedEvent.contains(eventName)) {
+          //get the event type
+          String eventType = recordItem.getString(EventFields.ValueType
+              .getColumnId());
+          //put event name and type in result map
+          result.add(Pair.create(eventName, EventType.valueOf(eventType)));
+          //add the event name to the list
+          storedEvent.add(eventName);
+        }
       }
     }
     return result;
