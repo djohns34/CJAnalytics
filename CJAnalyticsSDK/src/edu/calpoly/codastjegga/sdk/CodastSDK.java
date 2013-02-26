@@ -11,13 +11,13 @@ public class CodastSDK implements ICodastSDK{
 	private RestClient client;
 	private SalesforceConnector connector;
 
-	public CodastSDK(Application app, ClientInfo clientInfo, final Token token)
+	public CodastSDK(Application app, ClientInfo clientInfo, final Token token,String appName)
 	{
 		this.restClientAdapter = new RestClientAdapter(app, clientInfo, token);
 		this.client = this.restClientAdapter.getRestClient();
 		
 		/*TODO: fill in the connector constructor */
-		this.connector = new SalesforceConnector(client, null, null);
+		this.connector = new SalesforceConnector(client,appName, null, null);
 	}
 	
 	public void trackData(EventType type, String metric, Object data)

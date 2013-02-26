@@ -22,7 +22,7 @@ public class TestSalesforceConnector extends AndroidTestCase {
     protected void setUp() throws Exception {
         TestRestClientAdapter trca=new TestRestClientAdapter();
         trca.setUp();
-        connector =new SalesforceConnector(trca.adapt.getRestClient(), TestRestClientAdapter.api, getContext());
+        connector =new SalesforceConnector(trca.adapt.getRestClient(),"Angry Birds", TestRestClientAdapter.api, getContext());
     };
     
     

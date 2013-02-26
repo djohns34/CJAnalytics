@@ -32,13 +32,17 @@ public class SalesforceConnector{
 
     //Our salesforce object
     private static final String table ="TrackedEvents__c";
+
+    private static final String  DatabaseName ="DatabaseName__c";
+
+    private final String  appName;
     
     
-    
-    
-    public SalesforceConnector(RestClient client, String apiVersion,Context activity) {
+    public SalesforceConnector(RestClient client,String appName, String apiVersion,Context activity) {
         this.client = client;
         this.apiVersion = apiVersion;
+        this.appName=appName;
+        
         
         db=new SalesforceDBAdapter(activity);
         db.open();
@@ -63,6 +67,10 @@ public class SalesforceConnector{
         Map<Integer, Map<String, Object>> eventMap =db.fetchAllEvents();
         
         for(Entry<Integer, Map<String, Object>> e:eventMap.entrySet()){
+        	//Tack the app name onto the event coming out of the database
+        	e.getValue().put(DatabaseName,appName);
+        	
+        	
             sendRequestForInsert(e.getKey(),e.getValue());
         }
     }
@@ -88,14 +96,14 @@ public class SalesforceConnector{
                 AsyncRequestCallback callback =new CodastRequestCallback(i);
                 
                 
-                try {
-                    callback.onSuccess(r, getClient().sendSync(r));
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                   callback.onError(e);
-                }
+//                try {
+//                    callback.onSuccess(r, getClient().sendSync(r));
+//                } catch (IOException e) {
+//                    // TODO Auto-generated catch block
+//                   callback.onError(e);
+//                }
                 
-//                client.sendAsync(r, callback);
+                client.sendAsync(r, callback);
             }
         }
 
