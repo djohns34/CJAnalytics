@@ -21,7 +21,7 @@ import com.salesforce.androidsdk.rest.RestResponse;
 import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
-import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Events;
 
 /**
  * DataFetcher sends and retrieves data from Salesforce.com from
@@ -243,12 +243,12 @@ public class DataFetcher {
    * @param databaseName name of the database whose events to get
    * @param eventName - name of the event 
    * @param eventType - type of event {@link EventType}
-   * @return Records {@link Records}
+   * @return Records {@link Events}
    * @throws Exception
    *           If client fails to send request to salesforce.com or if
    *           Salesforce return back a invalid JSONObjection in response.
    */
-  public static Records getDatabaseRecords(String apiVersion,
+  public static Events getDatabaseRecords(String apiVersion,
       RestClient client, String databaseName, String eventName,
       EventType eventType) throws Exception {
     // create a set of basic event fields
@@ -273,6 +273,6 @@ public class DataFetcher {
       throw new ParseException("Internal error, unable to parse response as JSON");
     }
     //create and return records created from the data
-    return new Records(data);
+    return new Events(data);
   }
 }

@@ -28,7 +28,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartProvider;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
-import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Events;
 
 public class ChartActivity extends Activity {
   ChartSettings chartSettings;
@@ -73,7 +73,7 @@ public class ChartActivity extends Activity {
         if(chartSettings != null) {
 
           try {
-            Records records = DataFetcher.getDatabaseRecords(getString(R.string.api_version), 
+            Events records = DataFetcher.getDatabaseRecords(getString(R.string.api_version), 
                 ((CJAnalyticsApp)getApplication()).getRestClient() , 
                 chartSettings.getDatabase(), chartSettings.getMetric(), 
                 chartSettings.getEventType());
