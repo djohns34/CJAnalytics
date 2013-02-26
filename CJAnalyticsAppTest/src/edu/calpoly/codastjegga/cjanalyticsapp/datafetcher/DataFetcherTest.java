@@ -3,14 +3,14 @@ package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.json.JSONObject;
 import org.mockito.Mockito;
 
-import com.salesforce.androidsdk.auth.HttpAccess;
+import android.util.Pair;
+
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
 import com.salesforce.androidsdk.rest.RestRequest;
@@ -20,8 +20,8 @@ import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.Events;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.NumberEvent;
-import edu.calpoly.codastjegga.cjanalyticsapp.event.Records;
 
 /**
  * Test class for DataFetcher
@@ -135,6 +135,7 @@ public class DataFetcherTest extends TestCase {
     RestResponse requestMock = Mockito.mock(RestResponse.class);
 
     String [] metrics = {METRIC0, METRIC1};
+
     String dbName = ANGRYBIRD; 
 
     //build the JSON response
@@ -162,18 +163,15 @@ public class DataFetcherTest extends TestCase {
     }
 
     try {
-      Map<String, EventType> dbMetrics = DataFetcher.getDatabaseMetrics(apiV, client, dbName);
+      List<Pair<String, EventType>> dbMetrics = DataFetcher.getDatabaseMetrics(apiV, client, dbName);
       //check that the hash isn't null
       assertNotNull(dbMetrics);
       //check the length of the hash
       assertEquals(metrics.length, dbMetrics.size());
+      
       for (String metric : metrics) {
         //check if db metrics contains the metric
-        assertTrue(dbMetrics.containsKey(metric));
-        //get the event type (value) of the metric
-        EventType value = dbMetrics.get(metric);
-        //check the value
-        assertEquals(METRICTYPE, value);
+        assertTrue(dbMetrics.contains(Pair.create(metric, METRICTYPE)));
       }
     } catch (Exception e) {
       fail("Internal error");
@@ -220,17 +218,17 @@ public class DataFetcherTest extends TestCase {
     try {
       //testing ANGRYBIRD 
 
-      Records rec = DataFetcher.getDatabaseRecords(apiV, client, dbName,null, METRICTYPE);
+      Events events = DataFetcher.getDatabaseRecords(apiV, client, dbName,null, METRICTYPE);
       //check that the hash isn't null
-      assertNotNull(rec);
-      //getting the list of events
-      List<Event> events = rec.getEvents();
       assertNotNull(events);
+      //getting the list of events
+      List<Event> eventsList = events.getEvents();
+      assertNotNull(eventsList);
       //check the length of the event
-      assertEquals(1, events.size());
+      assertEquals(1, eventsList.size());
 
       //get metric one event
-      NumberEvent actualEvent = (NumberEvent)events.get(0);
+      NumberEvent actualEvent = (NumberEvent)eventsList.get(0);
       NumberEvent expectedEvent = new NumberEvent(metrics, DEVICEID, TIMESTAMP, dbName, NUMBERV); 
 
       checkNumberEvent(expectedEvent, actualEvent);
