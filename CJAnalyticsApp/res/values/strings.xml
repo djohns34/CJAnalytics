@@ -20,8 +20,6 @@
     <string name="menu_settings">Settings</string>
     
     <string name="delete">Delete</string>
-    <string name="edit">Edit</string>
-    <string name="share">Share</string>
 
     <string name="no_dashboards">No dashboards have been set up.</string>
     <string name="no_charts">No charts have been created.</string>
