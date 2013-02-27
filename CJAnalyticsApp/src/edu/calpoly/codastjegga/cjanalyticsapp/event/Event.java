@@ -27,6 +27,8 @@ public class Event {
   private Date timestamp;
   //name of the database that this event is part of
   private String databaseName;
+  // value of the event
+  private Object value;
 
   //
   static final long NOT_PERSISTED=-1l;
@@ -52,9 +54,10 @@ public class Event {
    * @param name of the db where the event is stored or belongs to
    * @param timestamp the time the event was triggered
    */
-  public Event (String eventName, String deviceId, String timestamp, String databaseName) {
+  public Event (String eventName, String deviceId, String timestamp, String databaseName, Object value) {
     this.eventName = eventName;
     this.deviceId = deviceId;
+    this.value = value;
     setTimestamp(timestamp);
     setDatabaseName(databaseName);
   }
@@ -116,6 +119,13 @@ public class Event {
     return timestamp;
   }
   
+  /**
+   * Getter for value
+   * @return value of the event
+   */
+  public Object getValue () {
+    return value;
+  }
   
   /**
    * database name Setter

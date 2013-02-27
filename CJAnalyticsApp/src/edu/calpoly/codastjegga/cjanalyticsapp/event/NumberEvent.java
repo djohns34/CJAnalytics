@@ -21,7 +21,7 @@ public class NumberEvent extends Event {
    * @param numberValue value of type integer (number)
    */
   public NumberEvent (String eventName, String deviceId, String timestamp, String databaseName, Integer numberValue) {
-    super(eventName, deviceId, timestamp, databaseName);
+    super(eventName, deviceId, timestamp, databaseName, numberValue);
     this.numberValue = numberValue;
   }
   

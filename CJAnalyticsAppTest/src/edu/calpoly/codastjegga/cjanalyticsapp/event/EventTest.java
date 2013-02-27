@@ -1,10 +1,5 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.event;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
 
 import junit.framework.TestCase;
@@ -12,7 +7,7 @@ import junit.framework.TestCase;
 public class EventTest extends TestCase {
 
 
-	String eventName; String deviceId; String timestamp; String databaseName;
+	String eventName; String deviceId; String timestamp; String databaseName; String value;
 	Event event;
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -20,7 +15,8 @@ public class EventTest extends TestCase {
 		deviceId = "deviceid09876";
 		timestamp = "2013-01-29T08:00:00.000+0000";
 		databaseName = "dbName";
-		event = new Event(eventName, deviceId, timestamp, databaseName);
+		value = "thisIsAValue";
+		event = new Event(eventName, deviceId, timestamp, databaseName, value);
 	}
 
 
@@ -30,6 +26,7 @@ public class EventTest extends TestCase {
      String expectedDate;
      expectedDate = DateUtils.parse(timestamp).toString();
      assertEquals(expectedDate, event.getTimestamp().toString());
+     assertEquals(value, event.getValue().toString());
 
 }
 

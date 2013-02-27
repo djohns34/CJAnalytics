@@ -23,7 +23,7 @@ public class CurrencyEvent extends Event{
    * @param currencyValue value of type BigDecimal to represent currency
    */
   public CurrencyEvent (String eventName, String deviceId, String timestamp, String databaseName, BigDecimal currencyValue) {
-    super(eventName, deviceId, timestamp, databaseName);
+    super(eventName, deviceId, timestamp, databaseName, currencyValue);
     this.currencyValue = currencyValue;
   }
 
