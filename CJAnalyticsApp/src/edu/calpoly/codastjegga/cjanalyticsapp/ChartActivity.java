@@ -62,6 +62,9 @@ public class ChartActivity extends Activity {
       protected void onPreExecute() {
         super.onPreExecute();
 
+        // update provider in case they switched types
+        provider = chartSettings.getType().getProvider();
+
         LayoutParams p = new LayoutParams(LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT);
         p.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
