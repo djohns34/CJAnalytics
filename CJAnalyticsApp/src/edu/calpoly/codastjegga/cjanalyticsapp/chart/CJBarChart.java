@@ -1,6 +1,9 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.chart;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -17,39 +20,50 @@ import android.content.Context;
 import android.graphics.Color;
 
 public class CJBarChart implements ChartProvider {
+  XYMultipleSeriesDataset data;
+  XYMultipleSeriesRenderer ren;
+
   public void parseData(ChartSettings chartSettings, List<Event> events) {
+    data = new XYMultipleSeriesDataset();
+    ren = new XYMultipleSeriesRenderer();
+    XYSeries xySeries;
+    SimpleSeriesRenderer ssr;
+    Random rand = new Random();
+    HashMap<String, Integer> values = new HashMap<String, Integer>();
+    int xIndex = 1;
 
-  }
+    for (Event e : events) {
+      String curr = e.getValue().toString();
+      if (values.containsKey(curr)) {
+        values.put(curr, values.get(curr) + 1);
+      } else {
+        values.put(curr, 1);
+      }
+    }
 
-  public GraphicalView getGraphicalView(Context context) {
+    for (Map.Entry<String, Integer> entry : values.entrySet()) {
+      xySeries = new XYSeries(entry.getKey());
+      xySeries.add(xIndex, entry.getValue());
+      data.addSeries(xySeries);
+      ren.addXTextLabel(xIndex, xySeries.getTitle());
 
-    XYMultipleSeriesDataset data = new XYMultipleSeriesDataset();
-    XYMultipleSeriesRenderer ren = new XYMultipleSeriesRenderer();
+      ssr = new SimpleSeriesRenderer();
+      ssr.setColor(Color.rgb(rand.nextInt(256), rand.nextInt(256),
+          rand.nextInt(256)));
+      ren.addSeriesRenderer(ssr);
 
-    XYSeries s = new XYSeries("Blah 1");
-    s.add(1, 10);
-    data.addSeries(s);
-    ren.addXTextLabel(1, s.getTitle());
+      xIndex += 1;
+    }
 
-    SimpleSeriesRenderer ssr = new SimpleSeriesRenderer();
-    ssr.setColor(Color.GREEN);
-    ren.addSeriesRenderer(ssr);
-
-    s = new XYSeries("Blah 2");
-    s.add(2, 15);
-    data.addSeries(s);
-    ren.addXTextLabel(2, s.getTitle());
-
-    ssr = new SimpleSeriesRenderer();
-    ssr.setColor(Color.BLUE);
-    ren.addSeriesRenderer(ssr);
     ren.setXLabels(0);
     ren.setBarSpacing(.5);
     ren.setYAxisMin(0);
     ren.setXAxisMin(0);
 
     ren.setMarginsColor(Color.argb(0, 255, 255, 255));
+  }
 
+  public GraphicalView getGraphicalView(Context context) {
     return ChartFactory.getBarChartView(context, data, ren, Type.DEFAULT);
   }
 }
