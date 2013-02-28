@@ -40,7 +40,6 @@ public class CJPieChart implements ChartProvider {
     }
 
     for (Map.Entry<String, Integer> entry : values.entrySet()) {
-      Log.d(entry.getKey(), entry.getValue().toString());
       cs.add(entry.getKey(), entry.getValue());
       ssr = new SimpleSeriesRenderer();
       ssr.setColor(Color.rgb(rand.nextInt(256), rand.nextInt(256),
