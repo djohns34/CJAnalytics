@@ -11,6 +11,7 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
 
 import android.content.Context;
@@ -18,15 +19,16 @@ import android.graphics.Color;
 import android.util.Log;
 
 public class CJPieChart implements ChartProvider {
-  public GraphicalView getGraphicalView(Context context, List<Event> events) {
-    CategorySeries cs = new CategorySeries("Chart Title Here");
-    DefaultRenderer ren = new DefaultRenderer();
+  private DefaultRenderer ren;
+  private CategorySeries cs;
+
+  public void parseData(ChartSettings chartSettings, List<Event> events) {
     SimpleSeriesRenderer ssr;
     Random rand = new Random();
     HashMap<String, Integer> values = new HashMap<String, Integer>();
 
-    // TODO: Need a way to get
-    ren.setChartTitle("Chart Title Here");
+    cs = new CategorySeries("My Events");
+    ren = new DefaultRenderer();
 
     for (Event e : events) {
       String curr = e.getValue().toString();
@@ -41,10 +43,13 @@ public class CJPieChart implements ChartProvider {
       Log.d(entry.getKey(), entry.getValue().toString());
       cs.add(entry.getKey(), entry.getValue());
       ssr = new SimpleSeriesRenderer();
-      ssr.setColor(Color.rgb(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+      ssr.setColor(Color.rgb(rand.nextInt(256), rand.nextInt(256),
+          rand.nextInt(256)));
       ren.addSeriesRenderer(ssr);
     }
+  }
 
+  public GraphicalView getGraphicalView(Context context) {
     return ChartFactory.getPieChartView(context, cs, ren);
   }
 }

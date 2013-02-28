@@ -35,6 +35,7 @@ public class ChartActivity extends Activity {
   ProgressBar spinner;
   ViewGroup layoutChart;
   AsyncTask<Intent, Void, ChartProvider> task;
+  ChartProvider provider;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +47,12 @@ public class ChartActivity extends Activity {
 
     spinner = new ProgressBar(this);
     spinner.setIndeterminate(true);
-    //load in the chart setting info
+    // load in the chart setting info
     chartSettings = ChartSettings.load(getIntent());
-    //render the chart with the specified chart setting
+
+    provider = chartSettings.getType().getProvider();
+
+    // render the chart with the specified chart setting
     getRenderTask().execute();
   };
 
@@ -70,22 +74,23 @@ public class ChartActivity extends Activity {
       protected List<Event> doInBackground(Void... params) {
         List<Event> events = null;
 
-        if(chartSettings != null) {
-
+        if (chartSettings != null) {
           try {
-            Events records = DataFetcher.getDatabaseRecords(getString(R.string.api_version), 
-                ((CJAnalyticsApp)getApplication()).getRestClient() , 
-                chartSettings.getDatabase(), chartSettings.getEventName(), 
+            Events records = DataFetcher.getDatabaseRecords(
+                getString(R.string.api_version),
+                ((CJAnalyticsApp) getApplication()).getRestClient(),
+                chartSettings.getDatabase(), chartSettings.getEventName(),
                 chartSettings.getEventType());
             events = records.getEvents();
           } catch (Exception e) {
             Log.e(this.getClass().getName(), "Unable to get records", e);
             return null;
           }
+
+          provider.parseData(chartSettings, events);
         }
         return events;
       }
-
 
       @Override
       protected void onPostExecute(List<Event> result) {
@@ -93,14 +98,11 @@ public class ChartActivity extends Activity {
         spinner.setVisibility(View.GONE);
         layoutChart.removeAllViews();
         if (result != null && chartSettings != null) {
-          ChartProvider provider = chartSettings.getType().getProvider();
-          layoutChart.addView(provider.getGraphicalView(ChartActivity.this, result));
+          layoutChart.addView(provider.getGraphicalView(ChartActivity.this));
         }
       }
     };
   }
-
-
 
   public void onClickEditButton(MenuItem menu) {
     if (chartSettings != null) {
@@ -109,35 +111,34 @@ public class ChartActivity extends Activity {
       startActivityForResult(intent, 0);
     }
   }
-  public void onClickShareButton(MenuItem menu){
-    boolean shared=false;
+
+  public void onClickShareButton(MenuItem menu) {
+    boolean shared = false;
 
     try {
-      for (int i = 0; i < layoutChart.getChildCount();i++){
-        if(layoutChart.getChildAt(i) instanceof GraphicalView){
+      for (int i = 0; i < layoutChart.getChildCount(); i++) {
+        if (layoutChart.getChildAt(i) instanceof GraphicalView) {
           // Get the achartengine view object
-          GraphicalView view=(GraphicalView) layoutChart.getChildAt(i);
+          GraphicalView view = (GraphicalView) layoutChart.getChildAt(i);
 
-
-          //Convert it to a bmp
-          Bitmap bmp=view.toBitmap();
+          // Convert it to a bmp
+          Bitmap bmp = view.toBitmap();
 
           File extStorage = Environment.getExternalStorageDirectory();
-          //Save the image to a folder on the sd card
+          // Save the image to a folder on the sd card
           File cj = new File(extStorage, "CodastJegga");
           cj.mkdir();
           File file = new File(cj, "Chart.png");
 
-
-          FileOutputStream outStream= new FileOutputStream(file);
+          FileOutputStream outStream = new FileOutputStream(file);
           bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
           outStream.flush();
           outStream.close();
 
-          //Get the path of the image
-          Uri uri=Uri.parse("file://" + file.getAbsolutePath());
+          // Get the path of the image
+          Uri uri = Uri.parse("file://" + file.getAbsolutePath());
 
-          //Create the intent to share the image
+          // Create the intent to share the image
           if (uri != null) {
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("image/png");
@@ -158,11 +159,10 @@ public class ChartActivity extends Activity {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    if(!shared){
+    if (!shared) {
       Toast.makeText(this, "Error Sharing Chart", Toast.LENGTH_LONG).show();
     }
   }
-
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -174,7 +174,7 @@ public class ChartActivity extends Activity {
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     switch (resultCode) {
-    case RESULT_OK :
+    case RESULT_OK:
       chartSettings = ChartSettings.load(data);
       getRenderTask().execute();
       break;

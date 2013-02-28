@@ -9,18 +9,23 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
 
 import android.content.Context;
 import android.graphics.Color;
 
 public class CJLineChart implements ChartProvider {
-  public GraphicalView getGraphicalView(Context context, List<Event> events) {
+  public void parseData(ChartSettings chartSettings, List<Event> events) {
+
+  }
+
+  public GraphicalView getGraphicalView(Context context) {
     XYMultipleSeriesDataset data = new XYMultipleSeriesDataset();
     XYMultipleSeriesRenderer ren = new XYMultipleSeriesRenderer();
     XYSeriesRenderer xysr;
     XYSeries s;
-    
+
     s = new XYSeries("Blah 1");
     s.add(1, 10);
     data.addSeries(s);
@@ -38,7 +43,7 @@ public class CJLineChart implements ChartProvider {
     xysr = new XYSeriesRenderer();
     xysr.setColor(Color.BLUE);
     ren.addSeriesRenderer(xysr);
-    
+
     ren.setXLabels(0);
     ren.setBarSpacing(.5);
     ren.setYAxisMin(0);
