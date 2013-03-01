@@ -90,7 +90,8 @@ public class EventFactory {
    */
   public static NumberEvent createNumberEvent (String eventName, 
       String deviceId, String timestamp, String databaseName, String recordValue) throws NumberFormatException {
-    return new NumberEvent(eventName, deviceId, timestamp, databaseName, Integer.valueOf(recordValue));
+    int num = (int)Math.round(Double.parseDouble(recordValue));
+    return new NumberEvent(eventName, deviceId, timestamp, databaseName, num);
 
   }
 
