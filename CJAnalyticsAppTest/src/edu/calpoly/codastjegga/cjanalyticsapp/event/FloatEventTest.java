@@ -28,13 +28,13 @@ public class FloatEventTest extends TestCase {
 	}
 	
 	public void testGetterSetter() {
-		assertEquals(floatV, floatEvent.getFloatValue());
+		assertEquals(floatV, floatEvent.getValue());
 		Float newFloatVal = new Float(100.00);
 		floatEvent.setFloatValue(newFloatVal);
-		assertEquals(newFloatVal, floatEvent.getFloatValue());
+		assertEquals(newFloatVal, floatEvent.getValue());
 		
 		floatEvent.setFloatValue(null);
-		assertNull(floatEvent.getFloatValue());
+		assertNull(floatEvent.getValue());
    }
 
 }

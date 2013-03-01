@@ -27,13 +27,13 @@ public class CurrentEventTest extends TestCase {
 	}
 	
 	public void testGetterSetter() {
-		assertEquals(currency, currEvent.getCurrencyValue());
+		assertEquals(currency, currEvent.getValue());
 		BigDecimal newCurrVal = new BigDecimal("100.00");
 		currEvent.setCurrencyValue(newCurrVal);
-		assertEquals(newCurrVal, currEvent.getCurrencyValue());
+		assertEquals(newCurrVal, currEvent.getValue());
 		
 		currEvent.setCurrencyValue(null);
-		assertNull(currEvent.getCurrencyValue());
+		assertNull(currEvent.getValue());
 	}
 
 }

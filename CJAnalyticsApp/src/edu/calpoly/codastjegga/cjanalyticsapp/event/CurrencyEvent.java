@@ -7,7 +7,7 @@ import java.math.BigDecimal;
  * @author Gagandeep S. Kohli
  *
  */
-public class CurrencyEvent extends Event{
+public class CurrencyEvent extends Event<BigDecimal>{
   //currency value of the event
   private BigDecimal currencyValue;
 
@@ -39,7 +39,7 @@ public class CurrencyEvent extends Event{
    * Getter for CurrencyValue
    * @return currency value of this event
    */
-  public BigDecimal getCurrencyValue () {
+  public BigDecimal getValue () {
     return this.currencyValue;
   }
 

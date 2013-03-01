@@ -5,7 +5,7 @@ package edu.calpoly.codastjegga.cjanalyticsapp.event;
  * @author gagandeep
  *
  */
-public class TextEvent extends Event {
+public class TextEvent extends Event<String> {
   //text value of the event
   private String textVaue;
   
@@ -29,7 +29,7 @@ public class TextEvent extends Event {
    * Setter for TextValue
    * @param textValue text value of this event
    */
-  public void setTextValue (String textValue) {
+  public void setValue (String textValue) {
     this.textVaue = textValue;
   }
   
@@ -37,7 +37,7 @@ public class TextEvent extends Event {
    * Getter for TextValue
    * @return text value of this event
    */
-  public String getTextValue () {
+  public String getValue () {
     return this.textVaue;
   }
 }

@@ -27,13 +27,13 @@ public class NumberEventTest extends TestCase {
 	}
 	
 	public void testGetterSetter() {
-		assertEquals(integerV, numEvent.getNumberValue());
+		assertEquals(integerV, numEvent.getValue());
 		Integer newNumVal = new Integer(-100);
 		numEvent.setNumberValue(newNumVal);
-		assertEquals(newNumVal, numEvent.getNumberValue());
+		assertEquals(newNumVal, numEvent.getValue());
 		
 		numEvent.setNumberValue(null);
-		assertNull(numEvent.getNumberValue());
+		assertNull(numEvent.getValue());
 	}
 
 }

@@ -240,13 +240,13 @@ public class DataFetcherTest extends TestCase {
 
   private void checkNumberEvent(NumberEvent expected, NumberEvent actual) {
     //check name
-    assertEquals(expected.getEventName(), actual.getEventName());
+    assertEquals(expected.getName(), actual.getName());
     //check db
     assertEquals(expected.getDatabaseName(), actual.getDatabaseName());
     //device id
     assertEquals(expected.getDeviceId(), actual.getDeviceId());
     //check number value
-    assertEquals(expected.getNumberValue(), actual.getNumberValue());
+    assertEquals(expected.getValue(), actual.getValue());
     //check timestamp
     assertEquals(expected.getTimestamp(), actual.getTimestamp());
   }

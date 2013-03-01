@@ -189,47 +189,47 @@ public class EventFactoryTest extends TestCase {
 	
 	private void validateCurrencyEvent(CurrencyEvent currEvent) {
 		assertNotNull(currEvent);
-		assertEquals(currEventName, currEvent.getEventName());
+		assertEquals(currEventName, currEvent.getName());
 		assertEquals(DEVICE_ID, currEvent.getDeviceId());
 		assertNotNull(currEvent.getTimestamp());
 		assertEquals(timestamp, currEvent.getTimestamp());
-		assertEquals(new BigDecimal(CURRV), currEvent.getCurrencyValue());
+		assertEquals(new BigDecimal(CURRV), currEvent.getValue());
 	}
 	
 	private void validateTextEvent(TextEvent textEvent) {
 		assertNotNull(textEvent);
-		assertEquals(textEventName, textEvent.getEventName());
+		assertEquals(textEventName, textEvent.getName());
 		assertEquals(DEVICE_ID, textEvent.getDeviceId());
 		assertNotNull(textEvent.getTimestamp());
 		assertEquals(timestamp, textEvent.getTimestamp());
-		assertEquals(TEXTV, textEvent.getTextValue());
+		assertEquals(TEXTV, textEvent.getValue());
 	}
 	
 	private void validateLocaleEvent(LocaleEvent localeEvent) {
 		assertNotNull(localeEvent);
-		assertEquals(localeEventName, localeEvent.getEventName());
+		assertEquals(localeEventName, localeEvent.getName());
 		assertEquals(DEVICE_ID, localeEvent.getDeviceId());
 		assertNotNull(localeEvent.getTimestamp());
 		assertEquals(timestamp, localeEvent.getTimestamp());
-		assertEquals(LOCALEV, localeEvent.getLocaleValue());
+		assertEquals(LOCALEV, localeEvent.getValue());
 	}
 	
 	private void validateNumberEvent(NumberEvent numberEvent) {
 		assertNotNull(numberEvent);
-		assertEquals(numberEventName, numberEvent.getEventName());
+		assertEquals(numberEventName, numberEvent.getName());
 		assertEquals(DEVICE_ID, numberEvent.getDeviceId());
 		assertNotNull(numberEvent.getTimestamp());
 		assertEquals(timestamp, numberEvent.getTimestamp());
-		assertEquals(new Integer(NUMV), numberEvent.getNumberValue());
+		assertEquals(new Integer(NUMV), numberEvent.getValue());
 	}
 	
 	private void validateFloatEvent(FloatEvent floatEvent) {
 		assertNotNull(floatEvent);
-		assertEquals(floatEventName, floatEvent.getEventName());
+		assertEquals(floatEventName, floatEvent.getName());
 		assertEquals(DEVICE_ID, floatEvent.getDeviceId());
 		assertNotNull(floatEvent.getTimestamp());
 		assertEquals(timestamp, floatEvent.getTimestamp());
-		assertEquals(new Float(FLOATV), floatEvent.getFloatValue());
+		assertEquals(new Float(FLOATV), floatEvent.getValue());
 	}
 
 

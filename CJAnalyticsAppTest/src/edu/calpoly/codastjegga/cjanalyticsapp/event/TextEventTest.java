@@ -28,13 +28,13 @@ public class TextEventTest extends TestCase {
   }
 
   public void testGetterSetter() {
-    assertEquals(textV, textEvent.getTextValue());
+    assertEquals(textV, textEvent.getValue());
     String newTextVal = "new_text_value";
-    textEvent.setTextValue(newTextVal);
-    assertEquals(newTextVal, textEvent.getTextValue());
+    textEvent.setValue(newTextVal);
+    assertEquals(newTextVal, textEvent.getValue());
 
-    textEvent.setTextValue(null);
-    assertNull(textEvent.getTextValue());
+    textEvent.setValue(null);
+    assertNull(textEvent.getValue());
   }
 
 }

@@ -5,7 +5,7 @@ package edu.calpoly.codastjegga.cjanalyticsapp.event;
  * @author Gagandeep S. Kohli
  *
  */
-public class NumberEvent extends Event {
+public class NumberEvent extends Event<Integer> {
   //number value of the event
   private Integer numberValue;
   
@@ -37,7 +37,7 @@ public class NumberEvent extends Event {
    * Getter for NumberValue
    * @return integer (number) value of this event
    */
-  public Integer getNumberValue () {
+  public Integer getValue () {
     return this.numberValue;
   }
 }

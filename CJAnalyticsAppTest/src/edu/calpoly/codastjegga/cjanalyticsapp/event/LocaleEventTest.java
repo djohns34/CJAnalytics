@@ -26,13 +26,13 @@ public class LocaleEventTest extends TestCase {
 	}
 
 	public void testGetterSetter() {
-		assertEquals(localeV, localeEvent.getLocaleValue());
+		assertEquals(localeV, localeEvent.getValue());
 		String newLocaleVal = "EU";
 		localeEvent.setLocaleValue(newLocaleVal);
-		assertEquals(newLocaleVal, localeEvent.getLocaleValue());
+		assertEquals(newLocaleVal, localeEvent.getValue());
 
 		localeEvent.setLocaleValue(null);
-		assertNull(localeEvent.getLocaleValue());
+		assertNull(localeEvent.getValue());
 	}
 
 }

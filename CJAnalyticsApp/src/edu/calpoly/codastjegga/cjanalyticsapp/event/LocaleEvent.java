@@ -5,7 +5,7 @@ package edu.calpoly.codastjegga.cjanalyticsapp.event;
  * @author Gagandeep S. Kohli
  *
  */
-public class LocaleEvent extends Event{
+public class LocaleEvent extends Event<String>{
   //locale value of the event
   private String localeValue;
   
@@ -37,7 +37,7 @@ public class LocaleEvent extends Event{
    * Getter for localeValue
    * @return float value of this event
    */
-  public String getLocaleValue () {
+  public String getValue () {
     return this.localeValue;
   }
   

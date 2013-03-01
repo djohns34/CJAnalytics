@@ -80,7 +80,7 @@ public class EventsTest extends TestCase {
 
   public void testAddEvent() {
     //adding one more event
-    events.addEvent(new Event("eventName", "deviceid", "timestamp"));
+    events.addEvent(new TextEvent("eventName", "deviceid", "timestamp", "dbName", "text"));
     assertEquals(totalRecords + 1, events.getEvents().size());
   }
 

@@ -6,7 +6,7 @@ package edu.calpoly.codastjegga.cjanalyticsapp.event;
  * @author Gagandeep S. Kohli
  * 
  */
-public class FloatEvent extends Event {
+public class FloatEvent extends Event<Float> {
   // float value of the event
   private Float floatValue;
 
@@ -43,7 +43,7 @@ public class FloatEvent extends Event {
    * 
    * @return float value of this event
    */
-  public Float getFloatValue() {
+  public Float getValue() {
     return this.floatValue;
   }
 }

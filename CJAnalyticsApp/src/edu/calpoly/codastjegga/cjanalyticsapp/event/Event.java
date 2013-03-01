@@ -12,7 +12,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
  * @author Gagandeep S. Kohli
  *
  */
-public class Event {
+public abstract class Event <E> {
   
   private static String EVENTNAME = "eventname";
   private static String DEVICEID = "deviceid";
@@ -67,7 +67,7 @@ public class Event {
    * Setter for event name
    * @param eventName name of the event
    */
-  public void setEventName (String eventName) {
+  public void setName (String eventName) {
     this.eventName = eventName;
   }
   
@@ -75,7 +75,7 @@ public class Event {
    * Getter for event name
    * @return name of the event
    */
-  public String getEventName () {
+  public String getName () {
     return eventName;
   }
   
@@ -123,9 +123,7 @@ public class Event {
    * Getter for value
    * @return value of the event
    */
-  public Object getValue () {
-    return value;
-  }
+  public abstract E getValue ();
   
   /**
    * database name Setter
@@ -159,5 +157,7 @@ public class Event {
   public String toString() {
     return getJSONObject().toString();
   }
+  
+
   
 }

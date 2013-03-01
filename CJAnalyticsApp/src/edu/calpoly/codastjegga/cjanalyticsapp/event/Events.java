@@ -104,7 +104,7 @@ public class Events {
    */
   public void addEvent (Event event) {
     //get the name of the event
-    String eventName = event.getEventName();
+    String eventName = event.getName();
     List<Event> events = eventsMap.get(eventName);
     //IF the list of events don't exist
     if (events == null)
