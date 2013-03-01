@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -23,7 +21,6 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -46,6 +43,7 @@ public class EditActivity extends FragmentActivity {
   private static final String SAVED_FROM_DATE = "savedfromdate";
   private static final String DATE_PICKER_TITLE = "Date Picker";
   private static final String ON_SAVE_INVALID_NAME_MESSAGE_ERROR = "Invalid Chart Name, please enter a chart name.";
+  private static final String ON_SAVE_INVALID_EVENT_TYPE = "Cannot render line graph with selected event type";
 
   private static final DateFormat dateFormater = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -298,10 +296,14 @@ public class EditActivity extends FragmentActivity {
   public void save(View v) {
     //IF the chart name is empty
     if (chartName.getText().length() == 0) {
-      Toast.makeText(this, ON_SAVE_INVALID_NAME_MESSAGE_ERROR , Toast.LENGTH_SHORT).show();
-     
-    }
-    else {
+      Toast.makeText(this, ON_SAVE_INVALID_NAME_MESSAGE_ERROR, Toast.LENGTH_SHORT).show();
+    } else if (getSelectedType() == ChartType.Line &&
+        getSelectedEvent().second != EventType.Float &&
+        getSelectedEvent().second != EventType.Currency &&
+        getSelectedEvent().second != EventType.Number) {
+      // TODO: this conditional is a total hack
+      Toast.makeText(this, ON_SAVE_INVALID_EVENT_TYPE, Toast.LENGTH_SHORT).show();
+    } else {
       saveChart();
     }
   }
