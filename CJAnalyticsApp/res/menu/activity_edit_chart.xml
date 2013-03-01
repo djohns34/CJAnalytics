@@ -12,7 +12,7 @@
         android:id="@+id/save_edit_chart_button"
         android:icon="@drawable/iconpack_save"
         android:onClick="onClickSave"
-        android:showAsAction="ifRoom"
+        android:showAsAction="ifRoom|withText"
         android:title="@string/save">
     </item>
 
