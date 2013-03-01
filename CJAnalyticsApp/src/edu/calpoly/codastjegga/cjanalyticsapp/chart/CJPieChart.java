@@ -24,11 +24,14 @@ public class CJPieChart implements ChartProvider {
 
   public void parseData(ChartSettings chartSettings, List<Event> events) {
     SimpleSeriesRenderer ssr;
+    
+    
     Random rand = new Random();
     HashMap<String, Integer> values = new HashMap<String, Integer>();
 
     cs = new CategorySeries("My Events");
     ren = new DefaultRenderer();
+    ChartRendererSetting.appendCustomRendererSetting(ren);
 
     for (Event e : events) {
       String curr = e.getValue().toString();

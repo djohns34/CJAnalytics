@@ -23,6 +23,9 @@ public class CJLineChart implements ChartProvider {
   public GraphicalView getGraphicalView(Context context) {
     XYMultipleSeriesDataset data = new XYMultipleSeriesDataset();
     XYMultipleSeriesRenderer ren = new XYMultipleSeriesRenderer();
+    
+    ChartRendererSetting.appendCustomRendererSetting(ren);
+    
     XYSeriesRenderer xysr;
     XYSeries s;
 

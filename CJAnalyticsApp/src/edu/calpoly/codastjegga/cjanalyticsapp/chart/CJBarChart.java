@@ -26,6 +26,8 @@ public class CJBarChart implements ChartProvider {
   public void parseData(ChartSettings chartSettings, List<Event> events) {
     data = new XYMultipleSeriesDataset();
     ren = new XYMultipleSeriesRenderer();
+    ChartRendererSetting.appendCustomRendererSetting(ren);
+    
     XYSeries xySeries;
     SimpleSeriesRenderer ssr;
     Random rand = new Random();
