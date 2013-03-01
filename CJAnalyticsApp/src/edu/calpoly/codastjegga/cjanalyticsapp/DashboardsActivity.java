@@ -37,14 +37,6 @@ public class DashboardsActivity extends ListActivity {
     new DashboardTask().execute();
   }
 
-  private List<Dashboard> getDashboards() {
-    // TODO:Implement this method Jeremy : call datafetch.getDashboards...
-    // THE REST OF THE CODE IS HARDCODED FOR TESTING
-    List<Dashboard> db = new LinkedList<Dashboard>();
-    db.add(new Dashboard("Temple Run"));
-
-    return db;
-  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

@@ -7,25 +7,17 @@ import junit.framework.TestCase;
 public class EventTest extends TestCase {
 
 
-<<<<<<< Updated upstream
+
 	String eventName; String deviceId; String timestamp; String databaseName; String value;
 	Event event;
-=======
-	String eventName; String deviceId; String timestamp; String databaseName;
-	NumberEvent event;
->>>>>>> Stashed changes
 	protected void setUp() throws Exception {
 		super.setUp();
 		eventName = "EventTest";
 		deviceId = "deviceid09876";
 		timestamp = "2013-01-29T08:00:00.000+0000";
 		databaseName = "dbName";
-<<<<<<< Updated upstream
 		value = "thisIsAValue";
-		event = new Event(eventName, deviceId, timestamp, databaseName, value);
-=======
-		event = new NumberEvent(eventName, deviceId, timestamp, databaseName, null);
->>>>>>> Stashed changes
+		event = new TextEvent(eventName, deviceId, timestamp, databaseName, value);
 	}
 
 

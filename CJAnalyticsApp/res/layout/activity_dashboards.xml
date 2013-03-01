@@ -20,12 +20,12 @@
             android:gravity="center"
             android:text="@string/no_dashboards" />
     </LinearLayout>
-
+
     <ProgressBar
         android:id="@+id/loading"
         style="?android:attr/progressBarStyleLarge"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="64dp" />
 
