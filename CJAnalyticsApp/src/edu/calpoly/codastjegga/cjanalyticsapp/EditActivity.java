@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -293,7 +295,7 @@ public class EditActivity extends FragmentActivity {
     pieButton.setChecked(false);    
   }
 
-  public void save(View v) {
+  public void onClickSave(MenuItem item) {
     //IF the chart name is empty
     if (chartName.getText().length() == 0) {
       Toast.makeText(this, ON_SAVE_INVALID_NAME_MESSAGE_ERROR, Toast.LENGTH_SHORT).show();
@@ -327,7 +329,7 @@ public class EditActivity extends FragmentActivity {
     finish();
   }
   
-  public void cancel(View v) {
+  public void onClickCancel(MenuItem item) {
     setResult(RESULT_CANCELED);
     finish();
 
@@ -476,7 +478,11 @@ public class EditActivity extends FragmentActivity {
     }    
   }
 
-
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.activity_edit_chart, menu);
+    return true;
+  }
 
   private ChartType getSelectedType() {
     if (lineButton.isChecked()) {
