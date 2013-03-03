@@ -15,5 +15,12 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/share">
     </item>
+     <item
+        android:id="@+id/refresh_chart_button"
+        android:icon="@drawable/navigation_refresh"
+        android:onClick="onClickRefreshButton"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/refresh">
+    </item>
 
 </menu>

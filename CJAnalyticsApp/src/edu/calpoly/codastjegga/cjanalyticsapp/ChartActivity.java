@@ -114,6 +114,13 @@ public class ChartActivity extends Activity {
       startActivityForResult(intent, 0);
     }
   }
+  
+  public void onClickRefreshButton(MenuItem menu) {
+    if (chartSettings != null) {
+      // render the chart with the specified chart setting
+      getRenderTask().execute();
+    }
+  }
 
   public void onClickShareButton(MenuItem menu) {
     boolean shared = false;
