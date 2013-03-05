@@ -47,23 +47,29 @@ public class ChartActivity extends Activity {
 
     spinner = new ProgressBar(this);
     spinner.setIndeterminate(true);
-    // load in the chart setting info
-    chartSettings = ChartSettings.load(getIntent());
+    
+    renderSettings(getIntent());
 
-    provider = chartSettings.getType().getProvider();
-
-    // render the chart with the specified chart setting
-    getRenderTask().execute();
   };
 
-  private AsyncTask<Void, Void, List<Event>> getRenderTask() {
-    return new AsyncTask<Void, Void, List<Event>>() {
+  /**
+   * Parses the chart settings from the intent and executes the render of the chart
+   * @param intent
+   */
+  private void renderSettings(Intent intent) {
+    chartSettings = ChartSettings.load(intent);
+    provider = chartSettings.getType().getProvider();
+    
+    setTitle(chartSettings.getChartName());
+    getRenderTask().execute();
+    
+  }
+
+  private AsyncTask<Void, Void, Boolean> getRenderTask() {
+    return new AsyncTask<Void, Void, Boolean>() {
       @Override
       protected void onPreExecute() {
         super.onPreExecute();
-
-        // update provider in case they switched types
-        provider = chartSettings.getType().getProvider();
 
         LayoutParams p = new LayoutParams(LayoutParams.WRAP_CONTENT,
             LayoutParams.WRAP_CONTENT);
@@ -74,8 +80,7 @@ public class ChartActivity extends Activity {
       }
 
       @Override
-      protected List<Event> doInBackground(Void... params) {
-        List<Event> events = null;
+      protected Boolean doInBackground(Void... params) {
 
         if (chartSettings != null) {
           try {
@@ -84,24 +89,27 @@ public class ChartActivity extends Activity {
                 ((CJAnalyticsApp) getApplication()).getRestClient(),
                 chartSettings.getDatabase(), chartSettings.getEventName(),
                 chartSettings.getEventType());
-            events = records.getEvents();
+            List<Event> events = records.getEvents();
+
+            provider.parseData(chartSettings, events);
           } catch (Exception e) {
-            Log.e(this.getClass().getName(), "Unable to get records", e);
-            return null;
+            Log.e(this.getClass().getName(), "Unable to get/render records", e);
+            return false;
           }
 
-          provider.parseData(chartSettings, events);
         }
-        return events;
+        return true;
       }
 
       @Override
-      protected void onPostExecute(List<Event> result) {
-        super.onPostExecute(result);
+      protected void onPostExecute(Boolean success) {
+        super.onPostExecute(success);
         spinner.setVisibility(View.GONE);
         layoutChart.removeAllViews();
-        if (result != null && chartSettings != null) {
+        if (success && chartSettings != null) {
           layoutChart.addView(provider.getGraphicalView(ChartActivity.this));
+        }else{
+          Toast.makeText(ChartActivity.this, "Unable to Generate Chart",Toast.LENGTH_LONG).show();
         }
       }
     };
@@ -178,15 +186,18 @@ public class ChartActivity extends Activity {
     super.onActivityResult(requestCode, resultCode, data);
     switch (resultCode) {
     case RESULT_OK:
-      chartSettings = ChartSettings.load(data);
-      getRenderTask().execute();
+      renderSettings(data);
       break;
-
     case RESULT_CANCELED:
       break;
     }
   }
-
+  
+  
+  
+  
+  
+  
   
   //Required in any activity that requires authentication
   @Override
@@ -205,4 +216,10 @@ public class ChartActivity extends Activity {
     PasscodeProtected.onUserInteraction();
   }
   //End required sections
+  
+  
+  
+  
+  
+  
 }
