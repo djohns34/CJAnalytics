@@ -39,4 +39,5 @@
     <string name="addrandomcharts">Add Random</string>
     <string name="onclick_chart_add">onClickChartAdd</string>
     <string name="new_chart_title">New Chart</string>
+    <string name="refresh">Refresh</string>
 </resources>
