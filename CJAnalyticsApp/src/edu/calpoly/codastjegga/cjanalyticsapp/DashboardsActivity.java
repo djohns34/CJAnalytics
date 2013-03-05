@@ -119,4 +119,23 @@ public class DashboardsActivity extends ListActivity {
       list.setVisibility(View.VISIBLE);
     }
   }
+  
+  //Required in any activity that requires authentication
+  @Override
+  protected void onPause() {
+    super.onPause();
+    PasscodeProtected.onPause(this);
+  }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    PasscodeProtected.onResume(this);
+  }
+  @Override
+  public void onUserInteraction() {
+    super.onUserInteraction();
+    PasscodeProtected.onUserInteraction();
+  }
+  //End required sections
+  
 }

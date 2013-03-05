@@ -157,7 +157,25 @@ public abstract class ChartsActivity extends ListActivity implements LoaderCallb
    */
   private ChartSettings getSettingsAt(int position){
     return ChartSettingsProvider.getChartSettings((Cursor) adapter.getItem(position));
-    
   }
+
+  //Required in any activity that requires authentication
+  @Override
+  protected void onPause() {
+    super.onPause();
+    PasscodeProtected.onPause(this);
+  }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    PasscodeProtected.onResume(this);
+  }
+  @Override
+  public void onUserInteraction() {
+    super.onUserInteraction();
+    PasscodeProtected.onUserInteraction();
+  }
+  //End required sections
+
 }
 
