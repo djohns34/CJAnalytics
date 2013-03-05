@@ -5,6 +5,7 @@ import java.util.Date;
 
 import android.content.Intent;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.TimeInterval;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 
 /**
@@ -22,6 +23,7 @@ public class ChartSettings implements Serializable {
   public static String EVENT_NAME = "EVENT_NAME";
   public static String EVENT_TYPE = "EVENT_TYPE";
   public static String ANDROID_ID = "ANDROID_ID";
+  public static String TIME_INTERVAL = "TIME_INTERVAL";
 
   //chart type this setting renders
   private ChartType chartType;
@@ -43,52 +45,23 @@ public class ChartSettings implements Serializable {
   //type of event associated with the metric
   private EventType eventType;
 
+  private TimeInterval timeInterval;
 
   //The settings is not saved to the database
   static final Integer NOT_PERSISTED=-1;
   
   /**
-   * Default constructor for chart setting 
+   * Constructor for chart setting, sets default values for fields
    */
   public ChartSettings () {
     setType(ChartType.Pie);
     setChartName("");
     setEventName("");
     setDatabase("");
+    setTimeInterval(TimeInterval.Daily);
     setFavorite(false);
   };
   
-  /**
-   * Constructs a chart setting with chart type, chart's name, list
-   * of metrics, and start and end date. 
-   */
-  public ChartSettings (ChartType chartType, String database, String chartName, 
-      String eventName, Date start, Date end){
-    setType(chartType);
-    setDatabase(database);
-    setChartName(chartName);
-    setEventName(eventName);
-    setStartDate(start);
-    setEndDate(end);
-    setFavorite(false);
-    setEventType(null);
-  }
-  
-  /**
-   * Constructs a chart setting with chart type, chart's name, list
-   * of metrics, and start and end date. 
-   */
-  public ChartSettings (ChartType chartType, String database, String chartName, 
-      String eventName, EventType eventType, Date start, Date end){
-    setType(chartType);
-    setDatabase(database);
-    setChartName(chartName);
-    setEventName(eventName);
-    setStartDate(start);
-    setEndDate(end);
-    setFavorite(false);
-    setEventType(eventType);
-  }
 
   /**
    * Setter for chart type
@@ -233,8 +206,14 @@ public class ChartSettings implements Serializable {
     this.favorite = favorite;
   }
 
-  
-  
+  public TimeInterval getTimeInterval() {
+    return timeInterval;
+  }
+
+  public void setTimeInterval(TimeInterval timeInterval) {
+    this.timeInterval = timeInterval;
+  }
+
   public void saveToIntent(Intent i) {
     i.putExtra(ChartType.class.getName(), getType());
     i.putExtra(CHART_NAME, getChartName());
@@ -244,6 +223,7 @@ public class ChartSettings implements Serializable {
     i.putExtra(EVENT_NAME, getEventName());
     i.putExtra(EVENT_TYPE, getEventType());
     i.putExtra(ANDROID_ID, getAndroidID());
+    i.putExtra(TIME_INTERVAL, getTimeInterval());
   }
   
   public static ChartSettings load(Intent i){
@@ -256,6 +236,7 @@ public class ChartSettings implements Serializable {
     chartSetting.setEventName((String)i.getExtras().get(EVENT_NAME));
     chartSetting.setEventType((EventType)i.getExtras().get(EVENT_TYPE));
     chartSetting.setAndroidID(i.getExtras().getInt(ANDROID_ID));
+    chartSetting.setTimeInterval((TimeInterval) (i.getExtras().get(TIME_INTERVAL)));
     return chartSetting;
   }
 

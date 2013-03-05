@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.TimeInterval;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
 
@@ -28,6 +29,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
   static final  String METRIC="metric"; 
   static final  String START_DATE="startDate";
   static final  String END_DATE="endDate";
+  static final  String TIME_INTERVAL="timeInterval";
   
   /*New Row v2*/
   static final String FAVORITE="favorite";
@@ -42,7 +44,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
   
   
   /*Does not include the Last viewed because that is only used in SQL calls*/
-  static final String[] allSettingsColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,METRIC,START_DATE,END_DATE,FAVORITE,EVENT_TYPE};
+  static final String[] allSettingsColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,METRIC,START_DATE,END_DATE,FAVORITE,EVENT_TYPE,TIME_INTERVAL};
 
   /*Default visibility for test cases*/
   static final String DATABASE_NAME = "CJAnalytics";
@@ -63,11 +65,12 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
           + START_DATE+" text,"
           + END_DATE+" text,"
           + FAVORITE+ " text not null,"
+          + TIME_INTERVAL+ " text not null,"
           + LAST_VIEWED + " INTEGER)";
   
   
-  /*Any databases before version 4 didn't hold all of the information required, I decided to wipe it all out and start clean*/
-  private static final int DATABASE_VERSION = 4;
+  /*Any databases before version 5 didn't hold all of the information required, I decided to wipe it all out and start clean*/
+  private static final int DATABASE_VERSION = 5;
 
 
 
@@ -108,6 +111,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
     settings.setEndDate(DateUtils.parse(cursor.getString(cursor.getColumnIndex(END_DATE))));
     settings.setFavorite(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(FAVORITE))));
     settings.setEventType(EventType.valueOf(cursor.getString(cursor.getColumnIndex(EVENT_TYPE))));
+    settings.setTimeInterval(TimeInterval.valueOf(cursor.getString(cursor.getColumnIndex(TIME_INTERVAL))));
     
     return settings;
   }
@@ -130,6 +134,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
     values.put(END_DATE, DateUtils.format(setting.getEndDate()));
     values.put(FAVORITE, setting.getFavorite().toString());
     values.put(EVENT_TYPE, setting.getEventType().name());
+    values.put(TIME_INTERVAL, setting.getTimeInterval().name());
     return values;
   }
 }

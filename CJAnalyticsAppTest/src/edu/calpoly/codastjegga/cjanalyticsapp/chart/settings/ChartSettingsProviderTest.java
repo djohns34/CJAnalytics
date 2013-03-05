@@ -17,6 +17,7 @@ import android.test.ProviderTestCase2;
 import android.test.mock.MockContentProvider;
 import android.test.mock.MockContentResolver;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.TimeInterval;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 
 public class ChartSettingsProviderTest extends
@@ -32,9 +33,14 @@ public class ChartSettingsProviderTest extends
   protected void setUp() throws Exception {
     super.setUp();
 
-    testSetting = new ChartSettings(ChartType.Pie, "DB", "Test", "testMetric",
-        null, null);
+    testSetting=new ChartSettings();
+    testSetting.setType(ChartType.Pie);
+    testSetting.setDatabase("TestDB");
+    testSetting.setChartName("Test Name");
+    testSetting.setEventName("testMetric");
+    testSetting.setEventType(EventType.Text);
     testSetting.setEventType(EventType.Number);
+    testSetting.setTimeInterval(TimeInterval.Yearly);
 
   }
 
