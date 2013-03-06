@@ -1,0 +1,13 @@
+<%- include header.html %>  
+
+<form action="https://login.salesforce.com/services/oauth2/token" method="post">
+
+  <input type="hidden" name="grant_type" value="authorization_code">
+  <input type="hidden" name="code" value="<%- code %>">
+  <input type="hidden" name="redirect_uri" value="<%- redirectUri %>">
+  <p>Consumer key: <input name="client_id" type="text" size="50" value="<%- conKey %>" readonly></p>
+  <p>Enter consumer secret: <input name="client_secret" type="text" size="50"><input type="submit" type="button" value="Submit"></p>
+  <p>If you're codast jegga, it's: <b>2144639019804934205</b></p>
+</form>
+
+<%- include footer.html %>
