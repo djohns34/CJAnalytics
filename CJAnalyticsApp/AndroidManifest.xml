@@ -21,7 +21,7 @@
     <application
         android:name="edu.calpoly.codastjegga.cjanalyticsapp.CJAnalyticsApp"
         android:icon="@drawable/sf__icon"
-        android:label="@string/app_name" >
+        android:label="@string/app_name" android:vmSafeMode="true">
         
 
         <!-- Service required for authentication -->

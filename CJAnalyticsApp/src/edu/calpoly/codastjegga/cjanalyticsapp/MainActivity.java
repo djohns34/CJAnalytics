@@ -27,8 +27,12 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.salesforce.androidsdk.app.ForceApp;
 import com.salesforce.androidsdk.rest.ClientManager.LoginOptions;
@@ -41,68 +45,90 @@ import com.salesforce.androidsdk.ui.NativeMainActivity;
  */
 public class MainActivity extends NativeMainActivity {
 
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		// Setup view
-		setContentView(R.layout.main);
-	}
-	
-	@Override 
-	public void onResume() {
-		// Hide everything until we are logged in
-		findViewById(R.id.root).setVisibility(View.INVISIBLE);
+  private static String APP_NAME_FONT_PATH = "fonts/ALGER.TTF";
 
-		// Create list adapter
-		//listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
-		//((ListView) findViewById(R.id.contacts_list)).setAdapter(listAdapter);				
-		
-		super.onResume();
-	}		
-		
-	@Override
-	protected LoginOptions getLoginOptions() {
-    	LoginOptions loginOptions = new LoginOptions(
-    			null, // login host is chosen by user through the server picker 
-    			ForceApp.APP.getPasscodeHash(),
-    			getString(R.string.oauth_callback_url),
-    			getString(R.string.oauth_client_id),
-    			new String[] {"api"});
-    	return loginOptions;
-	}
-	
-	@Override
-	public void onResume(RestClient client) {
-	  //set apps application
-	  CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp) getApplicationContext();
-	  //store the rest client for global use
-	  cjAnalyApp.setRestClient(client);
-		// Show everything
-		findViewById(R.id.root).setVisibility(View.VISIBLE);
-	}
-	
- 
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // Setup view
+    setContentView(R.layout.main);
+    Typeface type = Typeface.createFromAsset(getAssets(), APP_NAME_FONT_PATH); 
+    TextView appName = (TextView)findViewById(R.id.appName); 
+    appName.setTypeface(type);
+  }
 
-	/**
-	 * Called when "Logout" option is clicked. 
-	 * 
-	 * @param v
-	 */
-	public void onLogoutClick(View v) {
-		ForceApp.APP.logout(this);
-	}
-	
-	public void onDashboardClick(View v) {
-	  Intent intent = new Intent(this, DashboardsActivity.class);
+  @Override 
+  public void onResume() {
+    // Hide everything until we are logged in
+    findViewById(R.id.root).setVisibility(View.INVISIBLE);
+
+    // Create list adapter
+    //listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+    //((ListView) findViewById(R.id.contacts_list)).setAdapter(listAdapter);				
+
+    super.onResume();
+  }		
+
+  @Override
+  protected LoginOptions getLoginOptions() {
+    LoginOptions loginOptions = new LoginOptions(
+        null, // login host is chosen by user through the server picker 
+        ForceApp.APP.getPasscodeHash(),
+        getString(R.string.oauth_callback_url),
+        getString(R.string.oauth_client_id),
+        new String[] {"api"});
+    return loginOptions;
+  }
+
+  @Override
+  public void onResume(RestClient client) {
+    //set apps application
+    CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp) getApplicationContext();
+    //store the rest client for global use
+    cjAnalyApp.setRestClient(client);
+    // Show everything
+    findViewById(R.id.root).setVisibility(View.VISIBLE);
+  }
+
+
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.activity_main, menu);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case R.id.logout:
+      ForceApp.APP.logout(this);
+      return true;
+    default:
+      return super.onOptionsItemSelected(item);
+    }
+  }
+
+
+  /**
+   * Called when "Logout" option is clicked. 
+   * 
+   * @param v
+   */
+  public void onLogoutClick(MenuItem menu) {
+    ForceApp.APP.logout(this);
+  }
+
+  public void onDashboardClick(View v) {
+    Intent intent = new Intent(this, DashboardsActivity.class);
     startActivity(intent);
-	}	
-	public void onFavoritesClick(View v) {
-	  Intent intent = new Intent(this, FavoriteChartsActivity.class);
-	  startActivity(intent);
-	} 
-	
-	public void onRecentClick(View v) {
+  }	
+  public void onFavoritesClick(View v) {
+    Intent intent = new Intent(this, FavoriteChartsActivity.class);
+    startActivity(intent);
+  } 
+
+  public void onRecentClick(View v) {
     Intent intent = new Intent(this, RecentChartsActivity.class);
     startActivity(intent);
   } 
