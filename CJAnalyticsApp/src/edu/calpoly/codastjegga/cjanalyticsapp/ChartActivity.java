@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.achartengine.GraphicalView;
 
+import com.salesforce.androidsdk.app.ForceApp;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;

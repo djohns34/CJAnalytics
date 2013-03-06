@@ -1,31 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">CJ Analytics</string>
     <string name="logout_button">Logout</string>
     <string name="show_chart_button">Show Chart</string>
-
     <string name="title_chart">Chart</string>
     <string name="title_edit">Edit Chart</string>
     <string name="title_dashboards">Dashboards</string>
     <string name="title_charts">Charts</string>
     <string name="title_favorite_charts">Favorite Charts</string>
     <string name="title_recent_charts">Recent Charts</string>
-    
     <string name="chart_name">View Chart</string>
     <string name="recent">Recent</string>
-
     <string name="favorites">Favorites</string>
     <string name="settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    
     <string name="delete">Delete</string>
-
     <string name="no_dashboards">No dashboards have been set up.</string>
     <string name="no_charts">No charts have been created.</string>
     <string name="no_favorite_charts">You have no favorite charts.</string>
     <string name="no_recent_charts">You have no recent charts.</string>
-    
     <string name="editChartInitTitle">Enter Chart Name</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
@@ -40,4 +35,6 @@
     <string name="onclick_chart_add">onClickChartAdd</string>
     <string name="new_chart_title">New Chart</string>
     <string name="refresh">Refresh</string>
+    <string name="title_activity_base">BaseActivity</string>
+
 </resources>
