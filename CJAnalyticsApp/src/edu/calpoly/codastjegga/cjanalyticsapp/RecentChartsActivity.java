@@ -4,6 +4,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvid
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.TextView;
 
 public class RecentChartsActivity extends ChartsActivity{
@@ -24,5 +25,11 @@ public class RecentChartsActivity extends ChartsActivity{
   @Override
   Loader<Cursor> createLoader(int id, Bundle args) {
     return ChartSettingsProvider.getRecentCursorLoader(this,howMany);
+  }
+  
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.generic_activity, menu);
+    return true;
   }
 }

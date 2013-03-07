@@ -1,5 +1,7 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
+import com.salesforce.androidsdk.app.ForceApp;
+
 import android.app.ListActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Intent;
@@ -177,5 +179,8 @@ public abstract class ChartsActivity extends ListActivity implements LoaderCallb
   }
   //End required sections
 
+  public void onLogoutClick(MenuItem menu) {
+    ForceApp.APP.logout(this);
+  }
 }
 

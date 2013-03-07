@@ -226,9 +226,7 @@ public class ChartActivity extends Activity {
   }
   //End required sections
   
-  
-  
-  
-  
-  
+  public void onLogoutClick(MenuItem menu) {
+    ForceApp.APP.logout(this);
+  }
 }

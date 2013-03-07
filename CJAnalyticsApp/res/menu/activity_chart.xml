@@ -23,4 +23,9 @@
         android:title="@string/refresh">
     </item>
 
+    <item
+        android:showAsAction="never"
+        android:id="@+id/logout"
+        android:onClick="onLogoutClick"
+        android:title="@string/logout_button"/>
 </menu>

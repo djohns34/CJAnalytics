@@ -8,4 +8,10 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/new_chart_title">
     </item>
+    <item
+        android:id="@+id/logout"
+        android:onClick="onLogoutClick"
+        android:showAsAction="never"
+        android:title="@string/logout_button"/>
+
 </menu>

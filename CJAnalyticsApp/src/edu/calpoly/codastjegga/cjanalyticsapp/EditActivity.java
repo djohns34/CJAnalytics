@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import com.salesforce.androidsdk.app.ForceApp;
+
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -518,7 +520,7 @@ public class EditActivity extends FragmentActivity {
   }
   //End required sections
   
-  
-  
-  
+  public void onLogoutClick(MenuItem menu) {
+    ForceApp.APP.logout(this);
+  }
 }

@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.salesforce.androidsdk.app.ForceApp;
+
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -138,4 +140,7 @@ public class DashboardsActivity extends ListActivity {
   }
   //End required sections
   
+  public void onLogoutClick(MenuItem menu) {
+    ForceApp.APP.logout(this);
+  }
 }
