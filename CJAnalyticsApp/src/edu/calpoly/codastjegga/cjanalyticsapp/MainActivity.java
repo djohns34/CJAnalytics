@@ -26,12 +26,19 @@
  */
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
+import java.util.zip.Inflater;
+
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.GridLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.salesforce.androidsdk.app.ForceApp;
@@ -39,12 +46,15 @@ import com.salesforce.androidsdk.rest.ClientManager.LoginOptions;
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.ui.NativeMainActivity;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.adapter.MainScreenIcons;
+
 
 /**
  * Main activity
  */
-public class MainActivity extends NativeMainActivity {
+public class MainActivity extends NativeMainActivity implements OnClickListener {
 
+  //Resource path to alger font
   private static String APP_NAME_FONT_PATH = "fonts/ALGER.TTF";
 
   @Override
@@ -52,9 +62,41 @@ public class MainActivity extends NativeMainActivity {
     super.onCreate(savedInstanceState);
     // Setup view
     setContentView(R.layout.main);
+    //load Alger font
     Typeface type = Typeface.createFromAsset(getAssets(), APP_NAME_FONT_PATH); 
+    //find appName
     TextView appName = (TextView)findViewById(R.id.appName); 
+    //SET the font to appName
     appName.setTypeface(type);
+    //add the set of main screen icons
+    addIcons();
+  }
+  
+  private void addIcons() {
+    //Find the icon panel in the view
+    LinearLayout iconPanel = (LinearLayout)findViewById(R.id.icon_panel);
+    iconPanel.setHapticFeedbackEnabled(true);
+    
+    //FOR each main screen icon
+    for (MainScreenIcons icon : MainScreenIcons.values()) {
+      //Create a new relative layout from activity_main_icon_item
+      View iconView = RelativeLayout.inflate(this, R.layout.activity_main_icon_item, null);
+      //find the image view in the iconHolder
+      ImageView image = (ImageView) iconView.findViewById(R.id.icon_item_image);
+      //set the image
+      image.setImageResource(icon.image);
+      //find the image label in the iconHolder
+      TextView label = (TextView)iconView.findViewById(R.id.icon_item_label);
+      //set the icon label
+      label.setText(getString(icon.name));
+      //set the view to be the same as icon name id
+      iconView.setId(icon.name);
+      iconView.setOnClickListener(this);
+      
+      
+      //add the iconView to iconPanel
+      iconPanel.addView(iconView);
+    }
   }
 
   @Override 
@@ -120,8 +162,6 @@ public class MainActivity extends NativeMainActivity {
   }
 
   public void onDashboardClick(View v) {
-    Intent intent = new Intent(this, DashboardsActivity.class);
-    startActivity(intent);
   }	
   public void onFavoritesClick(View v) {
     Intent intent = new Intent(this, FavoriteChartsActivity.class);
@@ -131,5 +171,28 @@ public class MainActivity extends NativeMainActivity {
   public void onRecentClick(View v) {
     Intent intent = new Intent(this, RecentChartsActivity.class);
     startActivity(intent);
+  }
+
+  @Override
+  public void onClick(View view) {
+    Intent intent = null;
+    switch(view.getId()) {
+    
+    case R.string.dashboards:
+       intent = new Intent(this, DashboardsActivity.class);
+      break;
+    case R.string.favorites:
+       intent = new Intent(this, FavoriteChartsActivity.class);
+      break;
+      
+    case R.string.recents:
+       intent = new Intent(this, RecentChartsActivity.class);
+      startActivity(intent);
+      break;
+      
+    }
+    if (intent != null)
+    startActivity(intent);
+    
   } 
 }

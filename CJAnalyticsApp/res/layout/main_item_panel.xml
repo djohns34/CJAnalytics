@@ -7,48 +7,26 @@
     <Gallery
         android:id="@+id/topGradient"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         android:background="@drawable/top_gradient"
         android:tileMode="repeat" />
 
     <LinearLayout
-        android:id="@+id/iconPanel"
-        android:layout_width="match_parent"
+        android:id="@+id/icon_panel"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:columnCount="3"
         android:orientation="horizontal"
         android:padding="10dp" >
-
-        <Button
-            android:id="@+id/dashboards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="onDashboardClick"
-            android:text="@string/title_dashboards" />
-
-        <Button
-            android:id="@+id/favorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:onClick="onFavoritesClick"
-            android:text="@string/favorites" />
-
-        <Button
-            android:id="@+id/recent"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:onClick="onRecentClick"
-            android:text="@string/recent" />
     </LinearLayout>
 
     <Gallery
         android:id="@+id/bottomGradient"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="@drawable/bottom_gradient"
         android:tileMode="repeat" />
 
