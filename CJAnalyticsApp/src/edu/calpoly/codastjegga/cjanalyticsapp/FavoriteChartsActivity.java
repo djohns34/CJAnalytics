@@ -27,9 +27,6 @@ public class FavoriteChartsActivity extends ChartsActivity{
     return ChartSettingsProvider.getFavoriteCursorLoader(this);
   }
   
-  public void onLogoutClick(MenuItem menu) {
-    ForceApp.APP.logout(this);
-  }
   
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {

@@ -187,7 +187,6 @@ public class MainActivity extends NativeMainActivity implements OnClickListener 
       
     case R.string.recents:
        intent = new Intent(this, RecentChartsActivity.class);
-      startActivity(intent);
       break;
       
     }
