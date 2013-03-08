@@ -191,6 +191,16 @@ public class ChartActivity extends Activity {
   }
 
   @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case android.R.id.home:
+      finish();
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+  
+  @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     switch (resultCode) {
@@ -201,12 +211,6 @@ public class ChartActivity extends Activity {
       break;
     }
   }
-  
-  
-  
-  
-  
-  
   
   //Required in any activity that requires authentication
   @Override

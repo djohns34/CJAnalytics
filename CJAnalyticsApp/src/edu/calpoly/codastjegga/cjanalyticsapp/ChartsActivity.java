@@ -75,10 +75,16 @@ public abstract class ChartsActivity extends ListActivity implements LoaderCallb
   protected void onListItemClick(ListView l, View v, int position, long id) {
     startChartActivity(position);
   }
-  
-  
 
-
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case android.R.id.home:
+      finish();
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
 
   @Override
   public Loader<Cursor> onCreateLoader(int id, Bundle args) {

@@ -520,6 +520,16 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
     return true;
   }
 
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+    case android.R.id.home:
+      onClickCancel(item);
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+  
   private ChartType getSelectedType() {
     if (lineButton.isChecked()) {
       return ChartType.Line;

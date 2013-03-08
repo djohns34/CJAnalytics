@@ -26,8 +26,6 @@
  */
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
-import java.util.zip.Inflater;
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -35,7 +33,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
