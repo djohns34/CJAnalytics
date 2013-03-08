@@ -14,13 +14,13 @@
 
         <EditText
             android:id="@+id/chartName"
-            android:singleLine="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/editChartInitTitle"
             android:maxLines="1"
+            android:singleLine="true"
             android:textSize="25sp" >
 
             <requestFocus />
@@ -36,8 +36,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOn="Raw"
-                android:textOff="Raw" />-->
-
+                android:textOff="Raw" />
+            -->
+
             <ToggleButton
                 android:id="@+id/line"
                 android:layout_width="0dp"
@@ -68,24 +69,39 @@
                 android:onClick="changeType"
                 android:textOff="Pie"
                 android:textOn="Pie" />
-
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
-            <Spinner
-                android:id="@+id/metricsList"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/metrics"
- 
-                android:paddingBottom="10dip"
-                android:paddingLeft="10dip"
-                android:paddingRight="10dip"
-                android:paddingTop="10dip" />
+                android:orientation="horizontal" >
+
+                <Spinner
+                    android:id="@+id/metricsList"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/metrics"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="10dip" />
+
+                <Spinner
+                    android:id="@+id/intervalList"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dip"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="10dip" />
+            </LinearLayout>
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -99,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:paddingBottom="10dip" >
-
+
                     <TextView
                         android:id="@+id/TextView01"
                         android:layout_width="wrap_content"
@@ -111,7 +127,7 @@
                         android:paddingTop="2dip"
                         android:text="@string/from"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
                     <Button
                         android:id="@+id/fromDate"
                         android:layout_width="wrap_content"
@@ -122,7 +138,7 @@
                         android:padding="10dip"
                         android:text="@string/sampleDate"
                         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+
                     <TextView
                         android:id="@+id/TextView02"
                         android:layout_width="wrap_content"
@@ -150,4 +166,5 @@
             </TableLayout>
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
