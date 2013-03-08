@@ -92,7 +92,7 @@ public class MainActivity extends NativeMainActivity implements OnClickListener 
       //set the view to be the same as icon name id
       iconView.setId(icon.name);
       iconView.setOnClickListener(this);
-      
+     
       
       //add the iconView to iconPanel
       iconPanel.addView(iconView);

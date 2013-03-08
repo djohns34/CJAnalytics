@@ -11,13 +11,14 @@
         android:background="@drawable/top_gradient"
         android:tileMode="repeat" />
 
-    <GridLayout
+    <LinearLayout
         android:id="@+id/icon_panel"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:columnCount="3">
-    </GridLayout>
+		android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:columnCount="3" >
+    </LinearLayout>
 
     <Gallery
         android:id="@+id/bottomGradient"
