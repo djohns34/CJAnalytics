@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -23,11 +25,14 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -35,12 +40,14 @@ import android.widget.ToggleButton;
 import com.salesforce.androidsdk.app.ForceApp;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.TimeInterval;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 
-public class EditActivity extends FragmentActivity implements OnItemSelectedListener {
+public class EditActivity extends FragmentActivity implements
+    OnItemSelectedListener {
 
   private static final String DAY = "day";
   private static final String MONTH = "month";
@@ -61,6 +68,7 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
   private ChartSettings chartSettings;
   private EditText chartName;
   private Spinner eventSpinner;
+  private Spinner intervalSpinner;
   private TextView toDateText, fromDateText;
   private Calendar toDate, fromDate;
   // private ArrayAdapter<String> metricsAdapter;
@@ -81,6 +89,7 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
     pieButton = (ToggleButton) this.findViewById(R.id.pie);
     chartName = (EditText) this.findViewById(R.id.chartName);
     eventSpinner = (Spinner) this.findViewById(R.id.metricsList);
+    intervalSpinner = (Spinner) this.findViewById(R.id.intervalList);
     toDateText = (TextView) this.findViewById(R.id.toDate);
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
 
@@ -89,7 +98,10 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
 
     // set up the adapter to events list
     eventSpinner.setAdapter(eventAdapter);
-    
+
+
+    intervalSpinner.setAdapter(new ArrayAdapter<TimeInterval>(this, android.R.layout.simple_spinner_item, TimeInterval.values()));
+
     // This class should always contain chartSetting in its intent
     // If the intent contains chart data, load it, otherwise, create a new chart
     if (intent.hasExtra(ChartType.class.getName())) {
@@ -109,7 +121,7 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
         initEventsList();
       }
       // ELSE
-      else {
+      else {  
         eventAdapter.setEventsList(eventsListModel);
         eventSpinner.setAdapter(eventAdapter);
         eventSpinner.setOnItemSelectedListener(EditActivity.this);
@@ -194,6 +206,11 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
         fromDate.setTime(end);
     }
 
+    // set the interval
+    TimeInterval interval = chartSettings.getTimeInterval();
+    int index = Arrays.asList(TimeInterval.values()).indexOf(interval);
+    intervalSpinner.setSelection(index);
+  
   }
 
   protected void onStop() {
@@ -316,17 +333,18 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
     pieButton.setChecked(false);
   }
 
-
   public void onClickSave(MenuItem item) {
-    //IF the chart name is empty
+    // IF the chart name is empty
     if (chartName.getText().length() == 0) {
-      Toast.makeText(this, ON_SAVE_INVALID_NAME_MESSAGE_ERROR, Toast.LENGTH_SHORT).show();
-    } else if (getSelectedType() == ChartType.Line &&
-        getSelectedEvent().second != EventType.Float &&
-        getSelectedEvent().second != EventType.Currency &&
-        getSelectedEvent().second != EventType.Number) {
+      Toast.makeText(this, ON_SAVE_INVALID_NAME_MESSAGE_ERROR,
+          Toast.LENGTH_SHORT).show();
+    } else if (getSelectedType() == ChartType.Line
+        && getSelectedEvent().second != EventType.Float
+        && getSelectedEvent().second != EventType.Currency
+        && getSelectedEvent().second != EventType.Number) {
       // TODO: this conditional is a total hack
-      Toast.makeText(this, ON_SAVE_INVALID_EVENT_TYPE, Toast.LENGTH_SHORT).show();
+      Toast.makeText(this, ON_SAVE_INVALID_EVENT_TYPE, Toast.LENGTH_SHORT)
+          .show();
     } else {
       saveChart();
     }
@@ -342,6 +360,7 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
     Pair<String, EventType> eventInfo = getSelectedEvent();
     chartSettings.setEventName(eventInfo.first);
     chartSettings.setEventType(eventInfo.second);
+    chartSettings.setTimeInterval((TimeInterval)intervalSpinner.getSelectedItem());
     chartSettings.saveToIntent(intent);
 
     // save the chart to db
@@ -351,7 +370,6 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
     finish();
   }
 
-  
   public void onClickCancel(MenuItem item) {
     setResult(RESULT_CANCELED);
     finish();
@@ -529,7 +547,7 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
     }
     return super.onOptionsItemSelected(item);
   }
-  
+
   private ChartType getSelectedType() {
     if (lineButton.isChecked()) {
       return ChartType.Line;
@@ -543,33 +561,37 @@ public class EditActivity extends FragmentActivity implements OnItemSelectedList
 
     // TODO: Handle this some better way than returning null
     return null;
-  }  
-  
-  //Required in any activity that requires authentication
+  }
+
+  // Required in any activity that requires authentication
   @Override
   protected void onPause() {
     super.onPause();
     PasscodeProtected.onPause(this);
   }
+
   @Override
   protected void onResume() {
     super.onResume();
     PasscodeProtected.onResume(this);
   }
+
   @Override
   public void onUserInteraction() {
     super.onUserInteraction();
     PasscodeProtected.onUserInteraction();
   }
-  //End required sections
-  
+
+  // End required sections
+
   public void onLogoutClick(MenuItem menu) {
     ForceApp.APP.logout(this);
   }
-  
+
   @Override
-  public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-      disableButton(getSelectedEvent().second);
+  public void onItemSelected(AdapterView<?> parent, View view, int position,
+      long id) {
+    disableButton(getSelectedEvent().second);
   }
 
   @Override
