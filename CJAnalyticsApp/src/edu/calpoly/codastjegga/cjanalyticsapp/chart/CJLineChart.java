@@ -19,24 +19,41 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
 
 public class CJLineChart implements ChartProvider {
-
-  XYMultipleSeriesDataset data;
-  XYMultipleSeriesRenderer ren;
-
+  private XYMultipleSeriesDataset data;
+  private XYMultipleSeriesRenderer ren;
+  
+  /**
+   * Parse the data from the events
+   * @param chartSettings Settings for the chart
+   * @param events Events to be parsed
+   */
   public void parseData(ChartSettings chartSettings, List<Event> events) {
-    XYSeriesRenderer xysr;
-    TimeSeries timeSeries = new TimeSeries("My Events");
-    HashMap<Date, LinkedList<Double>> values = new HashMap<Date, LinkedList<Double>>();
-
+    XYSeriesRenderer xysr = new XYSeriesRenderer();
+    TimeSeries timeSeries;
+    HashMap<Date, LinkedList<Double>> groups;
+    
+    xysr.setColor(Color.GREEN);
+    
     data = new XYMultipleSeriesDataset();
     ren = new XYMultipleSeriesRenderer();
 
-    // If there's an event that occurs at the same time as another event,
-    // average the values
+    groups = groupByTimestamp(events);
+    timeSeries = getSeriesFromGroups("My Event", groups);
 
-    // map from timestamp to a list of all values at that time
+    data.addSeries(timeSeries);
+    ren.addSeriesRenderer(xysr);
+  }
+  
+  /**
+   * Group a list of events by timestamp
+   * @param events Events to be converted to a map
+   * @return A map mapping timestamp to a list of all values at that time
+   */
+  protected HashMap<Date, LinkedList<Double>> groupByTimestamp(List<Event> events) {
+    HashMap<Date, LinkedList<Double>> values = new HashMap<Date, LinkedList<Double>>();
+    
     for (Event event : events) {
-      Double value = Double.parseDouble(event.getValue().toString()); // TODO: this is a hack
+      Double value = Double.parseDouble(event.getValue().toString());
       Date time = event.getTimestamp();
 
       if (values.containsKey(time)) {
@@ -46,9 +63,21 @@ public class CJLineChart implements ChartProvider {
         values.get(time).add(value);
       }
     }
+    
+    return values;
+  }
+  
+  /**
+   * Generate a time series from grouped events
+   * @param name Name of the time series
+   * @param groups Groups of events (by timestamp)
+   * @return TimeSeries for the inputted data
+   */
+  protected TimeSeries getSeriesFromGroups(String name, HashMap<Date, LinkedList<Double>> groups) {
+    TimeSeries timeSeries = new TimeSeries(name);
 
     // calculate the average value for that timestamp, add to the time series
-    for (Map.Entry<Date, LinkedList<Double>> entries : values.entrySet()) {
+    for (Map.Entry<Date, LinkedList<Double>> entries : groups.entrySet()) {
       Double sum = Double.valueOf(0);
 
       for (Double entry : entries.getValue()) {
@@ -58,15 +87,24 @@ public class CJLineChart implements ChartProvider {
 
       timeSeries.add(entries.getKey(), sum);
     }
-
-    data.addSeries(timeSeries);
-
-    xysr = new XYSeriesRenderer();
-    xysr.setColor(Color.GREEN);
-    ren.addSeriesRenderer(xysr);
+    
+    return timeSeries;
+  }
+  
+  protected XYMultipleSeriesDataset getData() {
+    return this.data;
+  }
+  
+  protected XYMultipleSeriesRenderer getRenderer() {
+    return this.ren;
   }
 
+  /**
+   * Return the final, graphical view of the chart
+   */
   public GraphicalView getGraphicalView(Context context) {
+    if (data == null || ren == null)
+      return null;
     return ChartFactory.getTimeChartView(context, data, ren, "MM/dd/yyyy");
   }
 }
