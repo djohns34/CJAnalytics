@@ -39,6 +39,7 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.salesforce.androidsdk.app.ForceApp;
@@ -71,16 +72,16 @@ public class MainActivity extends NativeMainActivity implements OnClickListener 
     //add the set of main screen icons
     addIcons();
   }
-  
+
   private void addIcons() {
     //Find the icon panel in the view
     LinearLayout iconPanel = (LinearLayout)findViewById(R.id.icon_panel);
     iconPanel.setHapticFeedbackEnabled(true);
-    
+
     //FOR each main screen icon
     for (MainScreenIcons icon : MainScreenIcons.values()) {
       //Create a new relative layout from activity_main_icon_item
-      View iconView = RelativeLayout.inflate(this, R.layout.activity_main_icon_item, null);
+      View iconView = LinearLayout.inflate(this, R.layout.activity_main_icon_item, null);
       //find the image view in the iconHolder
       ImageView image = (ImageView) iconView.findViewById(R.id.icon_item_image);
       //set the image
@@ -92,10 +93,13 @@ public class MainActivity extends NativeMainActivity implements OnClickListener 
       //set the view to be the same as icon name id
       iconView.setId(icon.name);
       iconView.setOnClickListener(this);
-      
-      
+      //set the layout params where height and width warp content and the weight is 1
+      //not linear layout weightSum is 1
+      iconView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 
+          LayoutParams.WRAP_CONTENT, 1.0f));
       //add the iconView to iconPanel
       iconPanel.addView(iconView);
+
     }
   }
 
@@ -177,21 +181,21 @@ public class MainActivity extends NativeMainActivity implements OnClickListener 
   public void onClick(View view) {
     Intent intent = null;
     switch(view.getId()) {
-    
+
     case R.string.dashboards:
-       intent = new Intent(this, DashboardsActivity.class);
+      intent = new Intent(this, DashboardsActivity.class);
       break;
     case R.string.favorites:
-       intent = new Intent(this, FavoriteChartsActivity.class);
+      intent = new Intent(this, FavoriteChartsActivity.class);
       break;
-      
+
     case R.string.recents:
-       intent = new Intent(this, RecentChartsActivity.class);
+      intent = new Intent(this, RecentChartsActivity.class);
       break;
-      
+
     }
     if (intent != null)
-    startActivity(intent);
-    
+      startActivity(intent);
+
   } 
 }

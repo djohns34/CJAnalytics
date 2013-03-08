@@ -34,7 +34,7 @@
     <include
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        layout="@layout/main_item_panel" />
+        layout="@layout/activity_main_item_panel" />
 
     <ImageView
         android:id="@+id/imageView1"
