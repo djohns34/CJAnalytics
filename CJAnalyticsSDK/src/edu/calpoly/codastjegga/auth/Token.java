@@ -1,4 +1,4 @@
-package edu.calpoly.codastjegga.sdk;
+package edu.calpoly.codastjegga.auth;
 
 /**
  * A class that holds tokens information, mainly refresh and access Token. Note
