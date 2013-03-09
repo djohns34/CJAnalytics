@@ -1,16 +1,14 @@
-package edu.calpoly.codastjegga.sdk;
+package edu.calpoly.codastjegga.auth;
 
 import java.net.URI;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.app.Application;
 import android.util.Log;
-import edu.calpoly.codastjegga.auth.HttpAccess;
-import edu.calpoly.codastjegga.auth.OAuth2;
 import edu.calpoly.codastjegga.auth.OAuth2.TokenEndpointResponse;
-import edu.calpoly.codastjegga.auth.RestClient;
 import edu.calpoly.codastjegga.auth.RestClient.AuthTokenProvider;
 import edu.calpoly.codastjegga.auth.RestClient.ClientInfo;
+import edu.calpoly.codastjegga.sdk.ICodastSDK;
 
 
 
