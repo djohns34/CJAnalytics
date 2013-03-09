@@ -1,16 +1,17 @@
 package edu.calpoly.codastjegga.sdk;
 
+import java.net.URI;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.app.Application;
 import android.util.Log;
+import edu.calpoly.codastjegga.auth.HttpAccess;
+import edu.calpoly.codastjegga.auth.OAuth2;
+import edu.calpoly.codastjegga.auth.OAuth2.TokenEndpointResponse;
+import edu.calpoly.codastjegga.auth.RestClient;
+import edu.calpoly.codastjegga.auth.RestClient.AuthTokenProvider;
+import edu.calpoly.codastjegga.auth.RestClient.ClientInfo;
 
-import com.salesforce.androidsdk.auth.HttpAccess;
-import com.salesforce.androidsdk.auth.OAuth2;
-import com.salesforce.androidsdk.auth.OAuth2.TokenEndpointResponse;
-import com.salesforce.androidsdk.rest.RestClient;
-import com.salesforce.androidsdk.rest.RestClient.AuthTokenProvider;
-import com.salesforce.androidsdk.rest.RestClient.ClientInfo;
 
 
 /*
@@ -99,8 +100,8 @@ public class RestClientAdapter {
 					try {
 						tokenAccessLock.wait();
 					} catch (InterruptedException e) {
-						Log.w("RestClientAdapter", "error obtaining a lock on getting new access token", e);
-						e.printStackTrace();
+//						Log.w("RestClientAdapter", "error obtaining a lock on getting new access token", e);
+//						e.printStackTrace();
 					}
 					//if another thread has released the lock then just
 					//get the access token
@@ -114,8 +115,10 @@ public class RestClientAdapter {
 			//at this point this thread holds the lock 
 			TokenEndpointResponse tr = null;
 			try {
+				URI loginUrl = clientInfo.loginUrl;
+				String clientId = clientInfo.clientId;
 				tr = OAuth2.refreshAuthToken(HttpAccess.DEFAULT,
-						clientInfo.loginUrl, clientInfo.clientId,
+						loginUrl, clientId,
 						token.getRefreshToken());
 
 				lastRefresh = System.currentTimeMillis() - lastRefresh;

@@ -1,9 +1,12 @@
 package edu.calpoly.codastjegga.sdk;
 
-import android.app.Application;
+import java.net.URI;
+import java.net.URISyntaxException;
 
-import com.salesforce.androidsdk.rest.RestClient;
-import com.salesforce.androidsdk.rest.RestClient.ClientInfo;
+import android.app.Application;
+import edu.calpoly.codastjegga.auth.RestClient;
+import edu.calpoly.codastjegga.auth.RestClient.ClientInfo;
+
 
 
 public class CodastSDK implements ICodastSDK{
@@ -11,13 +14,13 @@ public class CodastSDK implements ICodastSDK{
 	private RestClient client;
 	private SalesforceConnector connector;
 
-	public CodastSDK(Application app, ClientInfo clientInfo, final Token token,String appName)
+	public CodastSDK(Application app, URI loginInstance, final Token token, String appName, String api, String clientId) throws URISyntaxException
 	{
-		this.restClientAdapter = new RestClientAdapter(app, clientInfo, token);
+		this.restClientAdapter = new RestClientAdapter(app, new ClientInfo(clientId, loginInstance, new URI("https://login.salesforce.com/"), null, "", "","" , ""), token);
 		this.client = this.restClientAdapter.getRestClient();
 		
 		/*TODO: fill in the connector constructor */
-		this.connector = new SalesforceConnector(client,appName, null, null);
+		this.connector = new SalesforceConnector(client,appName, api, app.getApplicationContext());
 	}
 	
 	public void trackData(EventType type, String metric, Object data)

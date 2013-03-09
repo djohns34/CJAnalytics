@@ -2,7 +2,6 @@ package edu.calpoly.codastjegga.sdk;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,11 +10,12 @@ import org.json.JSONException;
 
 import android.content.Context;
 import android.util.Log;
+import edu.calpoly.codastjegga.auth.RestClient;
+import edu.calpoly.codastjegga.auth.RestClient.AsyncRequestCallback;
+import edu.calpoly.codastjegga.auth.RestRequest;
+import edu.calpoly.codastjegga.auth.RestResponse;
 
-import com.salesforce.androidsdk.rest.RestClient;
-import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
-import com.salesforce.androidsdk.rest.RestRequest;
-import com.salesforce.androidsdk.rest.RestResponse;
+
 
 /**
  * Defines operations required to send data to salesforce, handles storage
