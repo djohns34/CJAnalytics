@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 
 import android.app.Application;
 import edu.calpoly.codastjegga.auth.RestClient;
+import edu.calpoly.codastjegga.auth.RestClientAdapter;
+import edu.calpoly.codastjegga.auth.Token;
 import edu.calpoly.codastjegga.auth.RestClient.ClientInfo;
 
 
