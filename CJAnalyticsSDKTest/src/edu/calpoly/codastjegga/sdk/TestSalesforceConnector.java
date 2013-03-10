@@ -1,15 +1,10 @@
 package edu.calpoly.codastjegga.sdk;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Random;
 
-import junit.framework.TestCase;
-
-import android.test.ActivityTestCase;
 import android.test.AndroidTestCase;
 
-import com.salesforce.androidsdk.rest.RestClient.ClientInfo;
 
 public class TestSalesforceConnector extends AndroidTestCase {
 

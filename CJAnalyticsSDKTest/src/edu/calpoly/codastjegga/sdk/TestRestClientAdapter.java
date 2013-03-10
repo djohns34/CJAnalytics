@@ -3,10 +3,10 @@ package edu.calpoly.codastjegga.sdk;
 import java.net.URI;
 
 import junit.framework.TestCase;
+import edu.calpoly.codastjegga.auth.RestClient.ClientInfo;
+import edu.calpoly.codastjegga.auth.RestClientAdapter;
+import edu.calpoly.codastjegga.auth.Token;
 
-import junit.framework.TestCase;
-
-import com.salesforce.androidsdk.rest.RestClient.ClientInfo;
 
 public class TestRestClientAdapter extends TestCase{
 
@@ -35,8 +35,7 @@ public class TestRestClientAdapter extends TestCase{
     protected void setUp() throws Exception {
 
         info = new ClientInfo(clientId, new URI(instanceServer),
-                new URI(loginServer), new URI(idUrl), accountName, username,
-                userId, orgId);
+                new URI(loginServer));
 
         t = new Token(authToken, refreshToken);
         adapt = new RestClientAdapter(null, info, t);
