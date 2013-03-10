@@ -115,6 +115,7 @@ public class RestClientAdapter {
 			try {
 				URI loginUrl = clientInfo.loginUrl;
 				String clientId = clientInfo.clientId;
+				Log.i(CLASS_NAME, "Obtaining new auth token");
 				tr = OAuth2.refreshAuthToken(HttpAccess.DEFAULT,
 						loginUrl, clientId,
 						token.getRefreshToken());

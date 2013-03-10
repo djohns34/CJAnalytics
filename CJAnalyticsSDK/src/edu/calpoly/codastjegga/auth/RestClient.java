@@ -290,33 +290,19 @@ public class RestClient {
 		public final String clientId;
 		public final URI instanceUrl;
 		public final URI loginUrl;
-		public final URI identityUrl;
-		public  final String accountName;
-		public final String username;
-		public final String userId;
-		public final String orgId;
 		
-		public ClientInfo(String clientId, URI instanceUrl, URI loginUrl, URI identityUrl, String accountName, String username, String userId, String orgId) {
+		public ClientInfo(String clientId, URI instanceUrl, URI loginUrl){
 			this.clientId = clientId;
 			this.instanceUrl = instanceUrl;
 			this.loginUrl = loginUrl;
-			this.identityUrl = identityUrl;
-			this.accountName = accountName;
-			this.username = username;
-			this.userId = userId;
-			this.orgId = orgId;
+
 		}
 		
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
 			sb.append("  ClientInfo: {\n")
 			  .append("     loginUrl: ").append(loginUrl.toString()).append("\n")
-			  .append("     identityUrl: ").append(identityUrl.toString()).append("\n")
 			  .append("     instanceUrl: ").append(instanceUrl.toString()).append("\n")
-			  .append("     accountName: ").append(accountName).append("\n")
-			  .append("     username: ").append(username).append("\n")
-			  .append("     userId: ").append(userId).append("\n")
-			  .append("     orgId: ").append(orgId).append("\n")
 			  .append("  }\n");
 			return sb.toString();
 		}
