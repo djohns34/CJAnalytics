@@ -5,5 +5,18 @@
         <item name="android:background">@color/cjbackground</item>
     </style>
 
+    <style name="CJTheme" parent="@android:style/Theme.DeviceDefault">
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="CJListView" parent="@android:style/Widget.ListView">
+        <item name="android:divider">@color/drak_blue</item>
+        <item name="android:dividerHeight">1px</item>
+        <item name="android:listSelector">@drawable/light_blue_button</item>
+    </style>
+    
+    <style name="CJSpinner" parent="@android:style/Widget.Spinner">
+       
+    </style>
 
 </resources>
