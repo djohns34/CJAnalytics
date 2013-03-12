@@ -37,8 +37,8 @@ public class ChartSettingsAdapter extends CursorAdapter  {
     ChartSettings settings =ChartSettingsProvider.getChartSettings(cursor);
     
     //Get the text boxes from the listitem.xml file
-    TextView chartName =(TextView)view.findViewById(R.id.chartname);
-    TextView chartMetric =(TextView)view.findViewById(R.id.chartmetric);
+    TextView chartName =(TextView)view.findViewById(R.id.charts_chartname);
+    TextView chartMetric =(TextView)view.findViewById(R.id.charts_chartmetric);
     ImageView image=(ImageView) view.findViewById(R.id.chartImage);
 
     ImageView favorite=(ImageView) view.findViewById(R.id.favorite);

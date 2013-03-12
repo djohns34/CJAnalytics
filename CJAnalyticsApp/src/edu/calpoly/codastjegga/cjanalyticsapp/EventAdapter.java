@@ -15,7 +15,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 
 /**
  * Adapter for storing/viewing list of events 
- * Custom class to disply event name and event type in edit activity spinner
+ * Custom class to display event name and event type in edit activity spinner
  * @author gagandeep S. Kohli
  *
  */
