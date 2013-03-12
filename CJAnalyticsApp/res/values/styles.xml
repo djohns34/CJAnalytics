@@ -28,6 +28,7 @@
     <style name="CJSpinner">
         <item name="android:background">@drawable/dropdown</item>
         <item name="android:clickable">true</item>
+        <item name="android:textSize">?android:attr/textAppearanceMedium</item>
     </style>
 
     <style name="CJDateButton">
