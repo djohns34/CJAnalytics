@@ -9,14 +9,33 @@
         <item name="android:textColor">@color/light_gray</item>
     </style>
 
-    <style name="CJListView" parent="@android:style/Widget.ListView">
-        <item name="android:divider">@color/drak_blue</item>
+    <style name="RootViewGroup">
+        <item name="android:background">@color/light_gray</item>
+    </style>
+
+    <style name="CJDefaultView">
+        <item name="android:divider">@color/dark_blue</item>
         <item name="android:dividerHeight">1px</item>
         <item name="android:listSelector">@drawable/light_blue_button</item>
     </style>
-    
-    <style name="CJSpinner" parent="@android:style/Widget.Spinner">
-       
+
+    <style name="CJListView" parent="@android:style/Widget.ListView">
+        <item name="android:divider">@color/dark_blue</item>
+        <item name="android:dividerHeight">1px</item>
+        <item name="android:listSelector">@drawable/light_blue_button</item>
+    </style>
+
+    <style name="CJSpinner">
+        <item name="android:background">@drawable/dropdown</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="CJDateButton">
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:background">@color/slight_darker_light_blue</item>
     </style>
 
 </resources>

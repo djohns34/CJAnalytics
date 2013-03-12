@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/light_blue"
+    android:clickable="true"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -11,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="10dp"
         android:background="@drawable/white_drop_shadow_panel_cropped"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <EditText
             android:id="@+id/chartName"
@@ -39,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOn="Raw"
-                android:textOff="Raw" />
+                android:textOff="Raw" />
             -->
 
             <ToggleButton
@@ -81,10 +82,10 @@
 
             <Spinner
                 android:id="@+id/metricsList"
+                style="@style/CJSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/metrics"
-                style="@style/CJSpinner"/>
+                android:contentDescription="@string/metrics" />
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -113,14 +114,11 @@
                         android:id="@+id/fromDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="18dp"
+                       
                         android:clickable="true"
                         android:onClick="setToFromDate"
-                        android:paddingBottom="10dip"
-                        android:paddingRight="10dip"
-                        android:paddingTop="10dip"
-                        android:text="@string/sampleDate"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                        style="@style/CJDateButton"
+                        android:text="@string/sampleDate"/>
                 </TableRow>
 
                 <TableRow
@@ -145,15 +143,11 @@
                         android:id="@+id/toDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="18dp"
                         android:clickable="true"
-                        android:linksClickable="true"
+                        style="@style/CJDateButton"
                         android:onClick="setToFromDate"
-                        android:paddingBottom="10dip"
-                        android:paddingRight="10dip"
-                        android:paddingTop="10dip"
                         android:text="@string/sampleDate"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
+                   />
                 </TableRow>
 
                 <TableRow
@@ -168,12 +162,12 @@
                     android:layout_height="wrap_content" >
                 </TableRow>
             </TableLayout>
-
+
             <Spinner
                 android:id="@+id/intervalList"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
+                android:layout_height="wrap_content"
+                android:background="@drawable/dropdown" />
         </LinearLayout>
     </LinearLayout>
 
