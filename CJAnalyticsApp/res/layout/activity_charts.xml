@@ -2,15 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    android:fadingEdge="horizontal"
     android:orientation="vertical"
     tools:context=".StoredChartsActivity" >
 
     <ListView
         android:id="@android:id/list"
+        style="@style/CJListView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:longClickable="true">
-    </ListView>
+        android:layout_height="fill_parent" />
 
     <TextView
         android:id="@android:id/empty"

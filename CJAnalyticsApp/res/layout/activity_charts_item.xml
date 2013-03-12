@@ -1,49 +1,72 @@
- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-        
-          <ImageView
-              android:id="@+id/chartImage"
-              android:layout_width="wrap_content"
-              android:layout_height="72dp"
-              android:layout_alignParentLeft="true"
-              android:layout_alignParentTop="true"
-              android:scaleType="fitEnd"
-              android:src="@drawable/pie_chart" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5px">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right" >
 
-          <TextView
-              android:id="@+id/chartname"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentTop="true"
-              android:layout_toLeftOf="@+id/favorite"
-              android:layout_toRightOf="@+id/chartImage"
-              android:ellipsize="end"
-              android:maxLines="1"
-              android:scrollHorizontally="true"
-              android:text="Large Text"
-              android:textAppearance="?android:attr/textAppearanceLarge" />
+        <ImageView
+            android:id="@+id/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/rating_important" />
 
-          <TextView
-              android:id="@+id/chartmetric"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignBottom="@+id/chartImage"
-              android:layout_alignLeft="@+id/chartname"
-              android:layout_toLeftOf="@+id/favorite"
-              android:ellipsize="end"
-              android:maxLines="1"
-              android:scrollHorizontally="true"
-              android:text="Medium Text"
-              android:textAppearance="?android:attr/textAppearanceMedium" />
-          
-           <ImageView
-              android:id="@+id/favorite"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignBottom="@+id/chartmetric"
-              android:layout_alignParentRight="true"
-              android:layout_alignParentTop="true"
-              android:src="@drawable/rating_important" />
+        <ImageView
+            android:id="@+id/chartImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:baselineAlignBottom="true"
+            android:scaleType="center"
+            android:src="@drawable/pie_chart" />
+
+        <LinearLayout
+            android:id="@+id/chart_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/favorite"
+            android:layout_toRightOf="@+id/chartImage"
+            android:gravity="center_vertical|left"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:id="@+id/charts_chartname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="top"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <TextView
+                android:id="@+id/charts_chartmetric"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="bottom"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:text="Medium Text"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
 
     </RelativeLayout>
+
+</LinearLayout>
