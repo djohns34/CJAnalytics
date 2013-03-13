@@ -32,11 +32,12 @@
     </style>
 
     <style name="CJDateButton">
-        <item name="android:paddingBottom">10dp</item>
-        <item name="android:paddingRight">10dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
-        <item name="android:background">@color/slight_darker_light_blue</item>
+ 		<item name="android:textColor">@color/light_gray</item>
+ 		<item name="android:textColorHint">@color/light_blue</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:background">@drawable/light_blue_input</item>
+        <item name="android:clickable">true</item>
     </style>
 
+ 
 </resources>

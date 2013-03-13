@@ -39,5 +39,7 @@
     <string name="new_chart_title">New Chart</string>
     <string name="refresh">Refresh</string>
     <string name="title_activity_base">BaseActivity</string>
+    <string name="EventMetricLabel">Event Metric</string>
+    <string name="timeIntervalLable">Time Interval</string>
 
 </resources>
