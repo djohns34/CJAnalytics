@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/chart"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/light_blue"
@@ -9,7 +8,7 @@
 
     <LinearLayout
         android:id="@+id/chart"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/white_drop_shadow_panel_cropped"
@@ -20,30 +19,19 @@
             android:id="@+id/chartName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/blue_round_btn"
+            android:background="@drawable/light_blue_input"
             android:ems="10"
             android:gravity="center"
             android:hint="@string/editChartInitTitle"
             android:maxLines="1"
             android:singleLine="true"
-            android:textSize="25sp" >
-
-            <requestFocus />
-        </EditText>
+            android:textColor="@color/light_gray"
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <!--
-            <ToggleButton
-                android:id="@+id/raw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textOn="Raw"
-                android:textOff="Raw" />
-            -->
-
             <ToggleButton
                 android:id="@+id/line"
                 android:layout_width="0dp"
@@ -51,9 +39,10 @@
                 android:layout_weight="1"
                 android:drawableTop="@drawable/line_chart_32x32x32"
                 android:onClick="changeType"
+                android:paddingTop="5dp"
                 android:text="@string/line"
-                android:textOff="Line"
-                android:textOn="Line" />
+                android:textOff=""
+                android:textOn="" />
 
             <ToggleButton
                 android:id="@+id/bar"
@@ -62,8 +51,9 @@
                 android:layout_weight="1"
                 android:drawableTop="@drawable/bar_chart_32x32x32"
                 android:onClick="changeType"
-                android:textOff="Bar"
-                android:textOn="Bar" />
+                android:paddingTop="5dp"
+                android:textOff=""
+                android:textOn="" />
 
             <ToggleButton
                 android:id="@+id/pie"
@@ -72,99 +62,104 @@
                 android:layout_weight="1"
                 android:drawableTop="@drawable/pie_chart_32x32x32"
                 android:onClick="changeType"
-                android:textOff="Pie"
-                android:textOn="Pie" />
+                android:paddingTop="5dp"
+                android:textOff=""
+                android:textOn="" />
         </LinearLayout>
+
+        <include layout="@layout/activity_edit_chart_divider" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/EventMetricLabel"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
             <Spinner
                 android:id="@+id/metricsList"
                 style="@style/CJSpinner"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:alpha="80"
                 android:contentDescription="@string/metrics" />
 
+            <include layout="@layout/activity_edit_chart_divider" />
+
             <TableLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
-
+
                 <TableRow
                     android:id="@+id/tableRow1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-
+
                     <TextView
                         android:id="@+id/TextView01"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
                         android:gravity="right"
-                        android:paddingBottom="10dip"
-                        android:paddingRight="10dip"
-                        android:paddingTop="10dip"
+                        android:paddingRight="10dp"
                         android:text="@string/from"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
                     <Button
                         android:id="@+id/fromDate"
                         style="@style/CJDateButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/light_blue_button"
-                        android:clickable="true"
                         android:onClick="setToFromDate"
                         android:text="@string/sampleDate" />
+
                 </TableRow>
 
                 <TableRow
                     android:id="@+id/tableRow2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
-
+
                     <TextView
                         android:id="@+id/TextView02"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="18dp"
                         android:gravity="right"
-                        android:paddingBottom="10dip"
-                        android:paddingRight="10dip"
-                        android:paddingTop="10dip"
+                        android:paddingRight="10dp"
                         android:text="@string/to"
-                        android:textAppearance="?android:attr/textAppearanceLarge" />
-
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
                     <Button
                         android:id="@+id/toDate"
                         style="@style/CJDateButton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="true"
                         android:onClick="setToFromDate"
                         android:text="@string/sampleDate" />
-                </TableRow>
 
-                <TableRow
-                    android:id="@+id/tableRow3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
                 </TableRow>
             </TableLayout>
+
+            <include layout="@layout/activity_edit_chart_divider" />
+
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/timeIntervalLable"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Spinner
                 android:id="@+id/intervalList"
                 style="@style/CJSpinner"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 
