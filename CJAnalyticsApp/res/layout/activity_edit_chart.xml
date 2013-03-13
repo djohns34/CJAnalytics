@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/light_blue"
-    android:clickable="true"
-    android:orientation="vertical" >
-
+    android:orientation="vertical"
+    android:scrollbarStyle="insideOverlay" >
+
     <LinearLayout
         android:id="@+id/chart"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
         android:layout_margin="10dp"
         android:background="@drawable/white_drop_shadow_panel_cropped"
         android:orientation="vertical"
@@ -90,11 +91,11 @@
                 android:contentDescription="@string/metrics" />
 
             <include layout="@layout/activity_edit_chart_divider" />
-
-            <TableLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
 
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
                 <TableRow
                     android:id="@+id/tableRow1"
                     android:layout_width="match_parent"
@@ -119,10 +120,10 @@
                         android:text="@string/sampleDate" />
 
                 </TableRow>
-
+
                 <TableRow
                     android:id="@+id/tableRow2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
                     <TextView
@@ -163,4 +164,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
