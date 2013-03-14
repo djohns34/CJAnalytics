@@ -3,6 +3,7 @@ package edu.calpoly.codastjegga.cjanalyticsapp;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -10,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -73,7 +75,7 @@ public class EditActivity extends FragmentActivity implements
   private Calendar toDate, fromDate;
   // private ArrayAdapter<String> metricsAdapter;
   private EventAdapter eventAdapter;
-  private List<Pair<String, EventType>> eventsListModel;
+  private List<Map.Entry<String, EventType>> eventsListModel;
   private DatePickerFragment datePickerFrag;
   private EventFetecherTask eventFetcherTask;
 
@@ -111,7 +113,7 @@ public class EditActivity extends FragmentActivity implements
     }
 
     if (savedInstanceState != null) {
-      eventsListModel = (List<Pair<String, EventType>>) savedInstanceState
+      eventsListModel = (List<Map.Entry<String, EventType>>) savedInstanceState
           .getSerializable(SAVED_EVENT_LIST);
       toDate = (Calendar) savedInstanceState.get(SAVED_TO_DATE);
       fromDate = (Calendar) savedInstanceState.get(SAVED_FROM_DATE);
@@ -231,7 +233,7 @@ public class EditActivity extends FragmentActivity implements
     // setting
     String eventName = chartSettings.getEventName();
     EventType metricType = chartSettings.getEventType();
-    int position = eventAdapter.getPosition(Pair.create(eventName, metricType));
+    int position = eventAdapter.getPosition(new AbstractMap.SimpleEntry<String, EventType>(eventName, metricType));
     eventSpinner.setSelection(position);
   }
 
@@ -241,7 +243,7 @@ public class EditActivity extends FragmentActivity implements
    * @return asyncTask to fetch metrics from Salesforce
    */
   private class EventFetecherTask extends
-      AsyncTask<String, Void, List<Pair<String, EventType>>> {
+      AsyncTask<String, Void, List<Map.Entry<String, EventType>>> {
     private ProgressDialog dialog;
     private Activity activity;
     private static final String LOADING_METRICS = "Loading Metrics...";
@@ -261,7 +263,7 @@ public class EditActivity extends FragmentActivity implements
     }
 
     @Override
-    protected List<Pair<String, EventType>> doInBackground(String... params) {
+    protected List<Map.Entry<String, EventType>> doInBackground(String... params) {
       CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp) activity
           .getApplicationContext();
       String dbName = params[0];
@@ -278,7 +280,7 @@ public class EditActivity extends FragmentActivity implements
     }
 
     @Override
-    protected void onPostExecute(List<Pair<String, EventType>> result) {
+    protected void onPostExecute(List<Map.Entry<String, EventType>> result) {
       if (activity != null) {
         if (result != null) {
           eventsListModel = result;
@@ -287,7 +289,7 @@ public class EditActivity extends FragmentActivity implements
           Toast toast = Toast.makeText(getApplicationContext(),
               "Unable to load metrics", Toast.LENGTH_SHORT);
           toast.show();
-          eventsListModel = new ArrayList<Pair<String, EventType>>();
+          eventsListModel = null;
         }
         eventSpinner.setAdapter(eventAdapter);
         eventSpinner.setOnItemSelectedListener(EditActivity.this);
@@ -338,10 +340,11 @@ public class EditActivity extends FragmentActivity implements
     if (chartName.getText().length() == 0) {
       Toast.makeText(this, ON_SAVE_INVALID_NAME_MESSAGE_ERROR,
           Toast.LENGTH_SHORT).show();
+      //TODO: TOTALLY HACKED BY JEREMY. I'm adding in getValue to getSelectedEvent
     } else if (getSelectedType() == ChartType.Line
-        && getSelectedEvent().second != EventType.Float
-        && getSelectedEvent().second != EventType.Currency
-        && getSelectedEvent().second != EventType.Number) {
+        && getSelectedEvent().getValue() != EventType.Float
+        && getSelectedEvent().getValue() != EventType.Currency
+        && getSelectedEvent().getValue() != EventType.Number) {
       // TODO: this conditional is a total hack
       Toast.makeText(this, ON_SAVE_INVALID_EVENT_TYPE, Toast.LENGTH_SHORT)
           .show();
@@ -357,9 +360,9 @@ public class EditActivity extends FragmentActivity implements
     chartSettings.setStartDate(toDate.getTime());
     chartSettings.setEndDate(fromDate.getTime());
     // get the selected event name and type
-    Pair<String, EventType> eventInfo = getSelectedEvent();
-    chartSettings.setEventName(eventInfo.first);
-    chartSettings.setEventType(eventInfo.second);
+    Map.Entry<String, EventType> eventInfo = getSelectedEvent();
+    chartSettings.setEventName(eventInfo.getKey());
+    chartSettings.setEventType(eventInfo.getValue());
     chartSettings.setTimeInterval((TimeInterval)intervalSpinner.getSelectedItem());
     chartSettings.saveToIntent(intent);
 
@@ -377,8 +380,8 @@ public class EditActivity extends FragmentActivity implements
   }
 
   @SuppressWarnings("unchecked")
-  private Pair<String, EventType> getSelectedEvent() {
-    return (Pair<String, EventType>) eventSpinner.getSelectedItem();
+  private Map.Entry<String, EventType> getSelectedEvent() {
+    return (Map.Entry<String, EventType>) eventSpinner.getSelectedItem();
   }
 
   public void setToFromDate(View view) {
@@ -591,7 +594,7 @@ public class EditActivity extends FragmentActivity implements
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
-    disableButton(getSelectedEvent().second);
+    disableButton(getSelectedEvent().getValue());
   }
 
   @Override

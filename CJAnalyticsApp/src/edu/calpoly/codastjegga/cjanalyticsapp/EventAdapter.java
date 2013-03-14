@@ -2,8 +2,10 @@ package edu.calpoly.codastjegga.cjanalyticsapp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
+import android.inputmethodservice.Keyboard.Key;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 public class EventAdapter extends BaseAdapter{
 
   //List of events
-  List<Pair<String, EventType>> eventsList;
+  List<Map.Entry<String, EventType>> eventsList;
   //context to link to the parent activity
   Context context;
   
@@ -32,7 +34,6 @@ public class EventAdapter extends BaseAdapter{
    */
   public EventAdapter(Context context) {
     this.context = context;
-    eventsList = new ArrayList<Pair<String, EventType>>();
   }
   
   /**
@@ -40,7 +41,7 @@ public class EventAdapter extends BaseAdapter{
    * @param context
    * @param eventsList
    */
-  public EventAdapter(Context context, List<Pair<String, EventType>> eventsList){
+  public EventAdapter(Context context, List<Map.Entry<String, EventType>> eventsList){
     this.context = context;
     this.eventsList = eventsList;
   }
@@ -49,7 +50,7 @@ public class EventAdapter extends BaseAdapter{
    * Getter for Events List
    * @return list of events (pair <event name, event type>)
    */
-  public List<Pair<String, EventType>> getEventsList() {
+  public List<Map.Entry<String, EventType>> getEventsList() {
     return eventsList;
   }
 
@@ -57,7 +58,7 @@ public class EventAdapter extends BaseAdapter{
    * Setter for event list
    * @param eventsList list of events (pair <event name, event type>)
    */
-  public void setEventsList(List<Pair<String, EventType>> eventsList) {
+  public void setEventsList(List<Map.Entry<String, EventType>> eventsList) {
     this.eventsList = eventsList;
   }
 
@@ -89,11 +90,12 @@ public class EventAdapter extends BaseAdapter{
     TextView metricName = (TextView) view.findViewById(R.id.metric_name);
     TextView metricType = (TextView) view.findViewById(R.id.metric_type);
     
-    Pair<String, EventType> metric = eventsList.get(position);
+    if (eventsList != null) {
+     Map.Entry<String, EventType> metric = eventsList.get(position);
     
-    metricName.setText(metric.first);
-    metricType.setText(metric.second.toString());
-    
+    metricName.setText(metric.getKey());
+    metricType.setText(metric.getValue().toString());
+    }
     return view;
   }
   /**
@@ -101,6 +103,8 @@ public class EventAdapter extends BaseAdapter{
    */
   @Override
   public int getCount() {
+    if (eventsList == null)
+      return 0;
    return eventsList.size();
   }
   
@@ -129,7 +133,7 @@ public class EventAdapter extends BaseAdapter{
    * @param eventsList
    * @return
    */
-  public int getPosition (Pair<String, EventType> eventsList) {
+  public int getPosition (Map.Entry<String, EventType> eventsList) {
       return this.eventsList.indexOf(eventsList);
   }
   

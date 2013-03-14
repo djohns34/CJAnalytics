@@ -1,8 +1,10 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 
+import java.util.AbstractMap;
 import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -163,7 +165,7 @@ public class DataFetcherTest extends TestCase {
     }
 
     try {
-      List<Pair<String, EventType>> dbMetrics = DataFetcher.getDatabaseMetrics(apiV, client, dbName);
+      List<Map.Entry<String, EventType>> dbMetrics = DataFetcher.getDatabaseMetrics(apiV, client, dbName);
       //check that the hash isn't null
       assertNotNull(dbMetrics);
       //check the length of the hash
@@ -171,7 +173,7 @@ public class DataFetcherTest extends TestCase {
       
       for (String metric : metrics) {
         //check if db metrics contains the metric
-        assertTrue(dbMetrics.contains(Pair.create(metric, METRICTYPE)));
+        assertTrue(dbMetrics.contains(new AbstractMap.SimpleEntry<String, EventType>(metric, METRICTYPE)));
       }
     } catch (Exception e) {
       fail("Internal error");

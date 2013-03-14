@@ -1,6 +1,7 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -196,7 +197,7 @@ public class DataFetcher {
    *           If client fails to send request to salesforce.com or if
    *           Salesforce return back a invalid JSONObjection in response.
    */
-  public static List<Pair<String, EventType>> getDatabaseMetrics(String apiVersion,
+  public static List<Map.Entry<String, EventType>> getDatabaseMetrics(String apiVersion,
       RestClient client, String databaseName) throws Exception {
     String getDBNameQuery = buildQuery(CUSTOM_OBJ_NAME, EnumSet.of(
         EventFields.DatabaseName, EventFields.EventName, EventFields.ValueType));
@@ -217,9 +218,9 @@ public class DataFetcher {
     return parseMetricRecords(databases);
   }
 
-  private static List<Pair<String, EventType>> parseMetricRecords(JSONObject recordsObj)
+  private static List<Map.Entry<String, EventType>> parseMetricRecords(JSONObject recordsObj)
       throws JSONException {
-    List<Pair<String, EventType>> result = new LinkedList<Pair<String, EventType>>();
+    List<Map.Entry<String, EventType>> result = new LinkedList<Map.Entry<String, EventType>>();
     HashSet<String> storedEvent = new HashSet<String>();
     if (recordsObj != null) {
       JSONArray jsonRecordsArr = recordsObj.getJSONArray(RECORDS);
@@ -236,7 +237,7 @@ public class DataFetcher {
           String eventType = recordItem.getString(EventFields.ValueType
               .getColumnId());
           //put event name and type in result map
-          result.add(Pair.create(eventName, EventType.valueOf(eventType)));
+          result.add(new AbstractMap.SimpleEntry<String, EventType>(eventName, EventType.valueOf(eventType)));
           //add the event name to the list
           storedEvent.add(eventName);
         }
