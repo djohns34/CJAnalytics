@@ -4,10 +4,8 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -23,18 +21,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -75,10 +70,13 @@ public class EditActivity extends FragmentActivity implements
   private Calendar toDate, fromDate;
   // private ArrayAdapter<String> metricsAdapter;
   private EventAdapter eventAdapter;
+
   private List<Map.Entry<String, EventType>> eventsListModel;
+
   private DatePickerFragment datePickerFrag;
   private EventFetecherTask eventFetcherTask;
 
+  @SuppressWarnings("unchecked")
   protected void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
@@ -115,10 +113,11 @@ public class EditActivity extends FragmentActivity implements
     if (savedInstanceState != null) {
       eventsListModel = (List<Map.Entry<String, EventType>>) savedInstanceState
           .getSerializable(SAVED_EVENT_LIST);
+
       toDate = (Calendar) savedInstanceState.get(SAVED_TO_DATE);
       fromDate = (Calendar) savedInstanceState.get(SAVED_FROM_DATE);
       // if there wasn't an event model saved
-      if (eventsListModel == null) {
+      if (eventsListModel  == null) {
         // initialize the events list
         initEventsList();
       }
@@ -230,10 +229,11 @@ public class EditActivity extends FragmentActivity implements
 
   private void selectEventInSpinner() {
     // select the metric name and type that is set to the current chart/chart
-    // setting
+    // setting (Note there cannot be duplicate metric by the same name in the list)
     String eventName = chartSettings.getEventName();
     EventType metricType = chartSettings.getEventType();
     int position = eventAdapter.getPosition(new AbstractMap.SimpleEntry<String, EventType>(eventName, metricType));
+
     eventSpinner.setSelection(position);
   }
 
@@ -244,6 +244,7 @@ public class EditActivity extends FragmentActivity implements
    */
   private class EventFetecherTask extends
       AsyncTask<String, Void, List<Map.Entry<String, EventType>>> {
+
     private ProgressDialog dialog;
     private Activity activity;
     private static final String LOADING_METRICS = "Loading Metrics...";
