@@ -1,12 +1,10 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -25,14 +23,12 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -52,7 +48,8 @@ public class EditActivity extends FragmentActivity implements
   private static final String DAY = "day";
   private static final String MONTH = "month";
   private static final String YEAR = "year";
-  private static final String SAVED_EVENT_LIST = "savedeventlist";
+  private static final String SAVED_METRICS_LIST = "savedmetricslist";
+  private static final String SAVED_EVENT_TYPE_LIST = "savedeventtypelist";
   private static final String SAVED_TO_DATE = "savedtodate";
   private static final String SAVED_FROM_DATE = "savedfromdate";
   private static final String DATE_PICKER_TITLE = "Date Picker";
@@ -73,10 +70,13 @@ public class EditActivity extends FragmentActivity implements
   private Calendar toDate, fromDate;
   // private ArrayAdapter<String> metricsAdapter;
   private EventAdapter eventAdapter;
-  private List<Pair<String, EventType>> eventsListModel;
+  //private List<Pair<String, EventType>> eventsListModel;
+  private ArrayList<String> eventMetricsModel;
+  private ArrayList<EventType> eventTypesModel;
   private DatePickerFragment datePickerFrag;
   private EventFetecherTask eventFetcherTask;
 
+  @SuppressWarnings("unchecked")
   protected void onCreate(Bundle savedInstanceState) {
 
     super.onCreate(savedInstanceState);
@@ -111,18 +111,18 @@ public class EditActivity extends FragmentActivity implements
     }
 
     if (savedInstanceState != null) {
-      eventsListModel = (List<Pair<String, EventType>>) savedInstanceState
-          .getSerializable(SAVED_EVENT_LIST);
+      eventMetricsModel = (ArrayList<String>) savedInstanceState.get(SAVED_METRICS_LIST);
+      eventTypesModel = (ArrayList<EventType>) savedInstanceState.get(SAVED_EVENT_TYPE_LIST);
       toDate = (Calendar) savedInstanceState.get(SAVED_TO_DATE);
       fromDate = (Calendar) savedInstanceState.get(SAVED_FROM_DATE);
       // if there wasn't an event model saved
-      if (eventsListModel == null) {
+      if (eventMetricsModel == null) {
         // initialize the events list
         initEventsList();
       }
       // ELSE
       else {  
-        eventAdapter.setEventsList(eventsListModel);
+        eventAdapter.setEventsList(eventMetricsModel, eventTypesModel);
         eventSpinner.setAdapter(eventAdapter);
         eventSpinner.setOnItemSelectedListener(EditActivity.this);
         selectEventInSpinner();
@@ -162,7 +162,8 @@ public class EditActivity extends FragmentActivity implements
   protected void onSaveInstanceState(Bundle outState) {
     // TODO Auto-generated method stub
     super.onSaveInstanceState(outState);
-    outState.putSerializable(SAVED_EVENT_LIST, (Serializable) eventsListModel);
+    outState.putSerializable(SAVED_METRICS_LIST, eventMetricsModel);
+    outState.putSerializable(SAVED_EVENT_TYPE_LIST, eventTypesModel);
     outState.putSerializable(SAVED_TO_DATE, toDate);
     outState.putSerializable(SAVED_FROM_DATE, fromDate);
   }
@@ -228,10 +229,9 @@ public class EditActivity extends FragmentActivity implements
 
   private void selectEventInSpinner() {
     // select the metric name and type that is set to the current chart/chart
-    // setting
+    // setting (Note there cannot be duplicate metric by the same name in the list)
     String eventName = chartSettings.getEventName();
-    EventType metricType = chartSettings.getEventType();
-    int position = eventAdapter.getPosition(Pair.create(eventName, metricType));
+    int position = eventAdapter.getPosition(eventName);
     eventSpinner.setSelection(position);
   }
 
@@ -241,7 +241,7 @@ public class EditActivity extends FragmentActivity implements
    * @return asyncTask to fetch metrics from Salesforce
    */
   private class EventFetecherTask extends
-      AsyncTask<String, Void, List<Pair<String, EventType>>> {
+      AsyncTask<String, Void, Pair<ArrayList<String>, ArrayList<EventType>>> {
     private ProgressDialog dialog;
     private Activity activity;
     private static final String LOADING_METRICS = "Loading Metrics...";
@@ -261,14 +261,25 @@ public class EditActivity extends FragmentActivity implements
     }
 
     @Override
-    protected List<Pair<String, EventType>> doInBackground(String... params) {
+    protected Pair<ArrayList<String>, ArrayList<EventType>> doInBackground(String... params) {
       CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp) activity
           .getApplicationContext();
       String dbName = params[0];
       try {
-        return DataFetcher.getDatabaseMetrics(getString(R.string.api_version),
+        List<Pair<String, EventType>> databaseMetrics = DataFetcher.getDatabaseMetrics(getString(R.string.api_version),
             cjAnalyApp.getRestClient(), dbName);
 
+        int capacity = databaseMetrics.size();
+        ArrayList<String> metrics = new ArrayList<String>(capacity);
+        ArrayList<EventType> eventTypes = new ArrayList<EventType>(capacity);
+        
+        for (Pair<String, EventType> metric : databaseMetrics) { 
+          metrics.add(metric.first);
+          eventTypes.add(metric.second);
+          
+        }
+        return Pair.create(metrics, eventTypes);
+        
       } catch (Exception e) {
 
         Log.e("Edit Activity loading metrics", "unable to load metrics", e);
@@ -278,16 +289,19 @@ public class EditActivity extends FragmentActivity implements
     }
 
     @Override
-    protected void onPostExecute(List<Pair<String, EventType>> result) {
+    protected void onPostExecute(Pair<ArrayList<String>, ArrayList<EventType>> result) {
       if (activity != null) {
         if (result != null) {
-          eventsListModel = result;
-          eventAdapter.setEventsList(result);
+          eventMetricsModel = result.first;
+          eventTypesModel = result.second;
+          
+          eventAdapter.setEventsList(eventMetricsModel, eventTypesModel);
         } else {
           Toast toast = Toast.makeText(getApplicationContext(),
               "Unable to load metrics", Toast.LENGTH_SHORT);
           toast.show();
-          eventsListModel = new ArrayList<Pair<String, EventType>>();
+          eventMetricsModel = null;
+          eventTypesModel = null;
         }
         eventSpinner.setAdapter(eventAdapter);
         eventSpinner.setOnItemSelectedListener(EditActivity.this);

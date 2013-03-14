@@ -16,49 +16,63 @@ import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 /**
  * Adapter for storing/viewing list of events 
  * Custom class to display event name and event type in edit activity spinner
+ * (Note there cannot be duplicate metric by the same name in the list)
  * @author gagandeep S. Kohli
  *
  */
 public class EventAdapter extends BaseAdapter{
 
-  //List of events
-  List<Pair<String, EventType>> eventsList;
+  //list of metrics
+  ArrayList<String> eventMetrics;
+  //list of event types
+  ArrayList<EventType> eventTypes;
+
   //context to link to the parent activity
   Context context;
-  
+
   /**
    * Constructs an EventAdapter
    * @param context see {@link Context}
    */
   public EventAdapter(Context context) {
     this.context = context;
-    eventsList = new ArrayList<Pair<String, EventType>>();
   }
-  
+
   /**
    * Constructs an EventAdapter with the given event list
    * @param context
    * @param eventsList
    */
-  public EventAdapter(Context context, List<Pair<String, EventType>> eventsList){
+  public EventAdapter(Context context, ArrayList<String> eventsMetrics, ArrayList<EventType> eventTypes){
     this.context = context;
-    this.eventsList = eventsList;
-  }
-  
-  /**
-   * Getter for Events List
-   * @return list of events (pair <event name, event type>)
-   */
-  public List<Pair<String, EventType>> getEventsList() {
-    return eventsList;
+    this.eventMetrics = eventsMetrics;
+    this.eventTypes = eventTypes;
   }
 
   /**
-   * Setter for event list
-   * @param eventsList list of events (pair <event name, event type>)
+   * Getter for Events List
+   * @return list of metrics
    */
-  public void setEventsList(List<Pair<String, EventType>> eventsList) {
-    this.eventsList = eventsList;
+  public ArrayList<String> getMetricsList() {
+    return eventMetrics;
+  }
+
+  /**
+   * Getter for Event types List
+   * @return list of event types
+   */
+  public ArrayList<EventType> getEventTypeList() {
+    return eventTypes;
+  }
+
+  /**
+   * Setter for event list and event types
+   * @param eventsList list of events 
+   * @param eventsTypes list of event types
+   */
+  public void setEventsList(ArrayList<String> eventsMetrics, ArrayList<EventType> eventsTypes) {
+    this.eventMetrics = eventsMetrics;
+    this.eventTypes = eventsTypes;
   }
 
   /**
@@ -82,18 +96,19 @@ public class EventAdapter extends BaseAdapter{
    */
   @Override
   public View getView(int position, View view, ViewGroup parent) {
-    // TODO Auto-generated method stub
+
     if (view == null)
-        view = RelativeLayout.inflate(context, R.layout.activity_edit_charts_event_item, null);
-    
+      view = RelativeLayout.inflate(context, R.layout.activity_edit_charts_event_item, null);
+
     TextView metricName = (TextView) view.findViewById(R.id.metric_name);
     TextView metricType = (TextView) view.findViewById(R.id.metric_type);
-    
-    Pair<String, EventType> metric = eventsList.get(position);
-    
-    metricName.setText(metric.first);
-    metricType.setText(metric.second.toString());
-    
+
+
+    if (eventMetrics != null && eventTypes != null) {
+      metricName.setText(this.eventMetrics.get(position));
+      metricType.setText(this.eventTypes.get(position).toString());
+    }
+
     return view;
   }
   /**
@@ -101,18 +116,22 @@ public class EventAdapter extends BaseAdapter{
    */
   @Override
   public int getCount() {
-   return eventsList.size();
+    if (eventMetrics == null) return 0; 
+    
+    return eventMetrics.size();
   }
-  
+
   /**
    * Gets a event from the event list
    * @return event
    */
   @Override
   public Object getItem(int position) {
-    return eventsList.get(position);
+    if (eventMetrics == null)
+      return null;
+    return Pair.create(eventMetrics.get(position), eventTypes.get(position));
   }
-  
+
   /**
    * Gets item id -- always returns 0 since the class doesn't
    * keep unique id for each event in the list
@@ -122,15 +141,14 @@ public class EventAdapter extends BaseAdapter{
     // TODO Auto-generated method stub
     return 0;
   }
-  
+
   /**
-   * Returns the position of an event in the events list of -1 if not
-   * found
-   * @param eventsList
-   * @return
+   * Returns the position of an event in the events list or -1 if not
+   * found 
+   * @param metric metric name
+   * @return position of the event
    */
-  public int getPosition (Pair<String, EventType> eventsList) {
-      return this.eventsList.indexOf(eventsList);
+  public int getPosition (String metric) {
+    return this.eventMetrics.indexOf(metric);
   }
-  
 }
