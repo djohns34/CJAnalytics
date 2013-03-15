@@ -52,12 +52,24 @@ public class CJPieChart implements ChartProvider {
     for (Map.Entry<String, Integer> entry : values.entrySet()) {
       cs.add(entry.getKey(), entry.getValue());
       ssr = new SimpleSeriesRenderer();
-      ssr.setColor(Color.rgb(rand.nextInt(256), rand.nextInt(256),
-          rand.nextInt(256)));
+      ssr.setColor(getRandomColor());
       ren.addSeriesRenderer(ssr);
     }
   }
+  
+  /**
+   * Generates a random color
+   * @return Random color (in the form of an integer)
+   */
+  private int getRandomColor() {
+    Random rand = new Random();
+    return Color.rgb(rand.nextInt(256), rand.nextInt(256),
+        rand.nextInt(256));
+  }
 
+  /**
+   * Return the final, graphical view of the chart
+   */
   public GraphicalView getGraphicalView(Context context) {
     return ChartFactory.getPieChartView(context, cs, ren);
   }

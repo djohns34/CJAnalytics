@@ -22,6 +22,9 @@ public class CJLineChart implements ChartProvider {
   private XYMultipleSeriesDataset data;
   private XYMultipleSeriesRenderer ren;
   
+  // name of the time series
+  private final String seriesName = "My Event";
+  
   /**
    * Parse the data from the events
    * @param chartSettings Settings for the chart
@@ -32,13 +35,14 @@ public class CJLineChart implements ChartProvider {
     TimeSeries timeSeries;
     HashMap<Date, LinkedList<Double>> groups;
     
+    // TODO: Determine how the colors will be generated
     xysr.setColor(Color.GREEN);
     
     data = new XYMultipleSeriesDataset();
     ren = new XYMultipleSeriesRenderer();
 
     groups = groupByTimestamp(events);
-    timeSeries = getSeriesFromGroups("My Event", groups);
+    timeSeries = getSeriesFromGroups(seriesName, groups);
 
     data.addSeries(timeSeries);
     ren.addSeriesRenderer(xysr);
