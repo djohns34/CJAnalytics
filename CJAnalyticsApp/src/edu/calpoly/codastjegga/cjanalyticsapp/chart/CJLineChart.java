@@ -15,6 +15,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
 
@@ -36,10 +37,31 @@ public class CJLineChart implements ChartProvider {
     HashMap<Date, LinkedList<Double>> groups;
     
     // TODO: Determine how the colors will be generated
-    xysr.setColor(Color.GREEN);
+    xysr.setColor(Color.BLUE);
     
     data = new XYMultipleSeriesDataset();
     ren = new XYMultipleSeriesRenderer();
+    
+    ChartRendererSetting.appendCustomRendererSetting(ren);
+    
+    // Axes
+    ren.setAxesColor(Color.BLACK);
+    
+    // X
+    ren.setXLabelsColor(Color.BLACK);
+    
+    // Y
+    ren.setYLabelsColor(0, Color.BLACK);
+    ren.setYLabelsAlign(Align.LEFT);
+    ren.setYTitle("Value");
+    ren.setAxisTitleTextSize(ChartRendererSetting.TEXT_SIZE);
+    
+    // Grid
+    ren.setShowGrid(true);
+    ren.setGridColor(Color.argb(255, 200, 200, 200));
+    
+    // Margin
+    ren.setMarginsColor(Color.argb(0, 255, 255, 255));
 
     groups = groupByTimestamp(events);
     timeSeries = getSeriesFromGroups(seriesName, groups);
