@@ -18,19 +18,26 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 
+
 public class CJPieChart implements ChartProvider {
   private DefaultRenderer ren;
   private CategorySeries cs;
+  
+  // Name of the category series
+  private final String seriesName = "My Events";
 
+  /**
+   * Parse the data from the events
+   * @param chartSettings Settings for the chart
+   * @param events Events to be parsed
+   */
   public void parseData(ChartSettings chartSettings, List<Event> events) {
     SimpleSeriesRenderer ssr;
-    
-    
-    Random rand = new Random();
     HashMap<String, Integer> values = new HashMap<String, Integer>();
 
-    cs = new CategorySeries("My Events");
+    cs = new CategorySeries(seriesName);
     ren = new DefaultRenderer();
+    ren.setLabelsColor(Color.BLACK);
     ChartRendererSetting.appendCustomRendererSetting(ren);
 
     for (Event e : events) {
