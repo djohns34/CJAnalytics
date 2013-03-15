@@ -42,6 +42,8 @@ public class CJLineChart implements ChartProvider {
 
     data.addSeries(timeSeries);
     ren.addSeriesRenderer(xysr);
+    // Manually set the background to be @color/light_blue
+    ren.setMarginsColor(Color.parseColor("#eaf8fd"));
   }
   
   /**
