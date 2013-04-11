@@ -29,7 +29,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.event.Events;
 
 /**
  * DataFetcher sends and retrieves data from Salesforce.com from
- * TrackedEvents__c custom object. It can get list of dbNames, list of metrics
+ * codastjegga__TrackedEvents__c custom object. It can get list of dbNames, list of metrics
  * in a database, and Record of events in a database.
  * 
  * @author Gagandeep Kohli
@@ -57,7 +57,7 @@ public class DataFetcher {
   /** Constant for EQUALS soql keyword **/
   private static final String EQUALS = "=";
   /** Constant for Custom object **/
-  private static final String CUSTOM_OBJ_NAME = "TrackedEvents__c";
+  private static final String CUSTOM_OBJ_NAME = "codastjegga__TrackedEvents__c";
 
   /** Constant for RECORDS **/
   private static final String RECORDS = "records";

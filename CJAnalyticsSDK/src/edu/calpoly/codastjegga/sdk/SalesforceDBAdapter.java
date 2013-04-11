@@ -48,10 +48,10 @@ public class SalesforceDBAdapter {
     public static final String KEY_ROWID = "_id";
 
     /*Salesforce row names*/
-    static final String eventName="EventName__c";
-    static final String timeStamp="Timestamp__c";
-    static final String deviceId ="Device_Id__c";
-    static final String valueType="ValueType__c";
+    static final String eventName="codastjegga__EventName__c";
+    static final String timeStamp="codastjegga__Timestamp__c";
+    static final String deviceId ="codastjegga__Device_Id__c";
+    static final String valueType="codastjegga__ValueType__c";
     
     /*The actual event value*/
     private static final String value="value";

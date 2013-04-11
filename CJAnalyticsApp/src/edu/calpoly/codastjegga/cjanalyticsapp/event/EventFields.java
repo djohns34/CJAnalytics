@@ -6,19 +6,19 @@ package edu.calpoly.codastjegga.cjanalyticsapp.event;
  *
  */
 public enum EventFields {
-  CurrencyV("CurrencyValue__c"),
-  FloatV("FloatValue__c"),
-  NumberV("NumberValue__c"),
-  LocaleV("LocaleValue__c"),
-  TextV("TextValue__c"),
+  CurrencyV("codastjegga__CurrencyValue__c"),
+  FloatV("codastjegga__FloatValue__c"),
+  NumberV("codastjegga__NumberValue__c"),
+  LocaleV("codastjegga__LocaleValue__c"),
+  TextV("codastjegga__TextValue__c"),
   Id("Id"),
-  TimestampV("Timestamp__c"),
-  EventName("EventName__c"),
-  DeviceId("Device_Id__c"),
-  ValueType("ValueType__c"),
-  DatabaseName("DatabaseName__c");
+  TimestampV("codastjegga__Timestamp__c"),
+  EventName("codastjegga__EventName__c"),
+  DeviceId("codastjegga__Device_Id__c"),
+  ValueType("codastjegga__ValueType__c"),
+  DatabaseName("codastjegga__DatabaseName__c");
   
-  /** id that corresponds in TrackedEvent__c meta object **/
+  /** id that corresponds in codastjegga__TrackedEvent__c meta object **/
   private String columnId;
 
   /** 

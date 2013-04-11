@@ -1,11 +1,11 @@
 package edu.calpoly.codastjegga.sdk;
 
 public enum EventType{
-	Currency("CurrencyValue__c"),
-	Float("FloatValue__c"),
-	Integer("NumberValue__c"),
-	Locale("LocaleValue__c"),
-	Text("TextValue__c");
+	Currency("codastjegga__CurrencyValue__c"),
+	Float("codastjegga__FloatValue__c"),
+	Integer("codastjegga__NumberValue__c"),
+	Locale("codastjegga__LocaleValue__c"),
+	Text("codastjegga__TextValue__c");
 	
 	private String row;
 
@@ -16,7 +16,7 @@ public enum EventType{
 		return row;
 	}
 	public String getFieldType(){
-		return getField().replace("Value__c", "");
+		return getField().replace("codastjegga__").replace("Value__c", "");
 	}
 	
 	public String toString(){

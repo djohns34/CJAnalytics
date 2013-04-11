@@ -35,7 +35,7 @@ public class DataFetcherTest extends TestCase {
   RestRequest request;
   AsyncRequestCallback callback;
   RestClient client;
-  final String trackObj = "TrackedEvent__c";
+  final String trackObj = "codastjegga__TrackedEvent__c";
   final EventFields field = EventFields.CurrencyV;
   final String apiV = "TestApi";
   final String ANGRYBIRD = "Angry Bird";

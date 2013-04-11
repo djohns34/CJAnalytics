@@ -31,9 +31,9 @@ public class SalesforceConnector{
     SalesforceDBAdapter db;
 
     //Our salesforce object
-    private static final String table ="TrackedEvents__c";
+    private static final String table ="codastjegga__TrackedEvents__c";
 
-    private static final String  DatabaseName ="DatabaseName__c";
+    private static final String  DatabaseName ="codastjegga__DatabaseName__c";
 
     private final String  appName;
     

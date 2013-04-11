@@ -23,6 +23,8 @@ public class Events {
   private static final String __C = "__c";
   /** constant for value tag **/
   private static final String VALUE = "Value";
+  /** constant for codastjegga **/
+  private static final String CODASTJEGGA = "codastjegga__";
 
   /** map of list of events by name (key) **/
   private Map<String, List<Event>> eventsMap;
@@ -35,7 +37,7 @@ public class Events {
   }
   /**
    * Constructs a list of records.
-   * @param records json object that represents records from TrackedEvent__c object.
+   * @param records json object that represents records from codastjegga__TrackedEvent__c object.
    * @throws JSONException if JSON record is an invalid JSON string 
    */
   public Events (JSONObject records) throws JSONException {
@@ -49,7 +51,7 @@ public class Events {
 
   /**
    * Adds set of records.
-   * @param records json object that represents records from TrackedEvent__c object.
+   * @param records json object that represents records from codastjegga__TrackedEvent__c object.
    * @throws JSONException  if JSON record is an invalid JSON string 
    */
   public void addEvents (JSONObject records) throws JSONException {
@@ -59,7 +61,7 @@ public class Events {
    * Parses Event from JSON record objection
    * @param records JSONObject that represents records
    * @throws JSONException if records json object doesn't contain the correct 
-   * (recordType, eventName, deviceID, timestamp, and recordValue) TrackedEvent__c object
+   * (recordType, eventName, deviceID, timestamp, and recordValue) codastjegga__TrackedEvent__c object
    * fields.
    */
   private void parseEvents (JSONObject records) throws JSONException {
@@ -121,7 +123,7 @@ public class Events {
    * Parses a Event from JSON event objection
    * @param records JSONObject that represents records
    * @throws JSONException if records json object doesn't contain the correct 
-   * (recordType, eventName, deviceID, timestamp, and recordValue) TrackedEvent__c object
+   * (recordType, eventName, deviceID, timestamp, and recordValue) codastjegga__TrackedEvent__c object
    * fields.
    * @return an Event
    */
@@ -131,7 +133,7 @@ public class Events {
     String eventName    = aEvent.getString(EventFields.EventName.getColumnId());
     String deviceId    = aEvent.getString(EventFields.DeviceId.getColumnId());
     String timestamp   = aEvent.getString(EventFields.TimestampV.getColumnId());
-    String recordValue = aEvent.getString(recordType + VALUE + __C);
+    String recordValue = aEvent.getString(CODASTJEGGA + recordType + VALUE + __C);
     String dbName   = aEvent.getString(EventFields.DatabaseName.getColumnId());
     
     return EventFactory.createEvent(recordType, eventName, deviceId, timestamp, dbName, recordValue);
