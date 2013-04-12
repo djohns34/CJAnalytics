@@ -16,7 +16,7 @@ public enum EventType{
 		return row;
 	}
 	public String getFieldType(){
-		return getField().replace("codastjegga__").replace("Value__c", "");
+		return getField().replace("codastjegga__", "").replace("Value__c", "");
 	}
 	
 	public String toString(){
