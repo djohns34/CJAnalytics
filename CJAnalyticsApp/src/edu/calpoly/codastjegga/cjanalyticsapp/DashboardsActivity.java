@@ -89,8 +89,8 @@ public class DashboardsActivity extends ListActivity {
     }
 
     protected void onPreExecute() {
-      loading = findViewById(R.id.loadingScreen);
-      list = findViewById(R.id.dashboardScreen);
+      loading = findViewById(R.id.loading);
+      list = findViewById(R.id.view);
       
       loading.setVisibility(View.VISIBLE);
       list.setVisibility(View.GONE);

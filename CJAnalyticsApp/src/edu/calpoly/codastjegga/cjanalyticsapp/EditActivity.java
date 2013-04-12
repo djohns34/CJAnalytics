@@ -84,9 +84,9 @@ public class EditActivity extends FragmentActivity implements
     Intent intent = this.getIntent();
     setContentView(R.layout.activity_edit_chart);
 
-    lineButton = (ToggleButton) this.findViewById(R.id.lineButton);
-    barButton = (ToggleButton) this.findViewById(R.id.barButton);
-    pieButton = (ToggleButton) this.findViewById(R.id.pieButton);
+    lineButton = (ToggleButton) this.findViewById(R.id.line);
+    barButton = (ToggleButton) this.findViewById(R.id.bar);
+    pieButton = (ToggleButton) this.findViewById(R.id.pie);
     chartName = (EditText) this.findViewById(R.id.chartName);
     eventSpinner = (Spinner) this.findViewById(R.id.metricsList);
     intervalSpinner = (Spinner) this.findViewById(R.id.intervalList);
@@ -315,13 +315,13 @@ public class EditActivity extends FragmentActivity implements
     // Toast.makeText(this, "Edit", Toast.LENGTH_SHORT).show();
     uncheckAllToggleSwitches();
     switch (v.getId()) {
-    case R.id.lineButton:
+    case R.id.line:
       lineButton.toggle();
       break;
-    case R.id.barButton:
+    case R.id.bar:
       barButton.toggle();
       break;
-    case R.id.pieButton:
+    case R.id.pie:
       pieButton.toggle();
       break;
     default:
