@@ -65,4 +65,8 @@ public class CJAnalyticsApp extends ForceApp {
   public RestClient getRestClient () {
     return this.client;
   }
+  
+  public String getCurrentUserName() {
+    return getRestClient().getClientInfo().username;
+  }
 }

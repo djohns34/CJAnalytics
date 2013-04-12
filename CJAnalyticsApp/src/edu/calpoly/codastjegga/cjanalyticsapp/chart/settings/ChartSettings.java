@@ -17,6 +17,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 public class ChartSettings implements Serializable {
   
   public static String DATABASE = "DATABASE";
+  public static String USER_NAME = "USERNAME";
   public static String CHART_NAME = "CHARTNAME";
   public static String START_DATE = "STARTDATE";
   public static String END_DATE = "ENDDATE";
@@ -29,6 +30,8 @@ public class ChartSettings implements Serializable {
   private ChartType chartType;
   //Database that this chart belongs
   private String database;
+  //The user that this chart belongs to
+  private String username;
   //name of the chart, which this setting belongs to
   private String chartName; 
   //metrics that this chart displays
@@ -56,8 +59,10 @@ public class ChartSettings implements Serializable {
   public ChartSettings () {
     setType(ChartType.Pie);
     setChartName("");
+    setUsername("");
     setEventName("");
     setDatabase("");
+    
     setTimeInterval(TimeInterval.Daily);
     setFavorite(false);
   };
@@ -107,10 +112,26 @@ public class ChartSettings implements Serializable {
    * Getter for chart name
    * @return name of the chart
    */
+  public String getUsername () {
+    return this.username;
+  }  
+  
+  /**
+   * Setter for user name
+   * @param username name of the user
+   */
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  /**
+   * Getter for chart name
+   * @return name of the chart
+   */
   public String getChartName () {
     return this.chartName;
   }  
-  
+
   /**
    * Setter for chart name
    * @param eventName the metric name
@@ -217,6 +238,7 @@ public class ChartSettings implements Serializable {
   public void saveToIntent(Intent i) {
     i.putExtra(ChartType.class.getName(), getType());
     i.putExtra(CHART_NAME, getChartName());
+    i.putExtra(USER_NAME, getUsername());
     i.putExtra(DATABASE, getDatabase());
     i.putExtra(START_DATE, getStartDate());
     i.putExtra(END_DATE, getEndDate());   
@@ -230,6 +252,7 @@ public class ChartSettings implements Serializable {
     ChartSettings chartSetting = new ChartSettings();
     chartSetting.setType((ChartType) i.getExtras().get(ChartType.class.getName()));
     chartSetting.setChartName((String) i.getExtras().get(CHART_NAME));
+    chartSetting.setChartName((String) i.getExtras().get(USER_NAME));
     chartSetting.setDatabase((String) i.getExtras().get(DATABASE));
     chartSetting.setStartDate((Date) i.getExtras().get(START_DATE));
     chartSetting.setEndDate((Date) i.getExtras().get(END_DATE));
@@ -239,7 +262,4 @@ public class ChartSettings implements Serializable {
     chartSetting.setTimeInterval((TimeInterval) (i.getExtras().get(TIME_INTERVAL)));
     return chartSetting;
   }
-
-
-
 }

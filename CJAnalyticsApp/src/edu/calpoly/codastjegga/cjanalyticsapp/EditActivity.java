@@ -84,9 +84,9 @@ public class EditActivity extends FragmentActivity implements
     Intent intent = this.getIntent();
     setContentView(R.layout.activity_edit_chart);
 
-    lineButton = (ToggleButton) this.findViewById(R.id.line);
-    barButton = (ToggleButton) this.findViewById(R.id.bar);
-    pieButton = (ToggleButton) this.findViewById(R.id.pie);
+    lineButton = (ToggleButton) this.findViewById(R.id.lineButton);
+    barButton = (ToggleButton) this.findViewById(R.id.barButton);
+    pieButton = (ToggleButton) this.findViewById(R.id.pieButton);
     chartName = (EditText) this.findViewById(R.id.chartName);
     eventSpinner = (Spinner) this.findViewById(R.id.metricsList);
     intervalSpinner = (Spinner) this.findViewById(R.id.intervalList);
@@ -315,13 +315,13 @@ public class EditActivity extends FragmentActivity implements
     // Toast.makeText(this, "Edit", Toast.LENGTH_SHORT).show();
     uncheckAllToggleSwitches();
     switch (v.getId()) {
-    case R.id.line:
+    case R.id.lineButton:
       lineButton.toggle();
       break;
-    case R.id.bar:
+    case R.id.barButton:
       barButton.toggle();
       break;
-    case R.id.pie:
+    case R.id.pieButton:
       pieButton.toggle();
       break;
     default:
@@ -364,6 +364,7 @@ public class EditActivity extends FragmentActivity implements
     Map.Entry<String, EventType> eventInfo = getSelectedEvent();
     chartSettings.setEventName(eventInfo.getKey());
     chartSettings.setEventType(eventInfo.getValue());
+    chartSettings.setUsername(((CJAnalyticsApp)getApplicationContext()).getCurrentUserName());
     chartSettings.setTimeInterval((TimeInterval)intervalSpinner.getSelectedItem());
     chartSettings.saveToIntent(intent);
 

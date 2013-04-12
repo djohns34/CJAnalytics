@@ -2,6 +2,8 @@ package edu.calpoly.codastjegga.cjanalyticsapp.chart.settings;
 
 import java.util.Date;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.CJAnalyticsApp;
+
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -15,30 +17,31 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 
-
-
 /**
- * This class in the interface by which the application accesses/modifies the persisted chart settings.
+ * This class in the interface by which the application accesses/modifies the
+ * persisted chart settings.
  */
 public class ChartSettingsProvider extends ContentProvider {
 
   // database
   private SQLiteOpenHelper database;
 
-  //The URI mapping by which to reference content providers in this app.
+  // The URI mapping by which to reference content providers in this app.
   static final String AUTHORITY = "edu.calpoly.codastjegga.cjanalyticsapp.chart.contentprovider";
 
-  //addition to the URI above, just in case we want more content providers.
+  // addition to the URI above, just in case we want more content providers.
   static final String BASE_PATH = "settings";
 
-  //Combo of the above two.
-  static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-      + "/" + BASE_PATH);
-  
-  //SQL where clauses
-  static final String ROWID_EQUALS =ChartSettingsDB.KEY_ROWID+"= ? ";
-  static final String DB_EQUALS =ChartSettingsDB.DATABASE+"= ? ";
-  static final String FAVORITE_EQUALS =ChartSettingsDB.FAVORITE+"= ?";
+  // Combo of the above two.
+  static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/"
+      + BASE_PATH);
+
+  // SQL where clauses
+  static final String ROWID_EQUALS = ChartSettingsDB.KEY_ROWID + "= ? ";
+  static final String DB_EQUALS = ChartSettingsDB.DATABASE + "= ? ";
+  static final String USER_EQUALS = ChartSettingsDB.USERNAME + "= ? ";
+  static final String FAVORITE_EQUALS = ChartSettingsDB.FAVORITE + "= ?";
+  static final String AND = " AND ";
 
   @Override
   public boolean onCreate() {
@@ -56,13 +59,13 @@ public class ChartSettingsProvider extends ContentProvider {
     // Set the table
     queryBuilder.setTables(ChartSettingsDB.DATABASE_TABLE);
 
-    //The recent charts request the number to list in the uri, nowhere else to put it
-    String limit=uri.getQueryParameter(ChartSettingsDB.LAST_VIEWED);
-    
-    
+    // The recent charts request the number to list in the uri, nowhere else to
+    // put it
+    String limit = uri.getQueryParameter(ChartSettingsDB.LAST_VIEWED);
+
     SQLiteDatabase db = database.getWritableDatabase();
     Cursor cursor = queryBuilder.query(db, projection, selection,
-        selectionArgs, null, null, sortOrder,limit);
+        selectionArgs, null, null, sortOrder, limit);
 
     // Make sure that potential listeners are getting notified
     cursor.setNotificationUri(getContext().getContentResolver(), uri);
@@ -78,12 +81,12 @@ public class ChartSettingsProvider extends ContentProvider {
   @Override
   public Uri insert(Uri uri, ContentValues values) {
     SQLiteDatabase sqlDB = database.getWritableDatabase();
-    long id =  sqlDB.insert(ChartSettingsDB.DATABASE_TABLE, null, values);
+    long id = sqlDB.insert(ChartSettingsDB.DATABASE_TABLE, null, values);
 
-    if(id>-1){
-      //Things need to update
+    if (id > -1) {
+      // Things need to update
       getContext().getContentResolver().notifyChange(uri, null);
-    }else{
+    } else {
       Log.e("insert", "Error Inserting into database");
     }
     return Uri.parse(BASE_PATH + "/" + id);
@@ -92,17 +95,17 @@ public class ChartSettingsProvider extends ContentProvider {
   @Override
   public int delete(Uri uri, String selection, String[] selectionArgs) {
 
-    
     SQLiteDatabase sqlDB = database.getWritableDatabase();
 
-    //delete the specified row
-    int rowsDeleted = sqlDB.delete(ChartSettingsDB.DATABASE_TABLE,selection, selectionArgs);
+    // delete the specified row
+    int rowsDeleted = sqlDB.delete(ChartSettingsDB.DATABASE_TABLE, selection,
+        selectionArgs);
 
-    if(rowsDeleted>0){
-      //Things need to update
+    if (rowsDeleted > 0) {
+      // Things need to update
       getContext().getContentResolver().notifyChange(uri, null);
-    }else{
-        Log.e("delete", "Error deleting from database");
+    } else {
+      Log.e("delete", "Error deleting from database");
     }
     return rowsDeleted;
   }
@@ -116,117 +119,147 @@ public class ChartSettingsProvider extends ContentProvider {
     int rowsUpdated = sqlDB.update(ChartSettingsDB.DATABASE_TABLE, values,
         selection, selectionArgs);
 
-    if(rowsUpdated>0){
-      //Things need to update
+    if (rowsUpdated > 0) {
+      // Things need to update
       getContext().getContentResolver().notifyChange(uri, null);
-    }else{
+    } else {
       Log.e("update", "Error updating in database");
-  }
+    }
 
     return rowsUpdated;
   }
-  
+
   /**
    * Combined the update and insert methods into one. This method will determine
    * if the passed in settings need to be inserted or updated.
    * 
-   * @param resolver the ContentResolver of the activity calling the method
-   * @param settings The {@link ChartSettings} to save
+   * @param resolver
+   *          the ContentResolver of the activity calling the method
+   * @param settings
+   *          The {@link ChartSettings} to save
    */
-  public static final void saveSettings(ContentResolver resolver,ChartSettings settings){
+  public static final void saveSettings(ContentResolver resolver,
+      ChartSettings settings) {
     ContentValues values = ChartSettingsDB.buildQueryValues(settings);
-    Integer androidID=settings.getAndroidID();
+    Integer androidID = settings.getAndroidID();
 
-    //We need to insert it into the database. 
-    if(androidID.equals(ChartSettings.NOT_PERSISTED)){
-      //Get rid of it since it is generated by the DB
+    // We need to insert it into the database.
+    if (androidID.equals(ChartSettings.NOT_PERSISTED)) {
+      // Get rid of it since it is generated by the DB
       values.remove(ChartSettingsDB.KEY_ROWID);
-      
-      //Get the id that resulted from the insert
+
+      // Get the id that resulted from the insert
       Uri res = resolver.insert(CONTENT_URI, values);
-      androidID=Integer.parseInt(res.getLastPathSegment());
-      
-      //Set it on the object passed in so, if save is called again it isn't inserted.
+      androidID = Integer.parseInt(res.getLastPathSegment());
+
+      // Set it on the object passed in so, if save is called again it isn't
+      // inserted.
       settings.setAndroidID(androidID);
     } else {
       resolver.update(CONTENT_URI, values, ROWID_EQUALS,
-          new String[] { androidID.toString()});
+          new String[] { androidID.toString() });
     }
   }
-  
+
   /**
-   * Calls the delete method of the content provider.
-   * Helper method to build the required arguments.
+   * Calls the delete method of the content provider. Helper method to build the
+   * required arguments.
    * 
-   * @param resolver the ContentResolver of the activity calling the method
-   * @param id the row id of the setting to delete.
+   * @param resolver
+   *          the ContentResolver of the activity calling the method
+   * @param id
+   *          the row id of the setting to delete.
    */
-  public static final int delete(ContentResolver resolver, Integer id){
-    return resolver.delete(CONTENT_URI, ROWID_EQUALS, new String[]{id.toString()});
+  public static final int delete(ContentResolver resolver, Integer id) {
+    return resolver.delete(CONTENT_URI, ROWID_EQUALS,
+        new String[] { id.toString() });
   }
-  
+
   /**
-   *Should be called whenever the last viewed time should be updated
-   *
-   * @param resolver the ContentResolver of the activity calling the method
-   * @param settings The {@link ChartSettings} to update time ons.
+   * Should be called whenever the last viewed time should be updated
+   * 
+   * @param resolver
+   *          the ContentResolver of the activity calling the method
+   * @param settings
+   *          The {@link ChartSettings} to update time ons.
    **/
-  public static void chartViewed(ContentResolver resolver,ChartSettings settings) {
-    ContentValues values=new ContentValues();
-    values.put(ChartSettingsDB.LAST_VIEWED, (int)new Date().getTime());
-    
-    resolver.update(CONTENT_URI, values, ROWID_EQUALS,
-        new String[] { settings.getAndroidID().toString()});
-    
+  public static void chartViewed(ContentResolver resolver,
+      ChartSettings settings) {
+    ContentValues values = new ContentValues();
+    values.put(ChartSettingsDB.LAST_VIEWED, (int) new Date().getTime());
+
+    resolver.update(CONTENT_URI, values, ROWID_EQUALS, new String[] { settings
+        .getAndroidID().toString() });
+
   }
-  
+
   /**
    * Helper method to create a CursorLoader
-   * @param activity the activity calling this method.
-   * @param database The database (app) that we want the metrics of. Null means you want all of the settings.
+   * 
+   * @param activity
+   *          the activity calling this method.
+   * @param database
+   *          The database (app) that we want the metrics of. Null means you
+   *          want all of the settings.
    * @return the CursorLoader to be used in a {@link LoaderCallbacks}.
    */
-  public static final CursorLoader getCursorLoader(Context activity,String database) {
-    String selection=null;
-    String[] selectionArgs=null;
-    if(database!=null){
-      selection=DB_EQUALS;
-      selectionArgs=new String[]{database};
+  public static final CursorLoader getCursorLoader(Context activity,
+      String database) {
+    String selection = null;
+    String[] selectionArgs = null;
+    if (database != null) {
+      selection = DB_EQUALS + AND + USER_EQUALS;
+      selectionArgs = new String[] {
+          database,
+          ((CJAnalyticsApp) activity.getApplicationContext())
+              .getCurrentUserName() };
     }
-    
-    return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allSettingsColumns, selection, selectionArgs, null);
+
+    return new CursorLoader(activity, CONTENT_URI,
+        ChartSettingsDB.allSettingsColumns, selection, selectionArgs, null);
   }
-  
+
   /**
    * Helper method to create a cursor loader for favorite charts
-   * @param activity the activity calling this method.
+   * 
+   * @param activity
+   *          the activity calling this method.
    * @return a cursor loader that only loads favorite chart
    */
   public static final CursorLoader getFavoriteCursorLoader(Context activity) {
-    
-    return  new CursorLoader(activity,CONTENT_URI, ChartSettingsDB.allSettingsColumns, FAVORITE_EQUALS, new String[]{Boolean.TRUE.toString()}, null);
+
+    return new CursorLoader(activity, CONTENT_URI,
+        ChartSettingsDB.allSettingsColumns,
+        USER_EQUALS + AND + FAVORITE_EQUALS,
+        new String[] {
+            ((CJAnalyticsApp) activity.getApplicationContext())
+                .getCurrentUserName(), Boolean.TRUE.toString() }, null);
   }
-  
-  public static  CursorLoader getRecentCursorLoader(Context activity,Integer howMany) { 
-    //odebutler.com cursorloaders can't pass a limit value, tack it onto the uri
-    Uri LIMIT_URI=CONTENT_URI.buildUpon().appendQueryParameter(ChartSettingsDB.LAST_VIEWED, howMany.toString()).build();
-    
-    return new CursorLoader(activity, LIMIT_URI, ChartSettingsDB.allSettingsColumns, ChartSettingsDB.LAST_VIEWED_NOT_NULL, null, ChartSettingsDB.LAST_VIEWED +" "+ ChartSettingsDB.DESC);
+
+  public static CursorLoader getRecentCursorLoader(Context activity,
+      Integer howMany) {
+    // odebutler.com cursorloaders can't pass a limit value, tack it onto the
+    // uri
+    Uri LIMIT_URI = CONTENT_URI.buildUpon()
+        .appendQueryParameter(ChartSettingsDB.LAST_VIEWED, howMany.toString())
+        .build();
+
+    return new CursorLoader(activity, LIMIT_URI,
+        ChartSettingsDB.allSettingsColumns,
+        ChartSettingsDB.LAST_VIEWED_NOT_NULL + AND + USER_EQUALS,
+        new String[] { ((CJAnalyticsApp) activity.getApplicationContext())
+            .getCurrentUserName() }, ChartSettingsDB.LAST_VIEWED + " "
+            + ChartSettingsDB.DESC);
   }
-  
-  
+
   /**
    * 
    * @see ChartSettingsDB.getChartSetting
    * @param cursor
    * @return
    */
-  public static final  ChartSettings getChartSettings(Cursor cursor) {
+  public static final ChartSettings getChartSettings(Cursor cursor) {
     return ChartSettingsDB.getChartSettings(cursor);
   }
-
-
-
-
 
 }
