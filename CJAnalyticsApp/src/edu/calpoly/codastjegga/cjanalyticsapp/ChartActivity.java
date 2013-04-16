@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.achartengine.GraphicalView;
+import org.achartengine.tools.PanListener;
 
 import com.salesforce.androidsdk.app.ForceApp;
 
@@ -36,7 +37,6 @@ public class ChartActivity extends Activity {
   ChartSettings chartSettings;
   ProgressBar spinner;
   ViewGroup layoutChart;
-  AsyncTask<Intent, Void, ChartProvider> task;
   ChartProvider provider;
 
   @Override
@@ -50,20 +50,32 @@ public class ChartActivity extends Activity {
     spinner = new ProgressBar(this);
     spinner.setIndeterminate(true);
     
-    renderSettings(getIntent());
+    renderSettings(getIntent(),savedInstanceState);
 
   };
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putSerializable(ChartProvider.class.getName(), provider);
+  }
 
   /**
    * Parses the chart settings from the intent and executes the render of the chart
    * @param intent
    */
-  private void renderSettings(Intent intent) {
+  private void renderSettings(Intent intent,Bundle savedInstanceState) {
     chartSettings = ChartSettings.load(intent);
-    provider = chartSettings.getType().getProvider();
-    
     setTitle(chartSettings.getChartName());
-    getRenderTask().execute();
+    
+    /*To avoid another render check to see if the provider(which already has everything parsed) exists*/
+    if(savedInstanceState!=null && savedInstanceState.containsKey(ChartProvider.class.getName())){
+      provider=(ChartProvider) savedInstanceState.getSerializable(ChartProvider.class.getName());
+      setGraphicalView();
+      
+    }else{
+      provider = chartSettings.getType().getProvider();
+      getRenderTask().execute();
+    }
     
   }
 
@@ -109,12 +121,18 @@ public class ChartActivity extends Activity {
         spinner.setVisibility(View.GONE);
         layoutChart.removeAllViews();
         if (success && chartSettings != null) {
-          layoutChart.addView(provider.getGraphicalView(ChartActivity.this));
+          setGraphicalView();
         }else{
           Toast.makeText(ChartActivity.this, "Unable to Generate Chart",Toast.LENGTH_LONG).show();
         }
       }
     };
+  }
+  
+  private void setGraphicalView(){
+    layoutChart.removeAllViews();
+    layoutChart.addView(provider.getGraphicalView(ChartActivity.this));
+    
   }
 
   public void onClickEditButton(MenuItem menu) {
@@ -205,7 +223,7 @@ public class ChartActivity extends Activity {
     super.onActivityResult(requestCode, resultCode, data);
     switch (resultCode) {
     case RESULT_OK:
-      renderSettings(data);
+      renderSettings(data,null);
       break;
     case RESULT_CANCELED:
       break;
