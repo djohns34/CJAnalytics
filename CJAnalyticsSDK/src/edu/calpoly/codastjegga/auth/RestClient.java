@@ -283,28 +283,4 @@ public class RestClient {
 		this.httpAccessor = httpAccessor; 
 	}
 	
-	/**
-	 * All immutable information for an authenticated client (e.g. username, org ID, etc.).
-	 */
-	public static class ClientInfo {
-		public final String clientId;
-		public final URI instanceUrl;
-		public final URI loginUrl;
-		
-		public ClientInfo(String clientId, URI instanceUrl, URI loginUrl){
-			this.clientId = clientId;
-			this.instanceUrl = instanceUrl;
-			this.loginUrl = loginUrl;
-
-		}
-		
-		public String toString() {
-			StringBuilder sb = new StringBuilder();
-			sb.append("  ClientInfo: {\n")
-			  .append("     loginUrl: ").append(loginUrl.toString()).append("\n")
-			  .append("     instanceUrl: ").append(instanceUrl.toString()).append("\n")
-			  .append("  }\n");
-			return sb.toString();
-		}
-	}
 }

@@ -6,8 +6,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import android.app.Application;
 import android.util.Log;
 import edu.calpoly.codastjegga.auth.OAuth2.TokenEndpointResponse;
-import edu.calpoly.codastjegga.auth.AuthTokenProvider;
-import edu.calpoly.codastjegga.auth.RestClient.ClientInfo;
 import edu.calpoly.codastjegga.sdk.ICodastSDK;
 
 
