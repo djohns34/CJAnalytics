@@ -55,7 +55,7 @@ public class CJBarChart implements ChartProvider {
     renderer.setShowLegend(false);
 
     renderer.setMargins(new int[] { 0, 30, 15, 0 });
-    renderer.setMarginsColor(Color.parseColor("#d7f2fb"));
+    renderer.setMarginsColor(Color.parseColor("#eaf8fd"));
 
     renderer.setXLabelsColor(Color.BLACK);
     renderer.setXLabelsAngle(90);
