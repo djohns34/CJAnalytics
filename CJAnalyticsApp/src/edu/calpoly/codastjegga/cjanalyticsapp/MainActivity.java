@@ -45,6 +45,7 @@ import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.ui.NativeMainActivity;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.adapter.MainScreenIcons;
+import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.ApexFetcher;
 
 
 /**
@@ -160,6 +161,13 @@ public class MainActivity extends NativeMainActivity implements OnClickListener 
    */
   public void onLogoutClick(MenuItem menu) {
     ForceApp.APP.logout(this);
+  }
+  
+  
+  public void ongetClick(MenuItem menu) {
+    ApexFetcher.doPost((CJAnalyticsApp) getApplicationContext());
+    
+    
   }
 
   public void onDashboardClick(View v) {
