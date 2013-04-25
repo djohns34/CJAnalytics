@@ -3,10 +3,9 @@ package edu.calpoly.codastjegga.sdk;
 import java.net.URI;
 
 import junit.framework.TestCase;
-import edu.calpoly.codastjegga.auth.RestClient.ClientInfo;
+import edu.calpoly.codastjegga.auth.ClientInfo;
 import edu.calpoly.codastjegga.auth.RestClientAdapter;
 import edu.calpoly.codastjegga.auth.Token;
-
 
 public class TestRestClientAdapter extends TestCase{
 
