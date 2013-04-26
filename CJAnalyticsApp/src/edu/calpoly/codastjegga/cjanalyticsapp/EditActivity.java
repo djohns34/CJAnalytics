@@ -29,6 +29,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ import android.widget.ToggleButton;
 
 import com.salesforce.androidsdk.app.ForceApp;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.cache.DBMetricsCache;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.TimeInterval;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
@@ -49,7 +51,6 @@ public class EditActivity extends FragmentActivity implements
   private static final String DAY = "day";
   private static final String MONTH = "month";
   private static final String YEAR = "year";
-  private static final String SAVED_EVENT_LIST = "savedeventlist";
   private static final String SAVED_TO_DATE = "savedtodate";
   private static final String SAVED_FROM_DATE = "savedfromdate";
   private static final String DATE_PICKER_TITLE = "Date Picker";
@@ -70,9 +71,7 @@ public class EditActivity extends FragmentActivity implements
   private Calendar toDate, fromDate;
   // private ArrayAdapter<String> metricsAdapter;
   private EventAdapter eventAdapter;
-
-  private List<Map.Entry<String, EventType>> eventsListModel;
-
+  
   private DatePickerFragment datePickerFrag;
   private EventFetecherTask eventFetcherTask;
 
@@ -93,12 +92,6 @@ public class EditActivity extends FragmentActivity implements
     toDateText = (TextView) this.findViewById(R.id.toDate);
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
 
-    // create new event adapter
-    eventAdapter = new EventAdapter(this);
-
-    // set up the adapter to events list
-    eventSpinner.setAdapter(eventAdapter);
-
 
     intervalSpinner.setAdapter(new ArrayAdapter<TimeInterval>(this, android.R.layout.simple_spinner_item, TimeInterval.values()));
 
@@ -111,29 +104,22 @@ public class EditActivity extends FragmentActivity implements
     }
 
     if (savedInstanceState != null) {
-      eventsListModel = (List<Map.Entry<String, EventType>>) savedInstanceState
-          .getSerializable(SAVED_EVENT_LIST);
-
       toDate = (Calendar) savedInstanceState.get(SAVED_TO_DATE);
       fromDate = (Calendar) savedInstanceState.get(SAVED_FROM_DATE);
-      // if there wasn't an event model saved
-      if (eventsListModel  == null) {
-        // initialize the events list
-        initEventsList();
-      }
-      // ELSE
-      else {  
-        eventAdapter.setEventsList(eventsListModel);
-        eventSpinner.setAdapter(eventAdapter);
-        eventSpinner.setOnItemSelectedListener(EditActivity.this);
-        selectEventInSpinner();
-      }
     } else {
       initToggle();
-      initEventsList();
       initChartSettingInView();
     }
+
+    initEventsList();
     updateDateView();
+  }
+  
+  private void setAdapter(List<Map.Entry<String, EventType>> metrics) {
+    eventAdapter.setEventsList(metrics);
+    eventSpinner.setAdapter(eventAdapter);  
+    eventSpinner.setOnItemSelectedListener(EditActivity.this);
+    selectEventInSpinner();
   }
 
   @Override
@@ -163,7 +149,6 @@ public class EditActivity extends FragmentActivity implements
   protected void onSaveInstanceState(Bundle outState) {
     // TODO Auto-generated method stub
     super.onSaveInstanceState(outState);
-    outState.putSerializable(SAVED_EVENT_LIST, (Serializable) eventsListModel);
     outState.putSerializable(SAVED_TO_DATE, toDate);
     outState.putSerializable(SAVED_FROM_DATE, fromDate);
   }
@@ -220,10 +205,19 @@ public class EditActivity extends FragmentActivity implements
   }
 
   private void initEventsList() {
+    // create new event adapter
+    eventAdapter = new EventAdapter(this);
+    // set up the adapter to events list
+    eventSpinner.setAdapter(eventAdapter);
     // load the metrics list
     String dbName = chartSettings.getDatabase();
-    eventFetcherTask = new EventFetecherTask(this);
-    eventFetcherTask.execute(dbName);
+    List<Map.Entry<String, EventType>> metrics = DBMetricsCache.getCachedMetrics(dbName);
+    if (metrics == null) {
+      eventFetcherTask = new EventFetecherTask(this, dbName);
+      eventFetcherTask.execute();
+    } else {
+      setAdapter(metrics);
+    }
 
   }
 
@@ -243,14 +237,16 @@ public class EditActivity extends FragmentActivity implements
    * @return asyncTask to fetch metrics from Salesforce
    */
   private class EventFetecherTask extends
-      AsyncTask<String, Void, List<Map.Entry<String, EventType>>> {
+      AsyncTask<Void, Void, List<Map.Entry<String, EventType>>> {
 
     private ProgressDialog dialog;
     private Activity activity;
     private static final String LOADING_METRICS = "Loading Metrics...";
+    private String dbName;
 
-    public EventFetecherTask(Activity activity) {
+    public EventFetecherTask(Activity activity, String databaseName) {
       this.activity = activity;
+      this.dbName = databaseName;
     }
 
     protected void onPreExecute() {
@@ -264,10 +260,9 @@ public class EditActivity extends FragmentActivity implements
     }
 
     @Override
-    protected List<Map.Entry<String, EventType>> doInBackground(String... params) {
+    protected List<Map.Entry<String, EventType>> doInBackground(Void... params) {
       CJAnalyticsApp cjAnalyApp = (CJAnalyticsApp) activity
           .getApplicationContext();
-      String dbName = params[0];
       try {
         return DataFetcher.getDatabaseMetrics(getString(R.string.api_version),
             cjAnalyApp.getRestClient(), dbName);
@@ -284,17 +279,14 @@ public class EditActivity extends FragmentActivity implements
     protected void onPostExecute(List<Map.Entry<String, EventType>> result) {
       if (activity != null) {
         if (result != null) {
-          eventsListModel = result;
-          eventAdapter.setEventsList(result);
+          DBMetricsCache.cacheMetrics(dbName, result);
         } else {
           Toast toast = Toast.makeText(getApplicationContext(),
               "Unable to load metrics", Toast.LENGTH_SHORT);
           toast.show();
-          eventsListModel = null;
         }
-        eventSpinner.setAdapter(eventAdapter);
-        eventSpinner.setOnItemSelectedListener(EditActivity.this);
-        selectEventInSpinner();
+        
+      setAdapter(result);
       }
       // remove the progress bar
       dialog.dismiss();
