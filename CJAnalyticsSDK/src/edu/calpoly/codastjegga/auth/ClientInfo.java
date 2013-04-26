@@ -6,13 +6,14 @@ import java.util.concurrent.locks.ReentrantLock;
 import android.util.Log;
 import edu.calpoly.codastjegga.auth.OAuth2.TokenEndpointResponse;
 /*
- * All immutable information for an authenticated client (e.g. username, org ID, etc.).
+ * All immutable information for an authenticated client 
+ * (e.g. username, org ID, etc.).
  */
-final public class ClientInfo implements TokenServiceable{
+final public class ClientInfo implements Tokenizable{
 	public final String clientId;
 	public final URI instanceUrl;
 	public final URI loginUrl;
-	public final Token mToken;
+	private final Token mToken;
 	private final ReentrantLock tokenAccessLock = new ReentrantLock();
 
 	@Deprecated 
