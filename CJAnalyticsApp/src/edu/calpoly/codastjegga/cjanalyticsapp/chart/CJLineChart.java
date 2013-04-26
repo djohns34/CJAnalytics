@@ -22,64 +22,77 @@ import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
 public class CJLineChart implements ChartProvider {
   private XYMultipleSeriesDataset data;
   private XYMultipleSeriesRenderer ren;
-  
+
   // name of the time series
   private final String seriesName = "My Event";
-  
+
   /**
    * Parse the data from the events
-   * @param chartSettings Settings for the chart
-   * @param events Events to be parsed
+   * 
+   * @param chartSettings
+   *          Settings for the chart
+   * @param events
+   *          Events to be parsed
    */
   public void parseData(ChartSettings chartSettings, List<Event> events) {
     XYSeriesRenderer xysr = new XYSeriesRenderer();
     TimeSeries timeSeries;
     HashMap<Date, LinkedList<Double>> groups;
-    
-    // TODO: Determine how the colors will be generated
-    xysr.setColor(Color.BLUE);
-    
+
     data = new XYMultipleSeriesDataset();
     ren = new XYMultipleSeriesRenderer();
-    
+
     ChartRendererSetting.appendCustomRendererSetting(ren);
-    
+
+    // Line
+    xysr.setColor(Color.BLUE);
+    xysr.setLineWidth(3);
+
+    ren.setLegendTextSize(14);
+
     // Axes
-    ren.setAxesColor(Color.BLACK);
-    
+    ren.setAxesColor(Color.argb(100, 200, 200, 200));
+
+    // Axes titles/abels
+    ren.setAxisTitleTextSize(16);
+    ren.setLabelsTextSize(12);
+
     // X
     ren.setXLabelsColor(Color.BLACK);
-    
+
     // Y
     ren.setYLabelsColor(0, Color.BLACK);
-    ren.setYLabelsAlign(Align.LEFT);
-    ren.setYTitle("Value");
-    ren.setAxisTitleTextSize(ChartRendererSetting.TEXT_SIZE);
-    
+    ren.setYLabelsAlign(Align.RIGHT);
+
     // Grid
     ren.setShowGrid(true);
-    ren.setGridColor(Color.argb(255, 200, 200, 200));
-    
+    ren.setGridColor(Color.argb(50, 200, 200, 200));
+
     // Margin
-    ren.setMarginsColor(Color.argb(0, 255, 255, 255));
+    ren.setMargins(new int[] { 0, 30, 15, 0 });
+    ren.setMarginsColor(Color.parseColor("#eaf8fd"));
+
+    ren.setApplyBackgroundColor(true);
+    ren.setBackgroundColor(Color.parseColor("#FBFBFC"));
 
     groups = groupByTimestamp(events);
     timeSeries = getSeriesFromGroups(seriesName, groups);
 
     data.addSeries(timeSeries);
     ren.addSeriesRenderer(xysr);
-    // Manually set the background to be @color/light_blue
-    ren.setMarginsColor(Color.parseColor("#eaf8fd"));
   }
-  
+
   /**
    * Group a list of events by timestamp
-   * @param events Events to be converted to a map
+   * 
+   * @param events
+   *          Events to be converted to a map
    * @return A map mapping timestamp to a list of all values at that time
    */
-  protected HashMap<Date, LinkedList<Double>> groupByTimestamp(List<Event> events) {
+  protected HashMap<Date, LinkedList<Double>> groupByTimestamp(
+      List<Event> events) {
     HashMap<Date, LinkedList<Double>> values = new HashMap<Date, LinkedList<Double>>();
-    
+
     for (Event event : events) {
       Double value = Double.parseDouble(event.getValue().toString());
       Date time = event.getTimestamp();
@@ -91,17 +104,21 @@ public class CJLineChart implements ChartProvider {
         values.get(time).add(value);
       }
     }
-    
+
     return values;
   }
-  
+
   /**
    * Generate a time series from grouped events
-   * @param name Name of the time series
-   * @param groups Groups of events (by timestamp)
+   * 
+   * @param name
+   *          Name of the time series
+   * @param groups
+   *          Groups of events (by timestamp)
    * @return TimeSeries for the inputted data
    */
-  protected TimeSeries getSeriesFromGroups(String name, HashMap<Date, LinkedList<Double>> groups) {
+  protected TimeSeries getSeriesFromGroups(String name,
+      HashMap<Date, LinkedList<Double>> groups) {
     TimeSeries timeSeries = new TimeSeries(name);
 
     // calculate the average value for that timestamp, add to the time series
@@ -115,14 +132,14 @@ public class CJLineChart implements ChartProvider {
 
       timeSeries.add(entries.getKey(), sum);
     }
-    
+
     return timeSeries;
   }
-  
+
   protected XYMultipleSeriesDataset getData() {
     return this.data;
   }
-  
+
   protected XYMultipleSeriesRenderer getRenderer() {
     return this.ren;
   }

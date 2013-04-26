@@ -2,6 +2,6 @@
 <resources>
 	<string name="account_type">edu.calpoly.codastjegga.cjanalyticsapp.login</string>
 	<string name="oauth_callback_url">testsfdc:///mobilesdk/detect/oauth/done</string>
-	<string name="oauth_client_id">3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa</string>
+	<string name="oauth_client_id">3MVG9y6x0357HlefAMuoGiOstBYznnnOuUmDn.MgWnHMGpAWvDbq9ks9r_On2zSUckUW4JHI0_zxBHp.5Wkt7</string>
 	<string name="api_version">v23.0</string>
 </resources>

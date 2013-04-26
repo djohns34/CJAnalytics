@@ -3,7 +3,6 @@ package edu.calpoly.codastjegga.cjanalyticsapp.chart;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -12,7 +11,7 @@ import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
@@ -22,67 +21,100 @@ import android.graphics.Color;
 import android.graphics.Paint.Align;
 
 public class CJBarChart implements ChartProvider {
-  XYMultipleSeriesDataset data;
-  XYMultipleSeriesRenderer ren;
+  XYMultipleSeriesRenderer renderer;
+  XYMultipleSeriesDataset dataset;
 
+  @Override
   public void parseData(ChartSettings chartSettings, List<Event> events) {
-    data = new XYMultipleSeriesDataset();
-    ren = new XYMultipleSeriesRenderer();
-    double panLimits[] = {0, Double.MAX_VALUE, 0, Double.MAX_VALUE};
-    XYSeries xySeries;
-    XYSeriesRenderer xysr;
-    Random rand = new Random();
+    int[] colors = new int[] { Color.parseColor("#77c4d3") };
+    this.buildBarRenderer(colors);
+    this.buildBarDataset(events);
+
+    renderer.setOrientation(Orientation.HORIZONTAL);
+    renderer.setXLabels(0);
+    renderer.setYLabels(10);
+    int length = renderer.getSeriesRendererCount();
+    for (int i = 0; i < length; ++i) {
+      SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
+      seriesRenderer.setDisplayChartValues(true);
+    }
+  }
+
+  protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
+    renderer = new XYMultipleSeriesRenderer();
+
+    renderer.setAxisTitleTextSize(16);
+    renderer.setLabelsTextSize(15);
+
+    renderer.setBarSpacing(1);
+
+    renderer.setShowGridX(true);
+    renderer.setGridColor(Color.argb(50, 200, 200, 200));
+    renderer.setAxesColor(Color.argb(100, 200, 200, 200));
+
+    renderer.setShowLegend(false);
+
+    renderer.setMargins(new int[] { 0, 30, 15, 0 });
+    renderer.setMarginsColor(Color.parseColor("#eaf8fd"));
+
+    renderer.setXLabelsColor(Color.BLACK);
+    renderer.setXLabelsAngle(90);
+    renderer.setXLabelsAlign(Align.RIGHT);
+
+    renderer.setYLabelsColor(0, Color.BLACK);
+    renderer.setYLabelsAlign(Align.RIGHT);
+
+    renderer.setApplyBackgroundColor(true);
+    renderer.setBackgroundColor(Color.parseColor("#FBFBFC"));
+
+    int length = colors.length;
+    for (int i = 0; i < length; ++i) {
+      SimpleSeriesRenderer r = new SimpleSeriesRenderer();
+      r.setColor(colors[i]);
+      renderer.addSeriesRenderer(r);
+    }
+    return renderer;
+  }
+
+  protected void buildBarDataset(List<Event> events) {
     HashMap<String, Integer> values = new HashMap<String, Integer>();
+    dataset = new XYMultipleSeriesDataset();
+    XYSeries series = new XYSeries("");
     int xIndex = 1;
-    
-    ChartRendererSetting.appendCustomRendererSetting(ren);
-    ren.setPanLimits(panLimits);
-    
-    // Axes
-    ren.setAxesColor(Color.BLACK);
-    
-    // X
-    ren.setXLabels(0);
-    
-    // Y
-    ren.setYLabelsColor(0, Color.BLACK);
-    ren.setYLabelsAlign(Align.LEFT);
-    ren.setYTitle("Number of occurences");
-    ren.setAxisTitleTextSize(ChartRendererSetting.TEXT_SIZE);
-    
-    // Grid
-    ren.setShowGridX(true);
-    ren.setGridColor(Color.argb(255, 200, 200, 200));
-    
-    // Margin
-    ren.setMarginsColor(Color.argb(0, 255, 255, 255));
-    
+    double highest = 0;
+
+    // Count data from events
     for (Event e : events) {
       String curr = e.getValue().toString();
       if (values.containsKey(curr)) {
         values.put(curr, values.get(curr) + 1);
+        if (values.get(curr) > highest) {
+          highest = values.get(curr);
+        }
       } else {
         values.put(curr, 1);
       }
     }
 
+    // Add data to graph
     for (Map.Entry<String, Integer> entry : values.entrySet()) {
-      xySeries = new XYSeries(entry.getKey());
-      xySeries.add(xIndex, entry.getValue());
-      data.addSeries(xySeries);
-      ren.addXTextLabel(xIndex, xySeries.getTitle());
-
-      xysr = new XYSeriesRenderer();
-      xysr.setColor(Color.rgb(rand.nextInt(256), rand.nextInt(256),
-          rand.nextInt(256)));
-      xysr.setLineWidth(20f);
-      ren.addSeriesRenderer(xysr);
-
-      xIndex += 1;
+      renderer.addXTextLabel(xIndex, entry.getKey());
+      series.add(xIndex++, entry.getValue());
     }
+
+    dataset.addSeries(series);
+
+    this.renderer.setXAxisMax(values.size() + 1);
+    this.renderer.setYAxisMax(highest + (highest * 0.25));
+    this.renderer.setXAxisMin(0);
+    this.renderer.setYAxisMin(0);
+
+    this.renderer.setPanLimits(new double[] { 0, values.size() + 1, 0,
+        highest + (highest * 0.25) });
   }
 
   public GraphicalView getGraphicalView(Context context) {
-    return ChartFactory.getBarChartView(context, data, ren, Type.DEFAULT);
+    return ChartFactory.getBarChartView(context, dataset, renderer,
+        Type.DEFAULT);
   }
 }
