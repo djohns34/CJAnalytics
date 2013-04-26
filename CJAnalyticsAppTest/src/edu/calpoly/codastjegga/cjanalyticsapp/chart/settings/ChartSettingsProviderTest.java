@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.test.ProviderTestCase2;
 import android.test.mock.MockContentProvider;
 import android.test.mock.MockContentResolver;
+import edu.calpoly.codastjegga.cjanalyticsapp.CJAnalyticsApp;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartType;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.TimeInterval;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
@@ -186,26 +187,44 @@ public class ChartSettingsProviderTest extends
   }
    
   public void testCursorLoaders(){
-	  
+	CJAnalyticsApp mockContext = new CJAnalyticsApp() {
+		@Override
+		public android.content.Context getApplicationContext() {
+			return this;
+		};
+		@Override
+		public String getCurrentUserName() {
+			// TODO Auto-generated method stub
+			return "test@test.test";
+		}
+	};
 	//Charts selection
-    CursorLoader loader=ChartSettingsProvider.getCursorLoader(getContext(), null);
+	CursorLoader loader=ChartSettingsProvider.getCursorLoader(mockContext, null);
     assertNull(loader.getSelection());
     assertNull(loader.getSelectionArgs());
     
-    loader=ChartSettingsProvider.getCursorLoader(getContext(), "DATA");
-    assertEquals(ChartSettingsProvider.DB_EQUALS,loader.getSelection());
-    assertEquals(Arrays.asList("DATA"),Arrays.asList(loader.getSelectionArgs()));
+    loader=ChartSettingsProvider.getCursorLoader(mockContext, "DATA");
+    assertEquals(ChartSettingsProvider.DB_EQUALS
+    		+ ChartSettingsProvider.AND
+    		+ ChartSettingsProvider.USER_EQUALS, loader.getSelection());
+    assertEquals(Arrays.asList("DATA","test@test.test"),Arrays.asList(loader.getSelectionArgs()));
     
     
     //Favorites
-    loader=ChartSettingsProvider.getFavoriteCursorLoader(getContext());
-    assertEquals(ChartSettingsProvider.FAVORITE_EQUALS,loader.getSelection());
-    assertEquals(Arrays.asList(Boolean.TRUE.toString()),Arrays.asList(loader.getSelectionArgs()));
+    loader=ChartSettingsProvider.getFavoriteCursorLoader(mockContext);
+    assertEquals(ChartSettingsProvider.FAVORITE_EQUALS 
+    		+ ChartSettingsProvider.AND
+    		+ ChartSettingsProvider.USER_EQUALS
+    		,loader.getSelection());
+    assertEquals(Arrays.asList(Boolean.TRUE.toString(), "test@test.test"),Arrays.asList(loader.getSelectionArgs()));
     
     //Recent
-    loader=ChartSettingsProvider.getRecentCursorLoader(getContext(),5);
+    loader=ChartSettingsProvider.getRecentCursorLoader(mockContext,5);
     assertEquals(ChartSettingsDB.LAST_VIEWED+" "+ChartSettingsDB.DESC, loader.getSortOrder());
-    assertEquals(ChartSettingsDB.LAST_VIEWED_NOT_NULL, loader.getSelection());
+    assertEquals(ChartSettingsDB.LAST_VIEWED_NOT_NULL
+    		+ ChartSettingsProvider.AND
+    		+ ChartSettingsProvider.USER_EQUALS, loader.getSelection());
+    assertEquals(Arrays.asList("test@test.test"),Arrays.asList(loader.getSelectionArgs()));
     assertEquals("5", loader.getUri().getQueryParameter(ChartSettingsDB.LAST_VIEWED));
         
   }

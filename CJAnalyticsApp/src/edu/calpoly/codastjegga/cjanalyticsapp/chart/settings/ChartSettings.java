@@ -252,7 +252,7 @@ public class ChartSettings implements Serializable {
     ChartSettings chartSetting = new ChartSettings();
     chartSetting.setType((ChartType) i.getExtras().get(ChartType.class.getName()));
     chartSetting.setChartName((String) i.getExtras().get(CHART_NAME));
-    chartSetting.setChartName((String) i.getExtras().get(USER_NAME));
+    chartSetting.setUsername((String) i.getExtras().get(USER_NAME));
     chartSetting.setDatabase((String) i.getExtras().get(DATABASE));
     chartSetting.setStartDate((Date) i.getExtras().get(START_DATE));
     chartSetting.setEndDate((Date) i.getExtras().get(END_DATE));

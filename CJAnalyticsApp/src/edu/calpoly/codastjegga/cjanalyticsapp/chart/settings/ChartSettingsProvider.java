@@ -230,10 +230,10 @@ public class ChartSettingsProvider extends ContentProvider {
 
     return new CursorLoader(activity, CONTENT_URI,
         ChartSettingsDB.allSettingsColumns,
-        USER_EQUALS + AND + FAVORITE_EQUALS,
-        new String[] {
-            ((CJAnalyticsApp) activity.getApplicationContext())
-                .getCurrentUserName(), Boolean.TRUE.toString() }, null);
+         FAVORITE_EQUALS+ AND +USER_EQUALS ,
+        new String[] {Boolean.TRUE.toString() ,
+        ((CJAnalyticsApp) activity.getApplicationContext()).getCurrentUserName()},
+        null);
   }
 
   public static CursorLoader getRecentCursorLoader(Context activity,
