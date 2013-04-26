@@ -65,7 +65,7 @@ public class EditActivity extends FragmentActivity implements
   private ToggleButton pieButton;
   private ChartSettings chartSettings;
   private EditText chartName;
-  private Spinner eventSpinner;
+  private Spinner metricSpinner;
   private Spinner intervalSpinner;
   private TextView toDateText, fromDateText;
   private Calendar toDate, fromDate;
@@ -73,7 +73,7 @@ public class EditActivity extends FragmentActivity implements
   private EventAdapter eventAdapter;
   
   private DatePickerFragment datePickerFrag;
-  private EventFetecherTask eventFetcherTask;
+  private MetricsFetecherTask eventFetcherTask;
 
   @SuppressWarnings("unchecked")
   protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +87,7 @@ public class EditActivity extends FragmentActivity implements
     barButton = (ToggleButton) this.findViewById(R.id.bar);
     pieButton = (ToggleButton) this.findViewById(R.id.pie);
     chartName = (EditText) this.findViewById(R.id.chartName);
-    eventSpinner = (Spinner) this.findViewById(R.id.metricsList);
+    metricSpinner = (Spinner) this.findViewById(R.id.metricsList);
     intervalSpinner = (Spinner) this.findViewById(R.id.intervalList);
     toDateText = (TextView) this.findViewById(R.id.toDate);
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
@@ -117,8 +117,8 @@ public class EditActivity extends FragmentActivity implements
   
   private void setAdapter(List<Map.Entry<String, EventType>> metrics) {
     eventAdapter.setEventsList(metrics);
-    eventSpinner.setAdapter(eventAdapter);  
-    eventSpinner.setOnItemSelectedListener(EditActivity.this);
+    metricSpinner.setAdapter(eventAdapter);  
+    metricSpinner.setOnItemSelectedListener(EditActivity.this);
     selectEventInSpinner();
   }
 
@@ -208,12 +208,12 @@ public class EditActivity extends FragmentActivity implements
     // create new event adapter
     eventAdapter = new EventAdapter(this);
     // set up the adapter to events list
-    eventSpinner.setAdapter(eventAdapter);
+    metricSpinner.setAdapter(eventAdapter);
     // load the metrics list
     String dbName = chartSettings.getDatabase();
     List<Map.Entry<String, EventType>> metrics = DBMetricsCache.getCachedMetrics(dbName);
     if (metrics == null) {
-      eventFetcherTask = new EventFetecherTask(this, dbName);
+      eventFetcherTask = new MetricsFetecherTask(this, dbName);
       eventFetcherTask.execute();
     } else {
       setAdapter(metrics);
@@ -228,7 +228,7 @@ public class EditActivity extends FragmentActivity implements
     EventType metricType = chartSettings.getEventType();
     int position = eventAdapter.getPosition(new AbstractMap.SimpleEntry<String, EventType>(eventName, metricType));
 
-    eventSpinner.setSelection(position);
+    metricSpinner.setSelection(position);
   }
 
   /**
@@ -236,7 +236,7 @@ public class EditActivity extends FragmentActivity implements
    * 
    * @return asyncTask to fetch metrics from Salesforce
    */
-  private class EventFetecherTask extends
+  private class MetricsFetecherTask extends
       AsyncTask<Void, Void, List<Map.Entry<String, EventType>>> {
 
     private ProgressDialog dialog;
@@ -244,7 +244,7 @@ public class EditActivity extends FragmentActivity implements
     private static final String LOADING_METRICS = "Loading Metrics...";
     private String dbName;
 
-    public EventFetecherTask(Activity activity, String databaseName) {
+    public MetricsFetecherTask(Activity activity, String databaseName) {
       this.activity = activity;
       this.dbName = databaseName;
     }
@@ -335,9 +335,9 @@ public class EditActivity extends FragmentActivity implements
           Toast.LENGTH_SHORT).show();
       //TODO: TOTALLY HACKED BY JEREMY. I'm adding in getValue to getSelectedEvent
     } else if (getSelectedType() == ChartType.Line
-        && getSelectedEvent().getValue() != EventType.Float
-        && getSelectedEvent().getValue() != EventType.Currency
-        && getSelectedEvent().getValue() != EventType.Number) {
+        && getSelectedMetric().getValue() != EventType.Float
+        && getSelectedMetric().getValue() != EventType.Currency
+        && getSelectedMetric().getValue() != EventType.Number) {
       // TODO: this conditional is a total hack
       Toast.makeText(this, ON_SAVE_INVALID_EVENT_TYPE, Toast.LENGTH_SHORT)
           .show();
@@ -353,7 +353,7 @@ public class EditActivity extends FragmentActivity implements
     chartSettings.setStartDate(toDate.getTime());
     chartSettings.setEndDate(fromDate.getTime());
     // get the selected event name and type
-    Map.Entry<String, EventType> eventInfo = getSelectedEvent();
+    Map.Entry<String, EventType> eventInfo = getSelectedMetric();
     chartSettings.setEventName(eventInfo.getKey());
     chartSettings.setEventType(eventInfo.getValue());
     chartSettings.setUsername(((CJAnalyticsApp)getApplicationContext()).getCurrentUserName());
@@ -374,8 +374,8 @@ public class EditActivity extends FragmentActivity implements
   }
 
   @SuppressWarnings("unchecked")
-  private Map.Entry<String, EventType> getSelectedEvent() {
-    return (Map.Entry<String, EventType>) eventSpinner.getSelectedItem();
+  private Map.Entry<String, EventType> getSelectedMetric() {
+    return (Map.Entry<String, EventType>) metricSpinner.getSelectedItem();
   }
 
   public void setToFromDate(View view) {
@@ -588,7 +588,7 @@ public class EditActivity extends FragmentActivity implements
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
-    disableButton(getSelectedEvent().getValue());
+    disableButton(getSelectedMetric().getValue());
   }
 
   @Override
