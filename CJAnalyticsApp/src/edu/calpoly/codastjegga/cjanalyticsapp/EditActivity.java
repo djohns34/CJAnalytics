@@ -350,8 +350,8 @@ public class EditActivity extends FragmentActivity implements
     Intent intent = new Intent();
     chartSettings.setChartName(chartName.getText().toString());
     chartSettings.setType(getSelectedType());
-    chartSettings.setStartDate(toDate.getTime());
-    chartSettings.setEndDate(fromDate.getTime());
+    chartSettings.setStartDate(fromDate.getTime());
+    chartSettings.setEndDate(toDate.getTime());
     // get the selected event name and type
     Map.Entry<String, EventType> eventInfo = getSelectedMetric();
     chartSettings.setEventName(eventInfo.getKey());
