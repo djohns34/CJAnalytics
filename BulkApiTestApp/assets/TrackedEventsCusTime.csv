@@ -1,0 +1,152 @@
+codastjegga__Timestamp__c,codastjegga__EventName__c,codastjegga__NumberValue__c,codastjegga__Device_Id__c,codastjegga__ValueType__c,codastjegga__TextValue__c,codastjegga__FloatValue__c,codastjegga__CurrencyValue__c,codastjegga__LocaleValue__c,codastjegga__DatabaseName__c
+2013-01-29T16:00:00.000+0000,Level,2,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0001,Level,17,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0002,Level,0,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0003,Level,10,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0004,Level,22,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0005,Level,16,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0006,Level,5,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0007,Level,7,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0008,Level,15,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0009,Level,2,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0010,Level,24,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0011,Level,12,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0012,Level,11,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0013,Level,24,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0014,Level,2,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0015,Level,19,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0016,Level,12,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0017,Level,6,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0018,Level,20,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0019,Level,13,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0020,Level,16,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0021,Level,9,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0022,Level,0,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0023,Level,7,fba473108a269383,Number,,,,,Temple Run
+2013-01-29T16:00:00.000+0024,Level,12,fba473108a269383,Number,,,,,Angry Birds
+2013-01-29T16:00:00.000+0025,Wage,,fba473108a269383,Currency,,,10.09,,Temple Run
+2013-01-29T16:00:00.000+0026,Wage,,fba473108a269383,Currency,,,19.99,,Temple Run
+2013-01-29T16:00:00.000+0027,Age,,fba473108a269383,Float,,14.92,,,Angry Birds
+2013-01-29T16:00:00.000+0028,Location,,fba473108a269383,Locale,,,,US,Temple Run
+2013-01-29T16:00:00.000+0029,Wage,,fba473108a269383,Currency,,,14.65,,Temple Run
+2013-01-29T16:00:00.000+0030,Age,,fba473108a269383,Float,,2.96,,,Angry Birds
+2013-01-29T16:00:00.000+0031,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+2013-01-29T16:00:00.000+0032,Age,,fba473108a269383,Float,,11.14,,,Temple Run
+2013-01-29T16:00:00.000+0033,Name,,fba473108a269383,Text,Corey,,,,Angry Birds
+2013-01-29T16:00:00.000+0034,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+2013-01-29T16:00:00.000+0035,Wage,,fba473108a269383,Currency,,,0.61,,Angry Birds
+2013-01-29T16:00:00.000+0036,Location,,fba473108a269383,Locale,,,,UK,Temple Run
+2013-01-29T16:00:00.000+0037,Wage,,fba473108a269383,Currency,,,13.67,,Angry Birds
+2013-01-29T16:00:00.000+0038,Age,,fba473108a269383,Float,,11.49,,,Temple Run
+2013-01-29T16:00:00.000+0039,Age,,fba473108a269383,Float,,13.12,,,Angry Birds
+2013-01-29T16:00:00.000+0040,Wage,,fba473108a269383,Currency,,,16.62,,Temple Run
+2013-01-29T16:00:00.000+0041,Age,,fba473108a269383,Float,,2.64,,,Angry Birds
+2013-01-29T16:00:00.000+0042,Age,,fba473108a269383,Float,,3.25,,,Temple Run
+2013-01-29T16:00:00.000+0043,Wage,,fba473108a269383,Currency,,,9.87,,Angry Birds
+2013-01-29T16:00:00.000+0044,Age,,fba473108a269383,Float,,3.64,,,Temple Run
+2013-01-29T16:00:00.000+0045,Name,,fba473108a269383,Text,Gagandeep,,,,Angry Birds
+2013-01-29T16:00:00.000+0046,Wage,,fba473108a269383,Currency,,,16.58,,Temple Run
+2013-01-29T16:00:00.000+0047,Age,,fba473108a269383,Float,,10.12,,,Angry Birds
+2013-01-29T16:00:00.000+0048,Name,,fba473108a269383,Text,Steven,,,,Temple Run
+2013-01-29T16:00:00.000+0049,Wage,,fba473108a269383,Currency,,,6.12,,Angry Birds
+2013-01-29T16:00:00.000+0050,Age,,fba473108a269383,Float,,4.59,,,Temple Run
+2013-01-29T16:00:00.000+0051,Name,,fba473108a269383,Text,Jeremy,,,,Angry Birds
+2013-01-29T16:00:00.000+0052,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+2013-01-29T16:00:00.000+0053,Wage,,fba473108a269383,Currency,,,12.8,,Angry Birds
+2013-01-29T16:00:00.000+0054,Age,,fba473108a269383,Float,,1.78,,,Temple Run
+2013-01-29T16:00:00.000+0055,Wage,,fba473108a269383,Currency,,,7.5,,Temple Run
+2013-01-29T16:00:00.000+0056,Name,,fba473108a269383,Text,Steven,,,,Angry Birds
+2013-01-29T16:00:00.000+0057,Wage,,fba473108a269383,Currency,,,8.25,,Temple Run
+2013-01-29T16:00:00.000+0058,Location,,fba473108a269383,Locale,,,,US,Angry Birds
+2013-01-29T16:00:00.000+0059,Age,,fba473108a269383,Float,,19.23,,,Temple Run
+2013-01-29T16:00:00.000+0060,Age,,fba473108a269383,Float,,2.88,,,Angry Birds
+2013-01-29T16:00:00.000+0061,Location,,fba473108a269383,Locale,,,,US,Temple Run
+2013-01-29T16:00:00.000+0062,Wage,,fba473108a269383,Currency,,,6.34,,Angry Birds
+2013-01-29T16:00:00.000+0063,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+2013-01-29T16:00:00.000+0064,Age,,fba473108a269383,Float,,1.29,,,Angry Birds
+2013-01-29T16:00:00.000+0065,Age,,fba473108a269383,Float,,10.32,,,Temple Run
+2013-01-29T16:00:00.000+0066,Name,,fba473108a269383,Text,Gagandeep,,,,Angry Birds
+2013-01-29T16:00:00.000+0067,Age,,fba473108a269383,Float,,0.42,,,Temple Run
+2013-01-29T16:00:00.000+0068,Age,,fba473108a269383,Float,,12.32,,,Angry Birds
+2013-01-29T16:00:00.000+0069,Wage,,fba473108a269383,Currency,,,7.89,,Temple Run
+2013-01-29T16:00:00.000+0070,Wage,,fba473108a269383,Currency,,,1.98,,Angry Birds
+2013-01-29T16:00:00.000+0071,Wage,,fba473108a269383,Currency,,,14.35,,Temple Run
+2013-01-29T16:00:00.000+0072,Name,,fba473108a269383,Text,Steven,,,,Angry Birds
+2013-01-29T16:00:00.000+0073,Age,,fba473108a269383,Float,,7.19,,,Temple Run
+2013-01-29T16:00:00.000+0074,Age,,fba473108a269383,Float,,11.77,,,Angry Birds
+2013-01-29T16:00:00.000+0075,Age,,fba473108a269383,Float,,17.18,,,Angry Birds
+2013-01-29T16:00:00.000+0076,Age,,fba473108a269383,Float,,0.87,,,Temple Run
+2013-01-29T16:00:00.000+0077,Name,,fba473108a269383,Text,Jeremy,,,,Angry Birds
+2013-01-29T16:00:00.000+0078,Wage,,fba473108a269383,Currency,,,8.11,,Temple Run
+2013-01-29T16:00:00.000+0079,Name,,fba473108a269383,Text,Corey,,,,Angry Birds
+2013-01-29T16:00:00.000+0080,Wage,,fba473108a269383,Currency,,,18.88,,Temple Run
+2013-01-29T16:00:00.000+0081,Age,,fba473108a269383,Float,,6.06,,,Angry Birds
+2013-01-29T16:00:00.000+0082,Wage,,fba473108a269383,Currency,,,3.31,,Temple Run
+2013-01-29T16:00:00.000+0083,Wage,,fba473108a269383,Currency,,,15.68,,Angry Birds
+2013-01-29T16:00:00.000+0084,Age,,fba473108a269383,Float,,6.07,,,Temple Run
+2013-01-29T16:00:00.000+0085,Age,,fba473108a269383,Float,,10.6,,,Temple Run
+2013-01-29T16:00:00.000+0086,Wage,,fba473108a269383,Currency,,,6.44,,Angry Birds
+2013-01-29T16:00:00.000+0087,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+2013-01-29T16:00:00.000+0088,Wage,,fba473108a269383,Currency,,,10.53,,Angry Birds
+2013-01-29T16:00:00.000+0089,Wage,,fba473108a269383,Currency,,,5.05,,Temple Run
+2013-01-29T16:00:00.000+0090,Age,,fba473108a269383,Float,,11.47,,,Angry Birds
+2013-01-29T16:00:00.000+0091,Wage,,fba473108a269383,Currency,,,4.22,,Temple Run
+2013-01-29T16:00:00.000+0092,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+2013-01-29T16:00:00.000+0093,Wage,,fba473108a269383,Currency,,,18.56,,Angry Birds
+2013-01-29T16:00:00.000+0094,Age,,fba473108a269383,Float,,2.74,,,Temple Run
+2013-01-29T16:00:00.000+0095,Wage,,fba473108a269383,Currency,,,17.47,,Angry Birds
+2013-01-29T16:00:00.000+0096,Name,,fba473108a269383,Text,Steven,,,,Angry Birds
+2013-01-29T16:00:00.000+0097,Age,,fba473108a269383,Float,,0.21,,,Temple Run
+2013-01-29T16:00:00.000+0098,Name,,fba473108a269383,Text,Corey,,,,Angry Birds
+2013-01-29T16:00:00.000+0099,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+2013-01-29T16:00:00.000+0100,Wage,,fba473108a269383,Currency,,,19.45,,Angry Birds
+2013-01-29T16:00:00.000+0101,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+2013-01-29T16:00:00.000+0102,Wage,,fba473108a269383,Currency,,,0.95,,Angry Birds
+2013-01-29T16:00:00.000+0103,Location,,fba473108a269383,Locale,,,,US,Temple Run
+2013-01-29T16:00:00.000+0104,Location,,fba473108a269383,Locale,,,,UK,Angry Birds
+2013-01-29T16:00:00.000+0105,Location,,fba473108a269383,Locale,,,,UK,Temple Run
+2013-01-29T16:00:00.000+0106,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+2013-01-29T16:00:00.000+0107,Location,,fba473108a269383,Locale,,,,UK,Temple Run
+2013-01-29T16:00:00.000+0108,Location,,fba473108a269383,Locale,,,,UK,Angry Birds
+2013-01-29T16:00:00.000+0109,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+2013-01-29T16:00:00.000+0110,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+2013-01-29T16:00:00.000+0111,Name,,fba473108a269383,Text,Corey,,,,Temple Run
+2013-01-29T16:00:00.000+0112,Name,,fba473108a269383,Text,Jeremy,,,,Angry Birds
+2013-01-29T16:00:00.000+0113,Name,,fba473108a269383,Text,Gagandeep,,,,Temple Run
+2013-01-29T16:00:00.000+0114,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+2013-01-29T16:00:00.000+0115,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+2013-01-29T16:00:00.000+0116,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+2013-01-29T16:00:00.000+0117,Name,,fba473108a269383,Text,Gagandeep,,,,Angry Birds
+2013-01-29T16:00:00.000+0118,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+2013-01-29T16:00:00.000+0119,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+2013-01-29T16:00:00.000+0120,Name,,fba473108a269383,Text,Steven,,,,Temple Run
+2013-01-29T16:00:00.000+0121,Name,,fba473108a269383,Text,Jeremy,,,,Angry Birds
+2013-01-29T16:00:00.000+0122,Name,,fba473108a269383,Text,Gagandeep,,,,Temple Run
+2013-01-29T16:00:00.000+0123,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0124,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0125,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0126,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0127,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0128,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0129,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0130,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0131,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0132,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0133,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0134,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0135,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0136,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0137,my-integers,5555,c0d2197aeaa444c3,Number,,,,,Button-App
+2013-01-29T16:00:00.000+0138,my-integers,5555,c0d2197aeaa444c3,Number,,,,,Button-App
+2013-01-29T16:00:00.000+0139,my-integers,5555,c0d2197aeaa444c3,Number,,,,,Button-App
+2013-01-29T16:00:00.000+0140,my-integers,5555,c0d2197aeaa444c3,Number,,,,,Button-App
+2013-01-29T16:00:00.000+0141,my-integers,555536,c0d2197aeaa444c3,Number,,,,,Button-App
+2013-01-29T16:00:00.000+0142,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0143,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+2013-01-29T16:00:00.000+0144,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+2013-01-29T16:00:00.000+0145,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+2013-01-29T16:00:00.000+0146,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+2013-01-29T16:00:00.000+0147,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+2013-01-29T16:00:00.000+0148,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+2013-01-29T16:00:00.000+0149,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+2013-01-29T16:00:00.000+0150,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App

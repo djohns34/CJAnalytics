@@ -1,0 +1,152 @@
+codastjegga__Timestamp__c,codastjegga__EventName__c,codastjegga__NumberValue__c,codastjegga__Device_Id__c,codastjegga__ValueType__c,codastjegga__TextValue__c,codastjegga__FloatValue__c,codastjegga__CurrencyValue__c,codastjegga__LocaleValue__c,codastjegga__DatabaseName__c
+1/29/2013 8:00 AM,Level,2,fba473108a269383,Number,,,,,Temple Run
+3/29/2013 7:00 AM,Level,17,fba473108a269383,Number,,,,,Angry Birds
+7/29/2013 7:00 AM,Level,0,fba473108a269383,Number,,,,,Temple Run
+5/29/2013 7:00 AM,Level,10,fba473108a269383,Number,,,,,Angry Birds
+4/29/2013 7:00 AM,Level,22,fba473108a269383,Number,,,,,Temple Run
+3/29/2013 7:00 AM,Level,16,fba473108a269383,Number,,,,,Angry Birds
+5/29/2013 7:00 AM,Level,5,fba473108a269383,Number,,,,,Temple Run
+1/29/2013 8:00 AM,Level,7,fba473108a269383,Number,,,,,Temple Run
+3/29/2013 7:00 AM,Level,15,fba473108a269383,Number,,,,,Angry Birds
+5/29/2013 7:00 AM,Level,2,fba473108a269383,Number,,,,,Temple Run
+7/29/2013 7:00 AM,Level,24,fba473108a269383,Number,,,,,Angry Birds
+8/29/2013 7:00 AM,Level,12,fba473108a269383,Number,,,,,Temple Run
+4/29/2013 7:00 AM,Level,11,fba473108a269383,Number,,,,,Angry Birds
+3/29/2013 7:00 AM,Level,24,fba473108a269383,Number,,,,,Temple Run
+1/29/2013 8:00 AM,Level,2,fba473108a269383,Number,,,,,Temple Run
+1/29/2013 8:00 AM,Level,19,fba473108a269383,Number,,,,,Angry Birds
+1/29/2013 8:00 AM,Level,12,fba473108a269383,Number,,,,,Angry Birds
+4/29/2013 7:00 AM,Level,6,fba473108a269383,Number,,,,,Temple Run
+5/29/2013 7:00 AM,Level,20,fba473108a269383,Number,,,,,Angry Birds
+1/29/2013 8:00 AM,Level,13,fba473108a269383,Number,,,,,Temple Run
+5/29/2013 7:00 AM,Level,16,fba473108a269383,Number,,,,,Angry Birds
+7/29/2013 7:00 AM,Level,9,fba473108a269383,Number,,,,,Temple Run
+3/29/2013 7:00 AM,Level,0,fba473108a269383,Number,,,,,Angry Birds
+8/29/2013 7:00 AM,Level,7,fba473108a269383,Number,,,,,Temple Run
+3/29/2013 7:00 AM,Level,12,fba473108a269383,Number,,,,,Angry Birds
+1/29/2013 9:05 AM,Wage,,fba473108a269383,Currency,,,10.09,,Temple Run
+4/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,19.99,,Temple Run
+5/29/2013 7:00 AM,Age,,fba473108a269383,Float,,14.92,,,Angry Birds
+3/29/2013 7:00 AM,Location,,fba473108a269383,Locale,,,,US,Temple Run
+8/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,14.65,,Temple Run
+9/29/2013 7:00 AM,Age,,fba473108a269383,Float,,2.96,,,Angry Birds
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+4/29/2013 7:00 AM,Age,,fba473108a269383,Float,,11.14,,,Temple Run
+5/29/2013 7:00 AM,Name,,fba473108a269383,Text,Corey,,,,Angry Birds
+7/29/2013 7:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,0.61,,Angry Birds
+1/29/2013 8:00 AM,Location,,fba473108a269383,Locale,,,,UK,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,13.67,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,11.49,,,Temple Run
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,13.12,,,Angry Birds
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,16.62,,Temple Run
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,2.64,,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,3.25,,,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,9.87,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,3.64,,,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Gagandeep,,,,Angry Birds
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,16.58,,Temple Run
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,10.12,,,Angry Birds
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Steven,,,,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,6.12,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,4.59,,,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Angry Birds
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,12.8,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,1.78,,,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,7.5,,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Steven,,,,Angry Birds
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,8.25,,Temple Run
+4/29/2013 7:00 AM,Location,,fba473108a269383,Locale,,,,US,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,19.23,,,Temple Run
+4/29/2013 7:00 AM,Age,,fba473108a269383,Float,,2.88,,,Angry Birds
+1/29/2013 8:00 AM,Location,,fba473108a269383,Locale,,,,US,Temple Run
+6/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,6.34,,Angry Birds
+1/29/2013 8:00 AM,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+7/29/2013 7:00 AM,Age,,fba473108a269383,Float,,1.29,,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,10.32,,,Temple Run
+8/29/2013 7:00 AM,Name,,fba473108a269383,Text,Gagandeep,,,,Angry Birds
+8/29/2013 7:00 AM,Age,,fba473108a269383,Float,,0.42,,,Temple Run
+8/29/2013 7:00 AM,Age,,fba473108a269383,Float,,12.32,,,Angry Birds
+7/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,7.89,,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,1.98,,Angry Birds
+5/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,14.35,,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Steven,,,,Angry Birds
+3/29/2013 7:00 AM,Age,,fba473108a269383,Float,,7.19,,,Temple Run
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,11.77,,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,17.18,,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,0.87,,,Temple Run
+3/29/2013 7:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Angry Birds
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,8.11,,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Corey,,,,Angry Birds
+4/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,18.88,,Temple Run
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,6.06,,,Angry Birds
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,3.31,,Temple Run
+5/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,15.68,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,6.07,,,Temple Run
+6/29/2013 7:00 AM,Age,,fba473108a269383,Float,,10.6,,,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,6.44,,Angry Birds
+9/29/2013 7:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,10.53,,Angry Birds
+8/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,5.05,,Temple Run
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,11.47,,,Angry Birds
+7/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,4.22,,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,18.56,,Angry Birds
+5/29/2013 7:00 AM,Age,,fba473108a269383,Float,,2.74,,,Temple Run
+1/29/2013 8:00 AM,Wage,,fba473108a269383,Currency,,,17.47,,Angry Birds
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Steven,,,,Angry Birds
+1/29/2013 8:00 AM,Age,,fba473108a269383,Float,,0.21,,,Temple Run
+5/29/2013 7:00 AM,Name,,fba473108a269383,Text,Corey,,,,Angry Birds
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+3/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,19.45,,Angry Birds
+1/29/2013 8:00 AM,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+7/29/2013 7:00 AM,Wage,,fba473108a269383,Currency,,,0.95,,Angry Birds
+1/29/2013 8:00 AM,Location,,fba473108a269383,Locale,,,,US,Temple Run
+4/29/2013 7:00 AM,Location,,fba473108a269383,Locale,,,,UK,Angry Birds
+1/29/2013 8:00 AM,Location,,fba473108a269383,Locale,,,,UK,Temple Run
+6/29/2013 7:00 AM,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+1/29/2013 8:00 AM,Location,,fba473108a269383,Locale,,,,UK,Temple Run
+8/29/2013 7:00 AM,Location,,fba473108a269383,Locale,,,,UK,Angry Birds
+1/29/2013 8:00 AM,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+7/29/2013 7:00 AM,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Corey,,,,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Angry Birds
+7/29/2013 7:00 AM,Name,,fba473108a269383,Text,Gagandeep,,,,Temple Run
+1/29/2013 8:00 AM,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Gagandeep,,,,Angry Birds
+4/29/2013 7:00 AM,Location,,fba473108a269383,Locale,,,,TX,Temple Run
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Daniel,,,,Angry Birds
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Steven,,,,Temple Run
+3/29/2013 7:00 AM,Name,,fba473108a269383,Text,Jeremy,,,,Angry Birds
+1/29/2013 8:00 AM,Name,,fba473108a269383,Text,Gagandeep,,,,Temple Run
+3/14/2013 6:53 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 6:52 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 6:52 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 6:52 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 6:53 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 6:53 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 6:53 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 6:53 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 6:53 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 10:14 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 10:17 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 10:20 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/14/2013 10:39 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/15/2013 12:00 AM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/15/2013 10:34 AM,my-integers,5555,c0d2197aeaa444c3,Number,,,,,Button-App
+3/15/2013 10:35 AM,my-integers,5555,c0d2197aeaa444c3,Number,,,,,Button-App
+3/15/2013 10:35 AM,my-integers,5555,c0d2197aeaa444c3,Number,,,,,Button-App
+3/15/2013 10:35 AM,my-integers,5555,c0d2197aeaa444c3,Number,,,,,Button-App
+3/15/2013 10:35 AM,my-integers,555536,c0d2197aeaa444c3,Number,,,,,Button-App
+3/15/2013 2:22 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/15/2013 2:22 PM,my-strings,,33cd1802667bac03,Text,8999,,,,Button-App
+3/15/2013 2:33 PM,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+3/15/2013 2:33 PM,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+3/15/2013 2:33 PM,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+3/15/2013 2:33 PM,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+3/15/2013 2:33 PM,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+3/15/2013 2:33 PM,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App
+3/15/2013 7:49 PM,my-strings,,33cd1802667bac03,Text,Over 9000,,,,Button-App

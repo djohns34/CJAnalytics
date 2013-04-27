@@ -27,7 +27,7 @@ public class SalesforceConnector{
 
     private RestClient client;
     private String apiVersion;
-
+    
     SalesforceDBAdapter db;
 
     //Our salesforce object
@@ -37,7 +37,13 @@ public class SalesforceConnector{
 
     private final String  appName;
     
-    
+    /**
+     * @deprecated
+     * @param client
+     * @param appName
+     * @param apiVersion
+     * @param activity
+     */
     public SalesforceConnector(RestClient client,String appName, String apiVersion,Context activity) {
         this.client = client;
         this.apiVersion = apiVersion;
@@ -49,6 +55,15 @@ public class SalesforceConnector{
         
     }
     
+    public SalesforceConnector(RestClient client,String appName,Context activity) {
+      this.client = client;
+      this.appName=appName;
+      
+      
+      db=new SalesforceDBAdapter(activity);
+      db.open();
+      
+  }
     
     /**
      * Adds an event to the queue of events that will be sent to salesforce. 
@@ -71,7 +86,7 @@ public class SalesforceConnector{
         	e.getValue().put(DatabaseName,appName);
         	
         	
-            sendRequestForInsert(e.getKey(),e.getValue());
+           // sendRequestForInsert(e.getKey(),e.getValue());
         }
     }
         
