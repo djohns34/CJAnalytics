@@ -33,7 +33,7 @@ public class SalesforceConnector{
     //Our salesforce object
     private static final String table ="codastjegga__TrackedEvents__c";
 
-    private static final String  DatabaseName ="codastjegga__DatabaseName__c";
+//    private static final String  DatabaseName ="codastjegga__DatabaseName__c";
 
     private final String  appName;
     
@@ -56,7 +56,7 @@ public class SalesforceConnector{
      */
     public void addEvent(Event<?> e){
         
-        db.insertEvent(e);
+        db.insertEvent(e,appName);
         
     }
 
@@ -68,7 +68,7 @@ public class SalesforceConnector{
         
         for(Entry<Integer, Map<String, Object>> e:eventMap.entrySet()){
         	//Tack the app name onto the event coming out of the database
-        	e.getValue().put(DatabaseName,appName);
+        	e.getValue().put(SalesforceDBAdapter.DatabaseName,appName);
         	
         	
             sendRequestForInsert(e.getKey(),e.getValue());

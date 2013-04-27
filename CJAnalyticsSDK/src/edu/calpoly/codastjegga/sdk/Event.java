@@ -8,9 +8,7 @@ import java.util.Locale;
 
 public abstract class Event<E> {
 
-	
-	
-	private static final 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+	private static final 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
 	protected Date timeStamp;
 	protected String event;
 	protected E value;

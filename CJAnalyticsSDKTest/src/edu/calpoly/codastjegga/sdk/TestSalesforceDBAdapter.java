@@ -21,18 +21,18 @@ public class TestSalesforceDBAdapter extends AndroidTestCase{
 
     public static void testEmptyList(){
         assertEquals(0,db.fetchAllEvents().size());
+        assertEquals(0,db.fetchAllEventsV2().length());
     }
 
     public static void testInsert(){
-        Event<?> e=EventFactory.createEvent(EventType.Text, "DB", "DBTEST");
-
-        assertNotSame(-1, db.insertEvent(e));
+        Event<?> e=EventFactory.createEvent(EventType.Text, "Name", "Bob");
+        assertNotSame(-1, db.insertEvent(e,"TESTDB"));
 
     }
     public void testList(){
-        Event<?> e=EventFactory.createEvent(EventType.Text, "DB", "DBTEST");
+        Event<?> e=EventFactory.createEvent(EventType.Text, "Name", "Bob");
 
-        assertNotSame(-1, db.insertEvent(e));
+        assertNotSame(-1, db.insertEvent(e,"TESTDB"));
         Map<Integer, Map<String, Object>> map=db.fetchAllEvents();
 
         assertEquals(1, map.size());
@@ -51,15 +51,28 @@ public class TestSalesforceDBAdapter extends AndroidTestCase{
         assertEquals(e.getEventType().getFieldType(), valueType);
 
         assertEquals(Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID), id);
+        
+
+        String csvData=db.fetchAllEventsV2();
+
+
+        assertTrue(csvData.contains(e.getKey()));
+        assertTrue(csvData.contains(e.getRESTValue()));
+        assertTrue(csvData.contains(e.getTimeStamp()));
+        assertTrue(csvData.contains(e.getEventType().getFieldType()));
+        assertTrue(csvData.contains(Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID)));
+        
 
     }
     public void testDelete(){
-        Event<?> e=EventFactory.createEvent(EventType.Text, "DB", "DBTEST");
+        Event<?> e=EventFactory.createEvent(EventType.Text, "Name", "Bob");
 
-        assertNotSame(-1, db.insertEvent(e));
+        assertNotSame(-1, db.insertEvent(e,"TESTDBNAME"));
         Map<Integer, Map<String, Object>> map=db.fetchAllEvents();
-
         assertEquals(1, map.size());
+        
+        String[] lines=db.fetchAllEventsV2().split("\n");
+        assertEquals(2,lines.length); //header and actaul data
 
         Integer key= (Integer) map.keySet().toArray()[0];
 
