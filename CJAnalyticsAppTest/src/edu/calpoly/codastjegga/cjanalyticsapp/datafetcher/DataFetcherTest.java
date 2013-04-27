@@ -18,9 +18,12 @@ import com.salesforce.androidsdk.rest.RestClient.AsyncRequestCallback;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.TimeInterval;
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventSummary;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Events;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.NumberEvent;
@@ -189,8 +192,11 @@ public class DataFetcherTest extends TestCase {
     String dbName = ANGRYBIRD;
 
 
-    //build the JSON response
-    StringBuffer dbRecords = new StringBuffer("{" + RECORDS + ":[");
+    //build the JSON response //Format returned by the server has escaped quotes inside have to escape the escape here.
+    String dbRecords = "\"{\\\"summarized\\\":{\\\"2013-04-01 07:00:00\\\":13.0,\\\"2013-01-01 08:00:00\\\":7.0,\\\"2013-03-01 08:00:00\\\":10.0,\\\"2013-02-01 08:00:00\\\":5.0},\\\"categorical\\\":{\\\"5555\\\":8,\\\"555536\\\":2}}\"";
+    /*
+
+    		new StringBuffer("{" + RECORDS + ":[");
 
     String db = "{\"" + EventFields.ValueType.getColumnId() + "\":\"" + METRICTYPE + "\"," + 
         "\"" + EventFields.EventName.getColumnId() + "\":\"" + metrics     + "\"," +
@@ -203,37 +209,40 @@ public class DataFetcherTest extends TestCase {
     //remove the last comma
     dbRecords.deleteCharAt(dbRecords.length() - 1);
     dbRecords.append("]}");
+    */
 
 
-    JSONObject records;
     try {
-      records = new JSONObject(dbRecords.toString());
-
       Mockito.when(client.sendSync(Mockito.any(RestRequest.class))).thenReturn(requestMock);
-      Mockito.when(requestMock.asJSONObject()).thenReturn(records);
-    }catch (Exception exp) {
-      // call to mock  shouldn't fail or creation of JSON
-      fail("Internal error");
-    }
+      Mockito.when(requestMock.asString()).thenReturn(dbRecords);
+      Mockito.when(requestMock.isSuccess()).thenReturn(true);
 
 
-    try {
-      //testing ANGRYBIRD 
-
-      Events events = DataFetcher.getDatabaseRecords(apiV, client, dbName,null, METRICTYPE);
-      //check that the hash isn't null
+    	ChartSettings s=new ChartSettings();
+    	s.setDatabase("");
+    	s.setEventType(EventType.Text);
+    	s.setEventName("");
+    	s.setTimeInterval(TimeInterval.Daily);
+    	
+      EventSummary events = DataFetcher.getDatabaseRecords(apiV, client,s);
+      //check that the EventSummary isn't null
       assertNotNull(events);
-      //getting the list of events
-      List<Event> eventsList = events.getEvents();
-      assertNotNull(eventsList);
-      //check the length of the event
-      assertEquals(1, eventsList.size());
+      //getting the summary
+      Map<String, Integer> categorical = events.getCategorical();
+      assertNotNull(categorical);
+      //check the length of the summary
+      assertEquals(2, categorical.size());
+      
+      Map<String, Double> summarized = events.getSummarized();
+      assertNotNull(summarized);
+      //check the length of the summary
+      assertEquals(4, summarized.size());
 
       //get metric one event
-      NumberEvent actualEvent = (NumberEvent)eventsList.get(0);
+     /* NumberEvent actualEvent = (NumberEvent)eventsList.get(0);
       NumberEvent expectedEvent = new NumberEvent(metrics, DEVICEID, TIMESTAMP, dbName, NUMBERV); 
 
-      checkNumberEvent(expectedEvent, actualEvent);
+      checkNumberEvent(expectedEvent, actualEvent);*/
 
     } catch (Exception e) {
       fail("Internal error");
