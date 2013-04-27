@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.Paint.Align;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventSummary;
 
 public class CJLineChart implements ChartProvider {
   private XYMultipleSeriesDataset data;
@@ -34,8 +35,8 @@ public class CJLineChart implements ChartProvider {
    * @param events
    *          Events to be parsed
    */
-  public void parseData(ChartSettings chartSettings, List<Event> events) {
-    XYSeriesRenderer xysr = new XYSeriesRenderer();
+  public void parseData(ChartSettings chartSettings, EventSummary records) {
+   /* XYSeriesRenderer xysr = new XYSeriesRenderer();
     TimeSeries timeSeries;
     HashMap<Date, LinkedList<Double>> groups;
 
@@ -79,7 +80,7 @@ public class CJLineChart implements ChartProvider {
     timeSeries = getSeriesFromGroups(seriesName, groups);
 
     data.addSeries(timeSeries);
-    ren.addSeriesRenderer(xysr);
+    ren.addSeriesRenderer(xysr);*/
   }
 
   /**

@@ -6,10 +6,5 @@
         android:id="@+id/logout"
         android:onClick="onLogoutClick"
         android:title="@string/logout_button"/>   
-    <item
-        android:showAsAction="never"
-        android:id="@+id/get"
-        android:onClick="ongetClick"
-        android:title="DataSummarizer @get"/>
 
 </menu>

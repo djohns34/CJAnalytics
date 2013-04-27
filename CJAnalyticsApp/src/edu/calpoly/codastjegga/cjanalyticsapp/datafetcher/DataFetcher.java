@@ -1,7 +1,9 @@
 package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.AbstractMap;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,20 +14,28 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.http.ParseException;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Pair;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.salesforce.androidsdk.rest.RestClient;
 import com.salesforce.androidsdk.rest.RestRequest;
 import com.salesforce.androidsdk.rest.RestResponse;
+import com.salesforce.androidsdk.rest.RestRequest.RestMethod;
 
+import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventFields;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventSummary;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Events;
+import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
 
 /**
  * DataFetcher sends and retrieves data from Salesforce.com from
@@ -58,6 +68,9 @@ public class DataFetcher {
   private static final String EQUALS = "=";
   /** Constant for Custom object **/
   private static final String CUSTOM_OBJ_NAME = "codastjegga__TrackedEvents__c";
+  
+  private static final String REQUEST_PATH = "services/apexrest/codastjegga/DataSummarizer";
+  private static final String MIME_JSON = "application/json";
 
   /** Constant for RECORDS **/
   private static final String RECORDS = "records";
@@ -247,6 +260,44 @@ public class DataFetcher {
   }
 
   /**
+   * Creates the header required to request the specified {@link ChartSettings}  
+   * @param setting
+   * @return
+   * @throws UnsupportedEncodingException 
+   */
+  private static StringEntity createRequestBody(ChartSettings setting) throws UnsupportedEncodingException{
+    Map<String, String> fields = new HashMap<String, String>();
+    fields.put("appName", setting.getDatabase());
+    fields.put("eventName", setting.getEventName());
+    fields.put("eventField", setting.getEventType().getEventField().getColumnId());
+    
+    Date startTime=setting.getStartDate();
+    if(startTime == null){
+      startTime=new Date(0);
+    } else {
+      startTime=DateUtils.setTime(startTime,0,0,0,0);
+    }
+    fields.put("startTime", DateUtils.format(startTime));
+    
+    Date endTime=setting.getEndDate();
+    if(endTime == null){
+      endTime =new Date();
+    } else {
+      endTime=DateUtils.setTime(endTime,23,59,59,999);
+    }
+    fields.put("endTime", DateUtils.format(endTime));
+    
+    fields.put("timeInterval", setting.getTimeInterval().name());
+    
+    
+    StringEntity entity = new StringEntity(new JSONObject(fields).toString(), HTTP.UTF_8);
+    entity.setContentType(MIME_JSON);
+    
+    return entity;
+    
+  }
+  
+  /**
    * Gets list of tracked events in a database by Event name and type
    *  @see {@link EventType}
    * @param apiVersion salesforce REST apiversion
@@ -259,31 +310,31 @@ public class DataFetcher {
    *           If client fails to send request to salesforce.com or if
    *           Salesforce return back a invalid JSONObjection in response.
    */
-  public static Events getDatabaseRecords(String apiVersion,
-      RestClient client, String databaseName, String eventName,
-      EventType eventType) throws Exception {
-    // create a set of basic event fields
-    Set<EventFields> eventFields = EnumSet.copyOf(BASIC_EVENT_FIELDS);
-    // add the eventType to the basic set of event fields
-    eventFields.add(eventType.getEventField());
+  public static EventSummary getDatabaseRecords(String apiVersion,RestClient client, ChartSettings setting) throws Exception {
 
-    String getDBNameQuery = buildQuery(CUSTOM_OBJ_NAME, eventFields);
-    //WHERE caluse for dbName and EventFields type
-    String whereClause = WHERE + " " + EventFields.DatabaseName.getColumnId()
-        + " = '" + databaseName + "'" + " " + AND + " "
-        + EventFields.EventName.getColumnId() + " = '" + eventName + "'";
-    //query to get the list of records from the db 
-    String dbMetricQuery = getDBNameQuery + " " + whereClause;
+    EventSummary resp = null;
+    
+    RestRequest req = new RestRequest(RestMethod.POST, REQUEST_PATH, createRequestBody(setting));
+    
+    RestResponse response = client.sendSync(req);
+    if (response.isSuccess()) {
+      // All of the quotations are escaped, we don't want that.
+      String responseString = response.asString().replace("\\", "");
+      // The String also starts and ends with quotes.
+      responseString = responseString.substring(1,
+          responseString.length() - 1);
+      
 
-    RestResponse reponse = sendSyncRequest(dbMetricQuery, apiVersion, client);
+      resp = new Gson().fromJson(responseString,
+          EventSummary.class);
 
-    JSONObject data;
-    try {
-      data = reponse.asJSONObject();
-    } catch (ParseException ex) {
-      throw new ParseException("Internal error, unable to parse response as JSON");
-    }
-    //create and return records created from the data
-    return new Events(data);
+  }
+    
+  if (resp == null || resp.getSummarized() == null || resp.getCategorical() == null) {
+    throw new IOException("Unable to retrieve dummary data");
+  }
+  
+  return resp;
+
   }
 }

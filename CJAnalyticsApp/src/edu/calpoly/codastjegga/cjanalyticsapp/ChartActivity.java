@@ -31,6 +31,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.ChartProvider;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventSummary;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Events;
 
 public class ChartActivity extends Activity {
@@ -98,21 +99,18 @@ public class ChartActivity extends Activity {
 
         if (chartSettings != null) {
           try {
-            Events records = DataFetcher.getDatabaseRecords(
-                getString(R.string.api_version),
-                ((CJAnalyticsApp) getApplication()).getRestClient(),
-                chartSettings.getDatabase(), chartSettings.getEventName(),
-                chartSettings.getEventType());
-            List<Event> events = records.getEvents();
-
-            provider.parseData(chartSettings, events);
+            EventSummary records = DataFetcher.getDatabaseRecords(getString(R.string.api_version),
+                ((CJAnalyticsApp) getApplication()).getRestClient(),chartSettings);
+            
+            Log.i("Summary Data", "Cat: "+records.getCategorical()+" Summary: "+records.getSummarized());
+            provider.parseData(chartSettings, records);
           } catch (Exception e) {
             Log.e(this.getClass().getName(), "Unable to get/render records", e);
             return false;
           }
 
         }
-        return true;
+        return false;
       }
 
       @Override

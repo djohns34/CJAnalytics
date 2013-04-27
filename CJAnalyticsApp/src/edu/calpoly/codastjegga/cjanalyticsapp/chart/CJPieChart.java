@@ -13,6 +13,7 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventSummary;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -33,8 +34,8 @@ public class CJPieChart implements ChartProvider {
    * @param events
    *          Events to be parsed
    */
-  public void parseData(ChartSettings chartSettings, List<Event> events) {
-    SimpleSeriesRenderer ssr;
+  public void parseData(ChartSettings chartSettings, EventSummary records) {
+   /* SimpleSeriesRenderer ssr;
     HashMap<String, Integer> values = new HashMap<String, Integer>();
 
     cs = new CategorySeries(seriesName);
@@ -60,7 +61,7 @@ public class CJPieChart implements ChartProvider {
       ssr = new SimpleSeriesRenderer();
       ssr.setColor(getRandomColor());
       ren.addSeriesRenderer(ssr);
-    }
+    }*/
   }
 
   /**

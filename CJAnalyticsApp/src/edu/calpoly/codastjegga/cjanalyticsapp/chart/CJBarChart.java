@@ -15,6 +15,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.Event;
+import edu.calpoly.codastjegga.cjanalyticsapp.event.EventSummary;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -25,8 +26,8 @@ public class CJBarChart implements ChartProvider {
   XYMultipleSeriesDataset dataset;
 
   @Override
-  public void parseData(ChartSettings chartSettings, List<Event> events) {
-    int[] colors = new int[] { Color.parseColor("#77c4d3") };
+  public void parseData(ChartSettings chartSettings, EventSummary events) {
+    /*int[] colors = new int[] { Color.parseColor("#77c4d3") };
     this.buildBarRenderer(colors);
     this.buildBarDataset(events);
 
@@ -37,7 +38,7 @@ public class CJBarChart implements ChartProvider {
     for (int i = 0; i < length; ++i) {
       SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
       seriesRenderer.setDisplayChartValues(true);
-    }
+    }*/
   }
 
   protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
