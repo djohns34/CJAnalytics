@@ -43,7 +43,7 @@ public class DataLoader {
   private static final String API_VER = "27.0";
   /* BULK API endpoint */
   private static final String BULK_ENDPOINT = //"https://%s.salesforce.com/" +
-      "/services/async/API_VER";
+      "/services/async/" + API_VER;
 
   /* MAX number of bytes a batch can have */    
   private static final int MAX_BYTES_PER_BATCH = 10000000; 
@@ -71,13 +71,13 @@ public class DataLoader {
     assert(clientInfo != null);
     assert(clientInfo.instanceUrl != null);
     assert(clientInfo.getAccessToken() != null);
-
+    this.mBatchInfoList = new LinkedList<BatchInfo>();
     this.mClientInfo = clientInfo;
     this.mSObjType = sObjType;
     /* set up a connection */
     createBulkConnection();
     /* create a job */
-    createJob(OperationEnum.insert);
+    mJobInfo = createJob(OperationEnum.insert);
   }
 
   /** 
@@ -101,15 +101,13 @@ public class DataLoader {
    * @param operation {@link OperationEnum}.
    * @throws AsyncApiException when fails to be created.
    */
-  private void createJob(OperationEnum operation) throws AsyncApiException {
+  private JobInfo createJob(OperationEnum operation) throws AsyncApiException {
     JobInfo job = new JobInfo();
     job.setObject(mSObjType);
     job.setOperation(operation);
     job.setContentType(ContentType.CSV);
-    JobInfo info = performJob(JobType.create, job);
-    assert(info != null);
-    mJobInfo = info;
-    Log.i("DataLoader", "Job created: " + mJobInfo);
+    return performJob(JobType.create, job);
+
   }
 
   /**
@@ -198,7 +196,10 @@ public class DataLoader {
         } catch (IOException e) {
           Log.e("DataLoader", "unable to read/write input stream", e);
         }
-      } else { /* else send the batch and set record and ouput stream */
+      }
+      
+      if (recordsInBatch == MAX_ROWS_PER_BATCH || 
+          batchStream.size() == MAX_BYTES_PER_BATCH || !reader.hasNext()){ 
         BatchInfo info = null;
         try {
           info = sendBatch (new ByteArrayInputStream(batchStream.toByteArray()));
@@ -208,10 +209,11 @@ public class DataLoader {
               "moving on to next batch", e);
           info = new BatchInfo();
           info.setNumberRecordsFailed(recordsInBatch);
-        } finally {
+        }
+        
           batchInfos.add(info);
           recordsInBatch = 0;
-          batchStream.reset();
+          batchStream = new ByteArrayOutputStream(MAX_BYTES_PER_BATCH);
           try {
             batchStream.write(csvHeader);
           } catch (IOException e) {
@@ -219,8 +221,9 @@ public class DataLoader {
             return null; //abort
           }
         }
-
-      }
+      
+      
+      
     }
     return batchInfos;
   }
@@ -244,7 +247,8 @@ public class DataLoader {
   private BatchInfo sendBatch(InputStream stream, boolean tried) 
       throws AsyncApiException {
     try {
-      return mConnection.createBatchFromStream(mJobInfo, stream);
+      BatchInfo info = mConnection.createBatchFromStream(mJobInfo, stream);
+      return info;
     }
     catch (AsyncApiException excep) {
       if (tried) throw excep;
@@ -256,6 +260,9 @@ public class DataLoader {
           return sendBatch(stream, true);
         }
       }
+    }
+    catch (Exception ex) {
+      Log.e("DataLoader", "unable to send a batch", ex);
     }
     return null;
   }
@@ -290,7 +297,7 @@ public class DataLoader {
             equals(AsyncExceptionCode.InvalidSessionId)) {
           obtainNewTokenAndConnection();
           /* try the job again */
-          performJob(type, info, true);
+          return performJob(type, info, true);
         }
       }
     }

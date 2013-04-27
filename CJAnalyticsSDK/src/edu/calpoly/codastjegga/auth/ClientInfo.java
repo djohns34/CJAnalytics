@@ -3,6 +3,7 @@ package edu.calpoly.codastjegga.auth;
 import java.net.URI;
 import java.util.concurrent.locks.ReentrantLock;
 
+import android.app.Application;
 import android.util.Log;
 import edu.calpoly.codastjegga.auth.OAuth2.TokenEndpointResponse;
 /*
@@ -25,11 +26,13 @@ final public class ClientInfo implements Tokenizable{
 
 	}
 
-	public ClientInfo(String clientId, URI instanceUrl, URI loginUrl, 
+	public ClientInfo(Application app, String appName, String clientId, 
+	    URI instanceUrl, URI loginUrl, 
 			String refreshToken){
 		this.clientId = clientId;
 		this.instanceUrl = instanceUrl;
 		this.loginUrl = loginUrl;
+		HttpAccess.init(app, "Android-App: " + appName);
 		mToken = new Token("", refreshToken);
  
 	}

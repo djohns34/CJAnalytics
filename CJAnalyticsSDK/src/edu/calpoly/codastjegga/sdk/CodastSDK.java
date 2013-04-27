@@ -66,7 +66,7 @@ public class CodastSDK implements ICodastSDK{
     //Create new URI for salesforce login (used for refreshing tokens)
     URI salesforceLoginURI = new URI("https://login.salesforce.com");
     //create a new rest client adapater
-    this.client = new ClientInfo(clientId, loginInstanceURI, salesforceLoginURI,
+    this.client = new ClientInfo(app, appName, clientId, loginInstanceURI, salesforceLoginURI,
                                  refreshToken);
     
     //Create new salesforce connector - used for sending Events to Salesforce account
