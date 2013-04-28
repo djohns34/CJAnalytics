@@ -9,51 +9,42 @@ import java.io.Writer;
  * <p/>
  * User: mcheenath
  * Date: Nov 1, 2010
+ * 
+ * Gagandeep S. Kohli
+ * Modified on April 27, 2013
  */
 public class CsvWriter {
-    private PrintWriter writer;
 
-    public CsvWriter(String[] headers, Writer w) {
-        assert headers != null;
-        assert headers.length != 0;
-
-        writer = new PrintWriter(w, true);
-        writeRecord(headers);
-    }
-
-    public void writeRecord(String[] values) {
+    public static String writeRecord(String[] values) {
         assert values != null;
-
-        writeFirstField(values[0]);
+        StringBuilder builder = new StringBuilder();
+        builder.append(values[0]);
 
         for (int i=1; i<values.length; i++) {
-            writeField(values[i]);
+            writeField(builder, values[i]);
         }
 
-        endRecord();
+        endRecord(builder);
+        return builder.toString();
     }
 
-    public void endDocument() {
-        writer.close();
+    private static void endRecord(StringBuilder builder) {
+        builder.append("\n");
     }
 
-    public void endRecord() {
-        writer.println();
+    private static void writeField(StringBuilder builder, String value) {
+        builder.append(",");
+        writeFirstField(builder, value);
     }
 
-    public void writeField(String value) {
-        writer.print(",");
-        writeFirstField(value);
-    }
-
-    public void writeFirstField(String value) {
+    private static void writeFirstField(StringBuilder builder, String value) {
         if (value == null) {
             return;
         }
 
-        writer.print("\"");
+        builder.append("\"");
         value = value.replaceAll("\"", "\"\"");
-        writer.print(value);
-        writer.print("\"");
+        builder.append(value);
+        builder.append("\"");
     }
 }
