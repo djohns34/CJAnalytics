@@ -73,7 +73,7 @@ public class Token implements Tokenizable{
 	    try {
 	      Log.i("TokenClient", "Obtaining new auth token");
 	      tr = OAuth2.refreshAuthToken(HttpAccess.DEFAULT,
-	          info.loginUrl, info.clientId, refreshToken);
+	          info.getLoginUrl(), info.getClientId(), refreshToken);
 	      
 	      accessToken = tr.authToken;
 	    } catch (Exception e) {

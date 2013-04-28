@@ -69,7 +69,7 @@ public class DataLoader {
   public DataLoader (ClientInfo clientInfo, String sObjType) 
       throws AsyncApiException {
     assert(clientInfo != null);
-    assert(clientInfo.instanceUrl != null);
+    assert(clientInfo.getInstanceUrl() != null);
     assert(clientInfo.getAccessToken() != null);
     this.mBatchInfoList = new LinkedList<BatchInfo>();
     this.mClientInfo = clientInfo;
@@ -321,7 +321,7 @@ public class DataLoader {
   private void createBulkConnection ()  {
     ConnectorConfig config = new ConnectorConfig();
     config.setSessionId(mClientInfo.getAccessToken());
-    config.setRestEndpoint(mClientInfo.instanceUrl + BULK_ENDPOINT);
+    config.setRestEndpoint(mClientInfo.getInstanceUrl() + BULK_ENDPOINT);
     config.setCompression(true);
     /* only for debugging purposes */
     config.setTraceMessage(false);

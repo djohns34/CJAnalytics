@@ -10,11 +10,15 @@ import edu.calpoly.codastjegga.sdk.ICodastSDK;
 
 
 
-/*
+/**
+ * 
+ * 
  * An adapter for obtaining a rest client for an existing Salesforce
  * account through the use of Token. @see Token for more info.
  * @author Gagandeep Kohli
+ * 
  */
+@Deprecated
 public class RestClientAdapter {
 	//Class name
 	private final String CLASS_NAME = RestClientAdapter.class.getName();
@@ -45,16 +49,18 @@ public class RestClientAdapter {
 		HttpAccess.init(app, ICodastSDK.APP_NAME);
 		restClient = new RestClient(clientInfo,
 				                token.getAccessToken(),
-				                HttpAccess.DEFAULT, new AuthTokenRefresher());
+				                HttpAccess.DEFAULT, null);
 		
 	}
 	
 	/**
 	 * Immutable access to Token
 	 * @return Token
+	 * @deprecated
 	 */
 	public Token getToken() {
-		return new Token(token.getAccessToken(), token.getRefreshToken());
+		//return new Token(token.getAccessToken(), "");
+	  return null;
 	}
 	
 	/**
@@ -73,78 +79,4 @@ public class RestClientAdapter {
 		return restClient;
 	}
 	
-	/**
-	 * A class for handing flow of refreshing auth. token.
-	 * 
-	 * @author Gagandeep Kohli
-	 * 
-	 */
-	private class AuthTokenRefresher implements AuthTokenProvider {
-		private final ReentrantLock tokenAccessLock = new ReentrantLock();
-		// last time the token was refreshed
-		private long lastRefresh;
-
-		public AuthTokenRefresher() {
-			lastRefresh = 0;
-		}
-
-		@Override
-		public String getNewAuthToken() {
-			synchronized (tokenAccessLock) {
-				if (tokenAccessLock.isLocked())
-				{
-					try {
-						tokenAccessLock.wait();
-					} catch (InterruptedException e) {
-//						Log.w("RestClientAdapter", "error obtaining a lock on getting new access token", e);
-//						e.printStackTrace();
-					}
-					//if another thread has released the lock then just
-					//get the access token
-					return token.getAccessToken();
-				}
-				//if other threads do not hold the lock, we lock it
-				else {
-					tokenAccessLock.lock();
-				}
-			}
-			//at this point this thread holds the lock 
-			TokenEndpointResponse tr = null;
-			try {
-				URI loginUrl = clientInfo.loginUrl;
-				String clientId = clientInfo.clientId;
-				Log.i(CLASS_NAME, "Obtaining new auth token");
-				tr = OAuth2.refreshAuthToken(HttpAccess.DEFAULT,
-						loginUrl, clientId,
-						token.getRefreshToken());
-
-				lastRefresh = System.currentTimeMillis() - lastRefresh;
-				token.setAccessToken(tr.authToken);
-			} catch (Exception e) {
-				Log.e(CLASS_NAME, "Error in obtaining refresh token", e);
-
-			}
-			finally {
-				//before this method returns, tokenAccessLock needs to unlock itself and
-				//notify any waiting threads
-				synchronized (tokenAccessLock) {
-					tokenAccessLock.unlock();
-					tokenAccessLock.notifyAll();
-				}
-			}
-			//return the access token
-			return token.getAccessToken();
-
-		}
-
-		@Override
-		public String getRefreshToken() {
-			return token.getRefreshToken();
-		}
-
-		@Override
-		public long getLastRefreshTime() {
-			return lastRefresh;
-		}
-	}
 }

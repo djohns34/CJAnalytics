@@ -36,11 +36,14 @@ import android.provider.Settings.Secure;
 
 import com.sforce.bulk.CsvWriter;
 
+import edu.calpoly.codastjegga.bulk.DBCsvInputStream;
+
 /**
  * Simple database access helper class. Allows persistent storage of event
  * objects Defines operations to add, list and remove events.
  * 
  * @author Daniel
+ * @author Gagandeep adding method to retrieve data as Input stream
  * 
  */
 public class SalesforceDBAdapter {
@@ -202,7 +205,6 @@ public class SalesforceDBAdapter {
 	 * 
 	 * 
 	 */
-	@Deprecated
 	public Map<Integer, Map<String, Object>> fetchAllEvents() {
 		Map<Integer, Map<String, Object>> result = new TreeMap<Integer, Map<String, Object>>();
 
@@ -236,50 +238,17 @@ public class SalesforceDBAdapter {
 		return result;
 	}
 
-	public String fetchAllEventsV2() {
+	/**
+	 * Getter for list of events in csv format 
+	 * @return inputs stream to list of events
+	 */
+	public InputStream getAllEventsAsCSVInputStream() {
 
-		
-		Cursor c = mDb.query(DATABASE_TABLE, new String[] { KEY_ROWID,
+		Cursor cursor = mDb.query(DATABASE_TABLE, new String[] { KEY_ROWID,
 				eventName, timeStamp, deviceId, value, valueRow, valueType },
 				null, null, null, null, null);
 		
-		String resultCSV = "";
-		
-		if (c.getCount() != 0) {
-			StringWriter writer = new StringWriter();
-			CsvWriter csvWriter = new CsvWriter(header, writer);
-
-			String[] valuesToSend = new String[header.length];
-
-			while (c.moveToNext()) {
-
-				String columnName=c.getString(c.getColumnIndex(valueRow));
-				
-				for (int i = 0; i < header.length; i++) {
-					
-					 /* On SF there is a row for every one of the EventType.getField() strings
-					  * locally we have a single row to store the value, the valueRow/columnName
-					  * tells which remote row we want if we are preparing the data to send for
-					  * that row we need to get the value.
-					  * */
-					String rowName=header[i];
-					if(rowName.equals(columnName)){
-						rowName = value;
-					}
-					/*index will be -1 for all the other EventType.getField()'s in that case print an empty string*/
-					int index = c.getColumnIndex(rowName);
-					String value = (index == -1 ) ? "" : c.getString(index);
-
-					valuesToSend[i] = value;
-
-				}
-				csvWriter.writeRecord(valuesToSend);
-			}
-
-			csvWriter.endDocument();
-			resultCSV = writer.toString();
-		}
-		return resultCSV;
+		return new DBCsvInputStream(cursor);
 	}
 
 	public boolean clear() {

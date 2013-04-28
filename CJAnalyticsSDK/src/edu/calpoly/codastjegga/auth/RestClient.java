@@ -198,17 +198,17 @@ public class RestClient {
 		// Do the actual call
 		switch(method) {
 		case DELETE:
-			exec = httpAccessor.doDelete(headers, clientInfo.instanceUrl.resolve(path)); break;
+			exec = httpAccessor.doDelete(headers, clientInfo.getInstanceUrl().resolve(path)); break;
 		case GET:
-			exec = httpAccessor.doGet(headers, clientInfo.instanceUrl.resolve(path)); break;
+			exec = httpAccessor.doGet(headers, clientInfo.getInstanceUrl().resolve(path)); break;
 		case HEAD:
-			exec = httpAccessor.doHead(headers, clientInfo.instanceUrl.resolve(path)); break;
+			exec = httpAccessor.doHead(headers, clientInfo.getInstanceUrl().resolve(path)); break;
 		case PATCH:
-			exec = httpAccessor.doPatch(headers, clientInfo.instanceUrl.resolve(path), httpEntity); break;
+			exec = httpAccessor.doPatch(headers, clientInfo.getInstanceUrl().resolve(path), httpEntity); break;
 		case POST:
-			exec = httpAccessor.doPost(headers, clientInfo.instanceUrl.resolve(path), httpEntity); break;
+			exec = httpAccessor.doPost(headers, clientInfo.getInstanceUrl().resolve(path), httpEntity); break;
 		case PUT:
-			exec = httpAccessor.doPut(headers, clientInfo.instanceUrl.resolve(path), httpEntity); break;
+			exec = httpAccessor.doPut(headers, clientInfo.getInstanceUrl().resolve(path), httpEntity); break;
 		}
 
 		// Build response object

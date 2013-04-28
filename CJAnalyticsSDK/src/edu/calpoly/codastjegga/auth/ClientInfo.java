@@ -22,13 +22,12 @@ final public class ClientInfo implements Tokenizable, Client {
 
   }
 
-  public ClientInfo(Application app, String appName, String clientId, 
+  public ClientInfo(String clientId, 
       URI instanceUrl, URI loginUrl, 
       String refreshToken){
     this.clientId = clientId;
     this.instanceUrl = instanceUrl;
     this.loginUrl = loginUrl;
-    HttpAccess.init(app, "Android-App: " + appName);
     this.mToken = new Token("", refreshToken, this);
 
   }
