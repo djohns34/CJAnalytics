@@ -11,23 +11,21 @@ import junit.framework.TestCase;
 public class TokenTester extends TestCase {
 	Token token;
 	final String accessToken = "Access-Token";
-	final String refreshToken = "Refresh-Token";
+	final String newAccessToken = "New Access Token";
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		token = new Token(accessToken, refreshToken);
+		token = new Token(accessToken, "", null) {
+			@Override
+			public String getNewAccessToken() {
+				return newAccessToken;
+			}
+		};
 	}
 	
 	public void testGetter(){
 	   assertEquals(accessToken, token.getAccessToken());
-	   assertEquals(refreshToken, token.getRefreshToken());
-	}
-	
-	public void testSetter(){
-	   String newAccessToken = "New-Access-Token";
-	   token.setAccessToken(newAccessToken);
-	   
-	    assertEquals(newAccessToken, token.getAccessToken());
+	   assertEquals(newAccessToken, token.getNewAccessToken());
 	}
 	
 	public void testToString(){

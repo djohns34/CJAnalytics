@@ -7,7 +7,7 @@ import android.app.Application;
  * All immutable information for an authenticated client 
  * (e.g. username, org ID, etc.).
  */
-final public class ClientInfo implements Tokenizable, Client {
+public class ClientInfo implements Tokenizable, Client {
   private final String clientId;
   private final URI instanceUrl;
   private final URI loginUrl;

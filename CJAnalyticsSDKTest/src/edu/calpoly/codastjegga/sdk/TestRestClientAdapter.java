@@ -36,14 +36,13 @@ public class TestRestClientAdapter extends TestCase{
         info = new ClientInfo(clientId, new URI(instanceServer),
                 new URI(loginServer));
 
-        t = new Token(authToken, refreshToken);
+        t = new Token(authToken, refreshToken, info);
         adapt = new RestClientAdapter(null, info, t);
     }
 
     public void testGetToken() {
         
         assertEquals(authToken, adapt.getToken().getAccessToken());
-        assertEquals(refreshToken, adapt.getToken().getRefreshToken());
     }
 
     public void testGetClientInfo() {

@@ -60,7 +60,7 @@ public class RestClientAdapter {
 	 */
 	public Token getToken() {
 		//return new Token(token.getAccessToken(), "");
-	  return null;
+	  return token;
 	}
 	
 	/**

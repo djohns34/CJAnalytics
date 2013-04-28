@@ -21,7 +21,6 @@ public class TestSalesforceDBAdapter extends AndroidTestCase{
 
     public static void testEmptyList(){
         assertEquals(0,db.fetchAllEvents().size());
-        assertEquals(0,db.fetchAllEventsV2().length());
     }
 
     public static void testInsert(){
@@ -52,15 +51,6 @@ public class TestSalesforceDBAdapter extends AndroidTestCase{
 
         assertEquals(Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID), id);
         
-
-        String csvData=db.fetchAllEventsV2();
-
-
-        assertTrue(csvData.contains(e.getKey()));
-        assertTrue(csvData.contains(e.getRESTValue()));
-        assertTrue(csvData.contains(e.getTimeStamp()));
-        assertTrue(csvData.contains(e.getEventType().getFieldType()));
-        assertTrue(csvData.contains(Secure.getString(getContext().getContentResolver(), Secure.ANDROID_ID)));
         
 
     }
@@ -71,8 +61,6 @@ public class TestSalesforceDBAdapter extends AndroidTestCase{
         Map<Integer, Map<String, Object>> map=db.fetchAllEvents();
         assertEquals(1, map.size());
         
-        String[] lines=db.fetchAllEventsV2().split("\n");
-        assertEquals(2,lines.length); //header and actaul data
 
         Integer key= (Integer) map.keySet().toArray()[0];
 
