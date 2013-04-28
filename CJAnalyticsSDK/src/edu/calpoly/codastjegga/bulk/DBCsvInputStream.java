@@ -102,18 +102,26 @@ public class DBCsvInputStream extends InputStream{
   
   @Override
   public int read(byte[] b, int off, int len) throws IOException {
+    // read the next byte
     byte byteRead = (byte)read();
+    //If EOF
     if (byteRead == -1)
-      return -1;
+      return -1; //EOF
+    //append the byte to the buffer
     b[off] = byteRead;
+    //set total read to 1
     int totalRead = 1;
+    //FOR each byte to read
     for(int toRead = 1; toRead < len; toRead++) {
+        //read the byte
         byteRead = (byte)read();
+        //If EOF
         if (byteRead == -1)
-          return totalRead;
+          return totalRead; 
         else
           b[toRead] = byteRead;  
     }
+    //total read
     return totalRead;
   }
   
