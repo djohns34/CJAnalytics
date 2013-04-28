@@ -48,32 +48,32 @@ public class SalesforceDBAdapter {
 	public static final String KEY_ROWID = "_id";
 
 	/* The actual event value */
-	private static final String value = "value";
+	public static final String value = "value";
 
 	/* Salesforce row names */
-	static final String eventName = "codastjegga__EventName__c";
-	static final String timeStamp = "codastjegga__Timestamp__c";
-	static final String deviceId = "codastjegga__Device_Id__c";
-	static final String valueType = "codastjegga__ValueType__c";
-	static final String DatabaseName = "codastjegga__DatabaseName__c";
+	public static final String eventName = "codastjegga__EventName__c";
+	public static final String timeStamp = "codastjegga__Timestamp__c";
+	public static final String deviceId = "codastjegga__Device_Id__c";
+	public static final String valueType = "codastjegga__ValueType__c";
+	public static final String DatabaseName = "codastjegga__DatabaseName__c";
 	/*
 	 * The row name in the salesforce table to insert the value. This is
 	 * different than valueType which is a seperate row
 	 */
-	private static final String valueRow = "valueRow";
+	public static final String valueRow = "valueRow";
 	
-	static final String[] rowsToSend;
+	public static final String[] header;
 
 	static {
-		rowsToSend =new String[5+ EventType.values().length];
-		rowsToSend[0] = eventName;
-		rowsToSend[1] = timeStamp;
-		rowsToSend[2] = deviceId;
-		rowsToSend[3] = valueType;
-		rowsToSend[4] = DatabaseName;
+		header =new String[5+ EventType.values().length];
+		header[0] = eventName;
+		header[1] = timeStamp;
+		header[2] = deviceId;
+		header[3] = valueType;
+		header[4] = DatabaseName;
 		
 		for (int i = 0; i < EventType.values().length; i++) {
-			rowsToSend[5 + i] = EventType.values()[i].getField();
+			header[5 + i] = EventType.values()[i].getField();
 		}
 	}
 
@@ -247,22 +247,22 @@ public class SalesforceDBAdapter {
 		
 		if (c.getCount() != 0) {
 			StringWriter writer = new StringWriter();
-			CsvWriter csvWriter = new CsvWriter(rowsToSend, writer);
+			CsvWriter csvWriter = new CsvWriter(header, writer);
 
-			String[] valuesToSend = new String[rowsToSend.length];
+			String[] valuesToSend = new String[header.length];
 
 			while (c.moveToNext()) {
 
 				String columnName=c.getString(c.getColumnIndex(valueRow));
 				
-				for (int i = 0; i < rowsToSend.length; i++) {
+				for (int i = 0; i < header.length; i++) {
 					
 					 /* On SF there is a row for every one of the EventType.getField() strings
 					  * locally we have a single row to store the value, the valueRow/columnName
 					  * tells which remote row we want if we are preparing the data to send for
 					  * that row we need to get the value.
 					  * */
-					String rowName=rowsToSend[i];
+					String rowName=header[i];
 					if(rowName.equals(columnName)){
 						rowName = value;
 					}
