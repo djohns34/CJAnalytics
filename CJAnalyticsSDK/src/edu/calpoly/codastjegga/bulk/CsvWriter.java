@@ -15,36 +15,40 @@ import java.io.Writer;
  */
 public class CsvWriter {
 
-    public static String writeRecord(String[] values) {
-        assert values != null;
-        StringBuilder builder = new StringBuilder();
-        builder.append(values[0]);
+  /** writes the values in csv format to a string 
+   * @param values values to format to csv
+   * @return csv formatted string
+   **/
+  public static String writeRecord(String[] values) {
+    assert values != null;
+    StringBuilder builder = new StringBuilder();
+    builder.append(values[0]);
 
-        for (int i=1; i<values.length; i++) {
-            writeField(builder, values[i]);
-        }
-
-        endRecord(builder);
-        return builder.toString();
+    for (int i=1; i<values.length; i++) {
+      writeField(builder, values[i]);
     }
 
-    private static void endRecord(StringBuilder builder) {
-        builder.append("\n");
+    endRecord(builder);
+    return builder.toString();
+  }
+
+  private static void endRecord(StringBuilder builder) {
+    builder.append("\n");
+  }
+
+  private static void writeField(StringBuilder builder, String value) {
+    builder.append(",");
+    writeFirstField(builder, value);
+  }
+
+  private static void writeFirstField(StringBuilder builder, String value) {
+    if (value == null) {
+      return;
     }
 
-    private static void writeField(StringBuilder builder, String value) {
-        builder.append(",");
-        writeFirstField(builder, value);
-    }
-
-    private static void writeFirstField(StringBuilder builder, String value) {
-        if (value == null) {
-            return;
-        }
-
-        builder.append("\"");
-        value = value.replaceAll("\"", "\"\"");
-        builder.append(value);
-        builder.append("\"");
-    }
+    builder.append("\"");
+    value = value.replaceAll("\"", "\"\"");
+    builder.append(value);
+    builder.append("\"");
+  }
 }
