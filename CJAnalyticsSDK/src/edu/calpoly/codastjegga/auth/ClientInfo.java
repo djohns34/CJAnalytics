@@ -1,107 +1,61 @@
 package edu.calpoly.codastjegga.auth;
 
 import java.net.URI;
-import java.util.concurrent.locks.ReentrantLock;
 
 import android.app.Application;
-import android.util.Log;
-import edu.calpoly.codastjegga.auth.OAuth2.TokenEndpointResponse;
 /*
  * All immutable information for an authenticated client 
  * (e.g. username, org ID, etc.).
  */
-final public class ClientInfo implements Tokenizable{
-	public final String clientId;
-	public final URI instanceUrl;
-	public final URI loginUrl;
-	private final Token mToken;
-	private final ReentrantLock tokenAccessLock = new ReentrantLock();
+final public class ClientInfo implements Tokenizable, Client {
+  private final String clientId;
+  private final URI instanceUrl;
+  private final URI loginUrl;
+  private Token mToken;
 
-	@Deprecated 
-	public ClientInfo(String clientId, URI instanceUrl, URI loginUrl){
-		this.clientId = clientId;
-		this.instanceUrl = instanceUrl;
-		this.loginUrl = loginUrl;
-		mToken = null;
+  @Deprecated 
+  public ClientInfo(String clientId, URI instanceUrl, URI loginUrl){
+    this.clientId = clientId;
+    this.instanceUrl = instanceUrl;
+    this.loginUrl = loginUrl;
+    mToken = null;
 
-	}
+  }
 
-	public ClientInfo(Application app, String appName, String clientId, 
-	    URI instanceUrl, URI loginUrl, 
-			String refreshToken){
-		this.clientId = clientId;
-		this.instanceUrl = instanceUrl;
-		this.loginUrl = loginUrl;
-		HttpAccess.init(app, "Android-App: " + appName);
-		mToken = new Token("", refreshToken);
- 
-	}
-	
-	@Override
-	public String getAccessToken() {
-		return mToken.getAccessToken();
-	}
+  public ClientInfo(Application app, String appName, String clientId, 
+      URI instanceUrl, URI loginUrl, 
+      String refreshToken){
+    this.clientId = clientId;
+    this.instanceUrl = instanceUrl;
+    this.loginUrl = loginUrl;
+    HttpAccess.init(app, "Android-App: " + appName);
+    this.mToken = new Token("", refreshToken, this);
 
-	@Override
-	public String getNewAccessToken() {
-		return genreateNewAccessToken();
-	}
-	
- 
-	private String genreateNewAccessToken() {
-		synchronized (tokenAccessLock) {
-			if (tokenAccessLock.isLocked())
-			{
-				try {
-					tokenAccessLock.wait();
-				} catch (InterruptedException e) {
-					Log.w("TokenClient", 
-							"error obtaining a lock on getting new access token", e);
-				 
-				}
-				//if another thread has released the lock then just
-				//get the access token
-				return mToken.getAccessToken();
-			}
-			//if other threads does not hold the lock, we lock it
-			else {
-				tokenAccessLock.lock();
-			}
-		}
-		//at this point this thread holds the lock 
-		TokenEndpointResponse tr = null;
-		try {
-			Log.i("TokenClient", "Obtaining new auth token");
-			tr = OAuth2.refreshAuthToken(HttpAccess.DEFAULT,
-					loginUrl, clientId,
-					mToken.getRefreshToken());
-			
-			mToken.setAccessToken(tr.authToken);
-		} catch (Exception e) {
-			Log.e("TokenClient", "Error in obtaining refresh token", e);
-			mToken.setAccessToken("");
-		}
-		finally {
-			//before this method returns, tokenAccessLock needs to unlock itself and
-			//notify any waiting threads
-			synchronized (tokenAccessLock) {
-				tokenAccessLock.unlock();
-				tokenAccessLock.notifyAll();
-			}
-		}
-		//return the access token
-		return mToken.getAccessToken();
+  }
 
-	}
-	
-	
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("  ClientInfo: {\n")
-		.append("     loginUrl: ").append(loginUrl.toString()).append("\n")
-		.append("     instanceUrl: ").append(instanceUrl.toString()).append("\n")
-		.append("  }\n");
-		return sb.toString();
-	}
+  @Override
+  public String getAccessToken() {
+    return mToken.getAccessToken();
+  }
+
+  @Override
+  public String getNewAccessToken() {
+    return mToken.getNewAccessToken();
+  }
+
+  @Override
+  public String getClientId() {
+    return clientId;
+  }
+
+  @Override
+  public URI getInstanceUrl() {
+    return instanceUrl;
+  }
+
+  @Override
+  public URI getLoginUrl() {
+    return loginUrl;
+  }
 }
 
