@@ -3,9 +3,12 @@ package edu.calpoly.codastjegga.bulk;
 import static edu.calpoly.codastjegga.sdk.SalesforceDBAdapter.header;
 import static edu.calpoly.codastjegga.sdk.SalesforceDBAdapter.value;
 import static edu.calpoly.codastjegga.sdk.SalesforceDBAdapter.valueRow;
+import static edu.calpoly.codastjegga.sdk.SalesforceDBAdapter.KEY_ROWID;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,9 +27,11 @@ public class DBCsvInputStream extends InputStream{
   private Cursor mCursor;
   private byte[] rowBuffer;
   private int rowBufferCursor;
+  private List<Integer> mRowsAdded;
 
   public DBCsvInputStream (Cursor dbCursor) {
     //this.mDB = dB;
+    mRowsAdded = new LinkedList<Integer>();
     mCursor = dbCursor;
     rowBuffer = csvHeader;
     rowBufferCursor = 0;
@@ -82,6 +87,7 @@ public class DBCsvInputStream extends InputStream{
       rowBuffer = CsvWriter.writeRecord(fields).getBytes();
       //reset the buffer cursor
       rowBufferCursor = 0;
+      mRowsAdded.add(mCursor.getInt(mCursor.getColumnIndex(KEY_ROWID)));
     }
     //ELSE there are no other rows to read
     else {
@@ -128,5 +134,13 @@ public class DBCsvInputStream extends InputStream{
   @Override
   public int read(byte[] b) throws IOException {
     return read(b, 0, b.length);
+  }
+  
+  /**
+   * Getter for list of row id that were read from the stream
+   * @return list of rows read from the stream
+   */
+  public List<Integer> getRowsIds() {
+    return mRowsAdded;
   }
 }
