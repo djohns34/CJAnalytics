@@ -2,6 +2,7 @@ package edu.calpoly.codastjegga.sdk;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -9,12 +10,18 @@ import org.apache.http.ParseException;
 import org.json.JSONException;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
+
+import com.sforce.async.AsyncApiException;
+
 import edu.calpoly.codastjegga.auth.ClientInfo;
 import edu.calpoly.codastjegga.auth.RestClient;
 import edu.calpoly.codastjegga.auth.RestClient.AsyncRequestCallback;
 import edu.calpoly.codastjegga.auth.RestRequest;
 import edu.calpoly.codastjegga.auth.RestResponse;
+import edu.calpoly.codastjegga.bulk.DBCsvInputStream;
+import edu.calpoly.codastjegga.bulk.DataLoader;
 
 
 
@@ -98,17 +105,46 @@ public class SalesforceConnector{
    * Retrieves all of the events from storage and sends them to salesforce.
    */
   public void sendEvents(){
-    Map<Integer, Map<String, Object>> eventMap =db.fetchAllEvents();
-
-    for(Entry<Integer, Map<String, Object>> e:eventMap.entrySet()){
-      //Tack the app name onto the event coming out of the database
-      e.getValue().put(SalesforceDBAdapter.DatabaseName,appName);
-
-
-      // sendRequestForInsert(e.getKey(),e.getValue());
-    }
+    DBCsvInputStream stream = db.getAllEventsAsCSVInputStream();
+    new BulkSend(db).execute(stream);
+    
   }
 
+  private class BulkSend extends AsyncTask<DBCsvInputStream, Void, Void> {
+    SalesforceDBAdapter mDb;
+    
+    public BulkSend (SalesforceDBAdapter db) {
+      this.mDb = db;
+    }
+    
+    @Override
+    protected Void doInBackground(DBCsvInputStream... args) {
+      DBCsvInputStream inputStream = args[0];
+      try {
+        // Set the job
+        DataLoader loader = new DataLoader(clientInfo, table);
+        //send the stream
+        loader.sendCSV(inputStream);
+        //close the job
+        loader.closeUploadJob();
+        Log.e(this.getClass().toString(), "Sending Data");
+        
+        List<Integer> idsOfRowsLoaded = inputStream.getRowsIds();  
+        Log.e(this.getClass().toString(), "Removing events in local db");
+        //FOR each row send get its rowIds
+        for (Integer rowId : idsOfRowsLoaded) {
+          //delete the event in the local db
+          mDb.deleteEvent(rowId);
+          Log.e(this.getClass().toString(), "Removed { row id:" + rowId + " }");
+        }
+      } catch (AsyncApiException e) {
+        Log.e(this.getClass().toString(), "Failed to send data", e);
+      } catch (UnsupportedEncodingException e) {
+        Log.e(this.getClass().toString(), "Malformatted InputStream", e);
+      }
+      return null;
+    }
+  }
 
   /**
    * Creates and executes the appropriate query to push data to salesforce

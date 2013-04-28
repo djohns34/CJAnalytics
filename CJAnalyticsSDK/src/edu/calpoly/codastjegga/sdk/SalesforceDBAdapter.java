@@ -36,6 +36,7 @@ import android.provider.Settings.Secure;
 
 import com.sforce.bulk.CsvWriter;
 
+import edu.calpoly.codastjegga.bulk.CJDBCsvInputStream;
 import edu.calpoly.codastjegga.bulk.DBCsvInputStream;
 
 /**
@@ -242,13 +243,13 @@ public class SalesforceDBAdapter {
 	 * Getter for list of events in csv format 
 	 * @return inputs stream to list of events
 	 */
-	public InputStream getAllEventsAsCSVInputStream() {
+	public DBCsvInputStream getAllEventsAsCSVInputStream() {
 
 		Cursor cursor = mDb.query(DATABASE_TABLE, new String[] { KEY_ROWID,
 				eventName, timeStamp, deviceId, value, valueRow, valueType },
 				null, null, null, null, null);
 		
-		return new DBCsvInputStream(cursor);
+		return new CJDBCsvInputStream(cursor);
 	}
 
 	public boolean clear() {
