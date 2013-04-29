@@ -22,7 +22,7 @@ public class CsvWriter {
   public static String writeRecord(String[] values) {
     assert values != null;
     StringBuilder builder = new StringBuilder();
-    builder.append(values[0]);
+    writeFirstField(builder, values[0]);
 
     for (int i=1; i<values.length; i++) {
       writeField(builder, values[i]);

@@ -23,7 +23,7 @@ public class CJDBCsvInputStream extends DBCsvInputStream{
 
   byte[] csvHeader = CsvWriter.writeRecord(header).getBytes();
 
-  private SQLiteDatabase mDB;
+  //private SQLiteDatabase mDB;
   private Cursor mCursor;
   private byte[] rowBuffer;
   private int rowBufferCursor;
@@ -40,14 +40,14 @@ public class CJDBCsvInputStream extends DBCsvInputStream{
 
   @Override
   public int read() throws IOException {
-    //IF there isn't anything to read from the buffer
-    if (rowBufferCursor == -1)
-      return 0; //EOF
     //IF everything is read from the buffer
     if (rowBufferCursor >= rowBuffer.length) {
       //get the next row and add it to the buffer
       appendNextRowToBuffer();
     }
+    //IF there isn't anything to read from the buffer
+    if (rowBufferCursor == -1)
+      return -1; //EOF
     return rowBuffer[rowBufferCursor++];
   }
 
@@ -126,8 +126,10 @@ public class CJDBCsvInputStream extends DBCsvInputStream{
         //If EOF
         if (byteRead == -1)
           return totalRead; 
-        else
-          b[toRead] = byteRead;  
+        else {
+          b[off + toRead] = byteRead;
+          totalRead++;
+        }
     }
     //total read
     return totalRead;
