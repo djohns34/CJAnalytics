@@ -76,8 +76,10 @@ public class SalesforceDBAdapter {
 		header[3] = valueType;
 		header[4] = DatabaseName;
 		
-		for (int i = 0; i < EventType.values().length; i++) {
-			header[5 + i] = EventType.values()[i].getField();
+		int column = 0;
+		for (EventType type : EventType.values()) {
+			header[5 + column] = EventType.values()[column].getField();
+			column++;
 		}
 	}
 
