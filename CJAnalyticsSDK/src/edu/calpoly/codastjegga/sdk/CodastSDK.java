@@ -7,8 +7,6 @@ import android.app.Application;
 import android.util.Log;
 import edu.calpoly.codastjegga.auth.ClientInfo;
 import edu.calpoly.codastjegga.auth.HttpAccess;
-import edu.calpoly.codastjegga.auth.RestClient;
-import edu.calpoly.codastjegga.auth.RestClientAdapter;
 import edu.calpoly.codastjegga.auth.Token;
 
 
@@ -20,36 +18,8 @@ public class CodastSDK implements ICodastSDK{
 	private static final String USER_AGENT = "android";
 	private static final String SF_LOGIN = "https://login.salesforce.com";
 
-	private RestClientAdapter restClientAdapter;
 	private ClientInfo mClientInfo;
 	private SalesforceConnector connector;
-	/**
-	 * @deprecated
-	 * Intialize's Codast SDK, setups the database, and obtains a HTTP connection object for send data
-	 * @param app - application context {@link Application}
-	 * @param loginInstance  server the developer account is logged in at (obtained from Salesforce..ex. na9.Salesforce.com)
-	 * @param token - token {@link Token}
-	 * @param appName - app name
-	 * @param api - api version
-	 * @param clientId - developers client id 
-	 * @throws URISyntaxException - if loginInstance is invalid
-	 */
-	public CodastSDK(Application app, String loginInstance, final Token token, 
-	    String appName, String api, String clientId) throws URISyntaxException
-	{
-		//Create new URI for login instance
-		URI loginInstanceURI = new URI(loginInstance);
-		//Create new URI for salesforce login (used for refreshing tokens)
-		URI salesforceLoginURI = new URI("https://login.salesforce.com");
-		//create a new rest client adapater
-		this.restClientAdapter = new RestClientAdapter(app, new ClientInfo(clientId, 
-		                             loginInstanceURI, salesforceLoginURI), token);
-		
-		//Create new salesforce connector - used for sending Events to Salesforce 
-		//account
-		this.connector = new SalesforceConnector(this.restClientAdapter.getRestClient() 
-		     ,appName, api, app.getApplicationContext());
-	}
 	
 	/**
 	 * Intialize's Codast SDK, setups the database, and obtains a HTTP 
