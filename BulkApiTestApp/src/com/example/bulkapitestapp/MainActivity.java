@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 import edu.calpoly.codastjegga.auth.ClientInfo;
 import edu.calpoly.codastjegga.bulk.DataLoader;
 
@@ -35,8 +34,9 @@ public class MainActivity extends Activity {
 			loginInstanceURI = new URI(instanceUrl);
         //Create new URI for salesforce login (used for refreshing tokens)
         salesforceLoginURI = new URI("https://login.salesforce.com");
-        client = new ClientInfo(getApplication(), "BulkTestApp", clientId, loginInstanceURI, 
-        		salesforceLoginURI, refreshToken);
+        
+        client = new ClientInfo(clientId,loginInstanceURI, salesforceLoginURI, refreshToken); 
+        		 
      
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
