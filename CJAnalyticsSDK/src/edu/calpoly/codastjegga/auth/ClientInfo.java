@@ -1,8 +1,6 @@
 package edu.calpoly.codastjegga.auth;
 
 import java.net.URI;
-
-import android.app.Application;
 /*
  * All immutable information for an authenticated client 
  * (e.g. username, org ID, etc.).
@@ -12,15 +10,6 @@ public class ClientInfo implements Tokenizable, Client {
   private final URI instanceUrl;
   private final URI loginUrl;
   private Token mToken;
-
-  @Deprecated 
-  public ClientInfo(String clientId, URI instanceUrl, URI loginUrl){
-    this.clientId = clientId;
-    this.instanceUrl = instanceUrl;
-    this.loginUrl = loginUrl;
-    mToken = null;
-
-  }
 
   public ClientInfo(String clientId, 
       URI instanceUrl, URI loginUrl, 
