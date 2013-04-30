@@ -1,7 +1,9 @@
 package edu.calpoly.codastjegga.sdk;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import junit.framework.TestCase;
@@ -65,11 +67,12 @@ public class EventTest extends TestCase {
     
     public void testTimestamp() throws ParseException{
 
-        SimpleDateFormat f=new SimpleDateFormat("MM/dd/yy h:mmaa",Locale.US);
+    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
         TextEvent e=new TextEvent("Test","Test");
-        e.timeStamp=f.parse("01/01/00 12:00pm");
+        Date d=new Date();
+        e.timeStamp=d;
         
-        assertEquals("2000-01-01T12:00:00", e.getTimeStamp());
+        assertEquals(df.format(d), e.getTimeStamp());
         
     }
 
