@@ -182,7 +182,7 @@ public class SalesforceDBAdapter {
 		initialValues.put(value, event.getRESTValue());
 		initialValues.put(valueRow, event.getEventType().getField());
 		initialValues.put(valueType, event.getEventType().getFieldType());
-		initialValues.put(SalesforceDBAdapter.DatabaseName, database);
+		initialValues.put(DatabaseName, database);
 
 		return mDb.insert(DATABASE_TABLE, null, initialValues);
 	}
@@ -248,7 +248,8 @@ public class SalesforceDBAdapter {
 	public DBCsvInputStream getAllEventsAsCSVInputStream() {
 
 		Cursor cursor = mDb.query(DATABASE_TABLE, new String[] { KEY_ROWID,
-				eventName, timeStamp, deviceId, value, valueRow, valueType },
+				eventName, timeStamp, deviceId, value, valueRow, valueType,
+				DatabaseName},
 				null, null, null, null, null);
 		
 		return new CJDBCsvInputStream(cursor);
