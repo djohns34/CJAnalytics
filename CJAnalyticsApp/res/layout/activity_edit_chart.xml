@@ -3,10 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_blue"
-    android:padding="10dp"
     android:orientation="vertical"
-    android:scrollbarStyle="insideOverlay">
-
+    android:padding="10dp"
+    android:scrollbarStyle="insideOverlay" >
 
     <LinearLayout
         android:id="@+id/chart"
@@ -28,8 +27,8 @@
             android:maxLines="1"
             android:singleLine="true"
             android:textColor="@color/light_gray"
-            android:textSize="25sp"
-            android:textCursorDrawable="@null" />
+            android:textCursorDrawable="@null"
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,39 +83,41 @@
                 android:text="@string/EventMetricLabel"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
+            <Button
+                android:id="@+id/toggleMetricButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onToggleMetricButtonClick"
+                android:text="+" />
+
             <Spinner
-                android:id="@+id/metricsList"
+                android:id="@+id/metricsListPrimary"
                 style="@style/CJSpinner"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:alpha="80"
                 android:contentDescription="@string/metrics" />
 
+            <Spinner
+                android:id="@+id/metricsListSecondary"
+                style="@style/CJSpinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:alpha="80"
+                android:contentDescription="@string/metrics"
+                android:visibility="gone" />
+
             <include layout="@layout/activity_edit_chart_divider" />
-
-
-
-
 
             <TableLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
-
-
-
-
-
-
                 <TableRow
                     android:id="@+id/tableRow1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-
-
-
-
-
 
                     <TextView
                         android:id="@+id/TextView01"
@@ -128,8 +129,6 @@
                         android:text="@string/from"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-
-
                     <Button
                         android:id="@+id/fromDate"
                         style="@style/CJDateButton"
@@ -137,16 +136,12 @@
                         android:layout_height="wrap_content"
                         android:onClick="setToFromDate"
                         android:text="@string/sampleDate" />
-
                 </TableRow>
-
-
 
                 <TableRow
                     android:id="@+id/tableRow2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
-
 
                     <TextView
                         android:id="@+id/TextView02"
@@ -158,7 +153,6 @@
                         android:text="@string/to"
                         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-
                     <Button
                         android:id="@+id/toDate"
                         style="@style/CJDateButton"
@@ -166,7 +160,6 @@
                         android:layout_height="wrap_content"
                         android:onClick="setToFromDate"
                         android:text="@string/sampleDate" />
-
                 </TableRow>
             </TableLayout>
 

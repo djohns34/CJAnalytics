@@ -17,6 +17,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SlidingDrawer;
@@ -60,18 +62,22 @@ public class EditActivity extends FragmentActivity implements
   private static final DateFormat dateFormater = new SimpleDateFormat(
       "MM-dd-yyyy");
 
+  private boolean isSecondaryMetricVisible;
+  private boolean isSecondaryMetricEnabled;
+  
   private ToggleButton lineButton;
   private ToggleButton barButton;
   private ToggleButton pieButton;
   private ChartSettings chartSettings;
   private EditText chartName;
-  private Spinner metricSpinner;
+  private Spinner metricSpinnerPrimary, metricSpinnerSecondary;
   private Spinner intervalSpinner;
   private TextView toDateText, fromDateText;
   private Calendar toDate, fromDate;
   // private ArrayAdapter<String> metricsAdapter;
   private EventAdapter eventAdapter;
-  
+  private Button toggleMetricButton;
+
   private DatePickerFragment datePickerFrag;
   private MetricsFetecherTask eventFetcherTask;
 
@@ -87,13 +93,16 @@ public class EditActivity extends FragmentActivity implements
     barButton = (ToggleButton) this.findViewById(R.id.bar);
     pieButton = (ToggleButton) this.findViewById(R.id.pie);
     chartName = (EditText) this.findViewById(R.id.chartName);
-    metricSpinner = (Spinner) this.findViewById(R.id.metricsList);
+    metricSpinnerPrimary = (Spinner) this.findViewById(R.id.metricsListPrimary);
+    metricSpinnerSecondary = (Spinner) this
+        .findViewById(R.id.metricsListSecondary);
     intervalSpinner = (Spinner) this.findViewById(R.id.intervalList);
     toDateText = (TextView) this.findViewById(R.id.toDate);
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
+    toggleMetricButton = (Button) this.findViewById(R.id.toggleMetricButton);
 
-
-    intervalSpinner.setAdapter(new ArrayAdapter<TimeInterval>(this, android.R.layout.simple_spinner_item, TimeInterval.values()));
+    intervalSpinner.setAdapter(new ArrayAdapter<TimeInterval>(this,
+        android.R.layout.simple_spinner_item, TimeInterval.values()));
 
     // This class should always contain chartSetting in its intent
     // If the intent contains chart data, load it, otherwise, create a new chart
@@ -111,14 +120,18 @@ public class EditActivity extends FragmentActivity implements
       initChartSettingInView();
     }
 
+    isSecondaryMetricVisible = false;
+    isSecondaryMetricEnabled = false;
+    
     initEventsList();
     updateDateView();
   }
-  
+
   private void setAdapter(List<Map.Entry<String, EventType>> metrics) {
     eventAdapter.setEventsList(metrics);
-    metricSpinner.setAdapter(eventAdapter);  
-    metricSpinner.setOnItemSelectedListener(EditActivity.this);
+    metricSpinnerPrimary.setAdapter(eventAdapter);
+    metricSpinnerSecondary.setAdapter(eventAdapter);
+    metricSpinnerPrimary.setOnItemSelectedListener(EditActivity.this);
     selectEventInSpinner();
   }
 
@@ -160,12 +173,15 @@ public class EditActivity extends FragmentActivity implements
     switch (chartType) {
     case Bar:
       barButton.toggle();
+      enableSecondaryMetric();
       break;
     case Line:
       lineButton.toggle();
+      enableSecondaryMetric();
       break;
     case Pie:
       pieButton.toggle();
+      disableSecondaryMetric();
       break;
     default:
       break;
@@ -196,7 +212,7 @@ public class EditActivity extends FragmentActivity implements
     TimeInterval interval = chartSettings.getTimeInterval();
     int index = Arrays.asList(TimeInterval.values()).indexOf(interval);
     intervalSpinner.setSelection(index);
-  
+
   }
 
   protected void onStop() {
@@ -208,10 +224,12 @@ public class EditActivity extends FragmentActivity implements
     // create new event adapter
     eventAdapter = new EventAdapter(this);
     // set up the adapter to events list
-    metricSpinner.setAdapter(eventAdapter);
+    metricSpinnerPrimary.setAdapter(eventAdapter);
+    metricSpinnerSecondary.setAdapter(eventAdapter);
     // load the metrics list
     String dbName = chartSettings.getDatabase();
-    List<Map.Entry<String, EventType>> metrics = DBMetricsCache.getCachedMetrics(dbName);
+    List<Map.Entry<String, EventType>> metrics = DBMetricsCache
+        .getCachedMetrics(dbName);
     if (metrics == null) {
       eventFetcherTask = new MetricsFetecherTask(this, dbName);
       eventFetcherTask.execute();
@@ -223,12 +241,15 @@ public class EditActivity extends FragmentActivity implements
 
   private void selectEventInSpinner() {
     // select the metric name and type that is set to the current chart/chart
-    // setting (Note there cannot be duplicate metric by the same name in the list)
+    // setting (Note there cannot be duplicate metric by the same name in the
+    // list)
     String eventName = chartSettings.getEventName();
     EventType metricType = chartSettings.getEventType();
-    int position = eventAdapter.getPosition(new AbstractMap.SimpleEntry<String, EventType>(eventName, metricType));
+    int position = eventAdapter
+        .getPosition(new AbstractMap.SimpleEntry<String, EventType>(eventName,
+            metricType));
 
-    metricSpinner.setSelection(position);
+    metricSpinnerPrimary.setSelection(position);
   }
 
   /**
@@ -285,8 +306,8 @@ public class EditActivity extends FragmentActivity implements
               "Unable to load metrics", Toast.LENGTH_SHORT);
           toast.show();
         }
-        
-      setAdapter(result);
+
+        setAdapter(result);
       }
       // remove the progress bar
       dialog.dismiss();
@@ -309,12 +330,15 @@ public class EditActivity extends FragmentActivity implements
     switch (v.getId()) {
     case R.id.line:
       lineButton.toggle();
+      enableSecondaryMetric();
       break;
     case R.id.bar:
       barButton.toggle();
+      enableSecondaryMetric();
       break;
     case R.id.pie:
       pieButton.toggle();
+      disableSecondaryMetric();
       break;
     default:
       Log.i(EditActivity.class.getName(),
@@ -333,11 +357,12 @@ public class EditActivity extends FragmentActivity implements
     if (chartName.getText().length() == 0) {
       Toast.makeText(this, ON_SAVE_INVALID_NAME_MESSAGE_ERROR,
           Toast.LENGTH_SHORT).show();
-      //TODO: TOTALLY HACKED BY JEREMY. I'm adding in getValue to getSelectedEvent
+      // TODO: TOTALLY HACKED BY JEREMY. I'm adding in getValue to
+      // getSelectedEvent
     } else if (getSelectedType() == ChartType.Line
-        && getSelectedMetric().getValue() != EventType.Float
-        && getSelectedMetric().getValue() != EventType.Currency
-        && getSelectedMetric().getValue() != EventType.Number) {
+        && getPrimaryMetric().getValue() != EventType.Float
+        && getPrimaryMetric().getValue() != EventType.Currency
+        && getPrimaryMetric().getValue() != EventType.Number) {
       // TODO: this conditional is a total hack
       Toast.makeText(this, ON_SAVE_INVALID_EVENT_TYPE, Toast.LENGTH_SHORT)
           .show();
@@ -353,11 +378,13 @@ public class EditActivity extends FragmentActivity implements
     chartSettings.setStartDate(fromDate.getTime());
     chartSettings.setEndDate(toDate.getTime());
     // get the selected event name and type
-    Map.Entry<String, EventType> eventInfo = getSelectedMetric();
+    Map.Entry<String, EventType> eventInfo = getPrimaryMetric();
     chartSettings.setEventName(eventInfo.getKey());
     chartSettings.setEventType(eventInfo.getValue());
-    chartSettings.setUsername(((CJAnalyticsApp)getApplicationContext()).getCurrentUserName());
-    chartSettings.setTimeInterval((TimeInterval)intervalSpinner.getSelectedItem());
+    chartSettings.setUsername(((CJAnalyticsApp) getApplicationContext())
+        .getCurrentUserName());
+    chartSettings.setTimeInterval((TimeInterval) intervalSpinner
+        .getSelectedItem());
     chartSettings.saveToIntent(intent);
 
     // save the chart to db
@@ -374,8 +401,15 @@ public class EditActivity extends FragmentActivity implements
   }
 
   @SuppressWarnings("unchecked")
-  private Map.Entry<String, EventType> getSelectedMetric() {
-    return (Map.Entry<String, EventType>) metricSpinner.getSelectedItem();
+  private Map.Entry<String, EventType> getPrimaryMetric() {
+    return (Map.Entry<String, EventType>) metricSpinnerPrimary
+        .getSelectedItem();
+  }
+  
+  @SuppressWarnings("unchecked")
+  private Map.Entry<String, EventType> getSecondaryMetric() {
+    return (Map.Entry<String, EventType>) metricSpinnerSecondary
+        .getSelectedItem();
   }
 
   public void setToFromDate(View view) {
@@ -588,10 +622,35 @@ public class EditActivity extends FragmentActivity implements
   @Override
   public void onItemSelected(AdapterView<?> parent, View view, int position,
       long id) {
-    disableButton(getSelectedMetric().getValue());
+    disableButton(getPrimaryMetric().getValue());
   }
-
+  
   @Override
   public void onNothingSelected(AdapterView<?> parent) {
+  }
+
+  public void onToggleMetricButtonClick(View v) {
+    if (isSecondaryMetricVisible) {
+      toggleMetricButton.setText("+");
+      metricSpinnerSecondary.setVisibility(View.GONE);
+    } else {
+      toggleMetricButton.setText("-");
+      metricSpinnerSecondary.setVisibility(View.VISIBLE);
+    }
+    isSecondaryMetricVisible = !isSecondaryMetricVisible;
+  }
+  
+  public void enableSecondaryMetric() {
+    toggleMetricButton.setVisibility(View.VISIBLE);
+    if (isSecondaryMetricVisible) {
+      metricSpinnerSecondary.setVisibility(View.VISIBLE);
+    }
+    isSecondaryMetricEnabled = true;
+  }
+  
+  public void disableSecondaryMetric() {
+    toggleMetricButton.setVisibility(View.GONE);
+    metricSpinnerSecondary.setVisibility(View.GONE);
+    isSecondaryMetricEnabled = false;
   }
 }
