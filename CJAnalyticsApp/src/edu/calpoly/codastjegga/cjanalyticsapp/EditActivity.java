@@ -649,4 +649,10 @@ public class EditActivity extends FragmentActivity implements
     metricSpinnerSecondary.setVisibility(View.GONE);
     isSecondaryMetricEnabled = false;
   }
+  
+  @Override
+  public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.none, R.anim.slide_out_top);
+  } 
 }

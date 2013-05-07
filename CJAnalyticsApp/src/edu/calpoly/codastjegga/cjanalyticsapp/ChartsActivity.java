@@ -148,6 +148,7 @@ public abstract class ChartsActivity extends ListActivity implements LoaderCallb
    */
   private void startEditActivity(int position) {
     startActivityWithSettings(new Intent(this,EditActivity.class),getSettingsAt(position));
+    overridePendingTransition(R.anim.slide_in_top, R.anim.none);
   }
   
   /**
@@ -193,7 +194,7 @@ public abstract class ChartsActivity extends ListActivity implements LoaderCallb
   @Override
   public void finish() {
     super.finish();
-    overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
+    overridePendingTransition(R.anim.none, R.anim.slide_out_top);
   }
 }
 
