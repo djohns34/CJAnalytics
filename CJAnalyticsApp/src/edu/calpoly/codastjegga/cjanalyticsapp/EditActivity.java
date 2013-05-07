@@ -82,6 +82,7 @@ public class EditActivity extends FragmentActivity implements
   
   
   private LinearLayout timeIntervalView;
+  private LinearLayout colorPalette;
 
   @SuppressWarnings("unchecked")
   protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +104,8 @@ public class EditActivity extends FragmentActivity implements
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
     toggleMetricButton = (ImageView) this.findViewById(R.id.toggleMetricButton);
     timeIntervalView = (LinearLayout)this.findViewById(R.id.timeIntervalView);
-
+    colorPalette = (LinearLayout)this.findViewById(R.id.colorPalette);
+    
     intervalSpinner.setAdapter(new ArrayAdapter<TimeInterval>(this,
         android.R.layout.simple_spinner_item, TimeInterval.values()));
 
@@ -257,6 +259,9 @@ public class EditActivity extends FragmentActivity implements
     metricSpinnerPrimary.setSelection(position);
   }
 
+  private void setColorPalette(){
+    
+  }
   /**
    * A helper method that returns a async task to fetch metrics from Salesforce
    * 

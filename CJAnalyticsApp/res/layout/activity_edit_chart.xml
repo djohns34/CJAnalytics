@@ -227,6 +227,8 @@
                 android:text="@string/colorPalette"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             
+ 			<include layout="@layout/palette"/>
+            
         </LinearLayout>
     </LinearLayout>
 
