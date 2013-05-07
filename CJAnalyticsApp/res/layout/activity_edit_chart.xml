@@ -194,8 +194,15 @@
 
             </TableLayout>
 
-            <include layout="@layout/activity_edit_chart_divider" />
+		<LinearLayout 
+		    android:id="@+id/timeIntervalView"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    android:visibility="gone" >
 
+		    <include layout="@layout/activity_edit_chart_divider" />
+            
             <TextView
                 android:id="@+id/TextView03"
                 android:layout_width="wrap_content"
@@ -208,7 +215,10 @@
                 style="@style/CJSpinner"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
+            </LinearLayout>
             
+		
+		
             <include layout="@layout/activity_edit_chart_divider" />
             <TextView
                 android:id="@+id/colorPalette"

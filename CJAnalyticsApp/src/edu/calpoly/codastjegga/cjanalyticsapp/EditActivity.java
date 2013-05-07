@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,6 +79,9 @@ public class EditActivity extends FragmentActivity implements
 
   private DatePickerFragment datePickerFrag;
   private MetricsFetecherTask eventFetcherTask;
+  
+  
+  private LinearLayout timeIntervalView;
 
   @SuppressWarnings("unchecked")
   protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,7 @@ public class EditActivity extends FragmentActivity implements
     toDateText = (TextView) this.findViewById(R.id.toDate);
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
     toggleMetricButton = (ImageView) this.findViewById(R.id.toggleMetricButton);
+    timeIntervalView = (LinearLayout)this.findViewById(R.id.timeIntervalView);
 
     intervalSpinner.setAdapter(new ArrayAdapter<TimeInterval>(this,
         android.R.layout.simple_spinner_item, TimeInterval.values()));
@@ -114,7 +119,7 @@ public class EditActivity extends FragmentActivity implements
       toDate = (Calendar) savedInstanceState.get(SAVED_TO_DATE);
       fromDate = (Calendar) savedInstanceState.get(SAVED_FROM_DATE);
     } else {
-      initToggle();
+      setChartToggle(chartSettings.getType());
       initChartSettingInView();
     }
 
@@ -164,28 +169,30 @@ public class EditActivity extends FragmentActivity implements
     outState.putSerializable(SAVED_FROM_DATE, fromDate);
   }
 
-  private void initToggle() {
+  private void setChartToggle(ChartType chartType) {
     uncheckAllToggleSwitches();
-    ChartType chartType = chartSettings.getType();
-
     switch (chartType) {
     case Bar:
       barButton.toggle();
       enableSecondaryMetric();
+      timeIntervalView.setVisibility(LinearLayout.GONE);
       break;
     case Line:
       lineButton.toggle();
       enableSecondaryMetric();
+      timeIntervalView.setVisibility(LinearLayout.VISIBLE);
       break;
     case Pie:
       pieButton.toggle();
       disableSecondaryMetric();
+      timeIntervalView.setVisibility(LinearLayout.GONE);
       break;
     default:
       break;
 
     }
   }
+
 
   private void initChartSettingInView() {
     // set the chart name
@@ -324,27 +331,10 @@ public class EditActivity extends FragmentActivity implements
   };
 
   public void changeType(View v) {
-    // This is pointless since the buttons are toggle switches, there
-    // state are visible to the user when one edits (changes states)
-    // Toast.makeText(this, "Edit", Toast.LENGTH_SHORT).show();
-    uncheckAllToggleSwitches();
-    switch (v.getId()) {
-    case R.id.line:
-      lineButton.toggle();
-      enableSecondaryMetric();
-      break;
-    case R.id.bar:
-      barButton.toggle();
-      enableSecondaryMetric();
-      break;
-    case R.id.pie:
-      pieButton.toggle();
-      disableSecondaryMetric();
-      break;
-    default:
-      Log.i(EditActivity.class.getName(),
-          "toggle switch's change type was called on unknown chart/chart type");
-    }
+    
+    ChartType type = ChartType.getTypeById(v.getId());
+    if (type != null)
+      setChartToggle(type);
   }
 
   private void uncheckAllToggleSwitches() {
