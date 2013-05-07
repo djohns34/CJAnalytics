@@ -68,28 +68,39 @@
                 android:textOff=""
                 android:textOn="" />
         </LinearLayout>
-
-        <include layout="@layout/activity_edit_chart_divider" />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/activity_edit_chart_divider" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/EventMetricLabel"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+	            <TextView
+	                android:id="@+id/textView1"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:text="@string/EventMetricLabel"
+	                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	            <ImageView
+	                android:id="@+id/toggleMetricButton"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentBottom="true"
+	                android:layout_alignParentRight="true"
+	                android:layout_alignParentTop="true"
+	                android:background="@drawable/plus_btn"
+	                android:onClick="onToggleMetricButtonClick" />
 
-            <Button
-                android:id="@+id/toggleMetricButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onToggleMetricButtonClick"
-                android:text="+" />
+			</RelativeLayout>
 
             <Spinner
                 android:id="@+id/metricsListPrimary"
