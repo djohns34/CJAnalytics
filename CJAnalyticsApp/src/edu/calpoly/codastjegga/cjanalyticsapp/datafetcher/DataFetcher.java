@@ -3,8 +3,10 @@ package edu.calpoly.codastjegga.cjanalyticsapp.datafetcher;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.AbstractMap;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumSet;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -273,17 +275,23 @@ public class DataFetcher {
     
     Date startTime=setting.getStartDate();
     if(startTime == null){
+      /*The beginning of time (for computers at least)*/
       startTime=new Date(0);
-    } else {
+    } 
+    else {
       startTime=DateUtils.setTime(startTime,0,0,0,0);
     }
     fields.put("startTime", DateUtils.format(startTime));
     
     Date endTime=setting.getEndDate();
     if(endTime == null){
+      /*Go to right now*/
       endTime =new Date();
     } else {
-      endTime=DateUtils.setTime(endTime,23,59,59,999);
+      /*Data summarizer doesn't include last time in range.
+      Must set the end time as midnight of the next day*/
+      endTime=DateUtils.addDays(startTime, 1);
+      endTime=DateUtils.setTime(startTime,0,0,0,0);
     }
     fields.put("endTime", DateUtils.format(endTime));
     

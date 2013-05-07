@@ -51,6 +51,13 @@ public class DateUtils {
     cal.set(Calendar.SECOND, second);
     cal.set(Calendar.MILLISECOND, millisecond);
     return cal.getTime();
-}
+  }
+  
+  public static Date addDays(Date date,int days){
+    Calendar cal = new GregorianCalendar();
+    cal.setTime(date);
+    cal.add(Calendar.DATE, days);
+    return cal.getTime();
+  }
 
 }
