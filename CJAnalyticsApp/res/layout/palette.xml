@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="30dp"
     android:orientation="horizontal" 
-    android:id="@+id/palette">
+    android:id="@+id/colorPalette">
 
     <View
         android:id="@+id/palette1"
