@@ -14,7 +14,8 @@
         android:layout_gravity="fill_horizontal"
         android:background="@drawable/white_drop_shadow_panel_cropped"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="10dp" 
+     >
 
         <EditText
             android:id="@+id/chartName"
@@ -77,7 +78,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical" 
+            android:animateLayoutChanges="true">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -103,7 +105,7 @@
 	                android:textAppearance="?android:attr/textAppearanceMedium" />
 
 			</RelativeLayout>
-
+ 
             <Spinner
                 android:id="@+id/metricsListPrimary"
                 style="@style/CJSpinner"
@@ -120,7 +122,7 @@
                 android:alpha="80"
                 android:contentDescription="@string/metrics"
                 android:visibility="gone" />
-
+	 
             <include layout="@layout/activity_edit_chart_divider" />
 
             <TableLayout
