@@ -395,6 +395,14 @@ public class EditActivity extends FragmentActivity implements
     finish();
 
   }
+  
+  public void onClickRefreshButton(MenuItem menu) {
+    String dbName = chartSettings.getDatabase();
+    if (dbName != null) {
+      eventFetcherTask = new MetricsFetecherTask(this, dbName);
+      eventFetcherTask.execute();
+    }
+  }
 
   @SuppressWarnings("unchecked")
   private Map.Entry<String, EventType> getPrimaryMetric() {
