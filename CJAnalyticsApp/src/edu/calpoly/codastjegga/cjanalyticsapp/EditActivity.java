@@ -266,6 +266,9 @@ public class EditActivity extends FragmentActivity implements
     public MetricsFetecherTask(Activity activity, String databaseName) {
       this.activity = activity;
       this.dbName = databaseName;
+      this.dialog = new ProgressDialog(activity);
+      this.dialog.setCancelable(false);
+      this.dialog.setCanceledOnTouchOutside(false);
     }
 
     protected void onPreExecute() {
@@ -273,7 +276,7 @@ public class EditActivity extends FragmentActivity implements
     }
 
     private void showDialog() {
-      dialog = new ProgressDialog(activity);
+      
       dialog.setMessage(LOADING_METRICS);
       dialog.show();
     }
