@@ -126,11 +126,17 @@
             <TableLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
-
+
                 <TableRow
                     android:id="@+id/tableRow1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
+                    
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/calendar" />
 
                     <TextView
                         android:id="@+id/TextView01"
@@ -147,15 +153,23 @@
                         style="@style/CJDateButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:onClick="setToFromDate"
                         android:text="@string/sampleDate" />
                 </TableRow>
-
+
                 <TableRow
                     android:id="@+id/tableRow2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/calendar" />
+                    
+                    
                     <TextView
                         android:id="@+id/TextView02"
                         android:layout_width="wrap_content"
@@ -171,9 +185,11 @@
                         style="@style/CJDateButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:onClick="setToFromDate"
                         android:text="@string/sampleDate" />
                 </TableRow>
+
             </TableLayout>
 
             <include layout="@layout/activity_edit_chart_divider" />
