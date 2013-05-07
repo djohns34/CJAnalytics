@@ -14,8 +14,7 @@
         android:layout_gravity="fill_horizontal"
         android:background="@drawable/white_drop_shadow_panel_cropped"
         android:orientation="vertical"
-        android:padding="10dp" 
-     >
+        android:padding="10dp" >
 
         <EditText
             android:id="@+id/chartName"
@@ -83,7 +82,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true" >
 
 	            <ImageView
 	                android:id="@+id/toggleMetricButton"
@@ -194,8 +194,15 @@
 
             </TableLayout>
 
-            <include layout="@layout/activity_edit_chart_divider" />
+		<LinearLayout 
+		    android:id="@+id/timeIntervalView"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    android:visibility="gone" >
 
+		    <include layout="@layout/activity_edit_chart_divider" />
+            
             <TextView
                 android:id="@+id/TextView03"
                 android:layout_width="wrap_content"
@@ -208,7 +215,10 @@
                 style="@style/CJSpinner"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
+            </LinearLayout>
             
+		
+		
             <include layout="@layout/activity_edit_chart_divider" />
             <TextView
                 android:id="@+id/colorPalette"
@@ -216,6 +226,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/colorPalette"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+            
+ 			<include layout="@layout/palette"/>
             
         </LinearLayout>
     </LinearLayout>
