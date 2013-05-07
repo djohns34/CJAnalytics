@@ -640,7 +640,7 @@ public class EditActivity extends FragmentActivity implements
   }
   
   public void disableSecondaryMetric() {
-    toggleMetricButton.setVisibility(View.GONE);
+    toggleMetricButton.setVisibility(View.INVISIBLE);
     metricSpinnerSecondary.setVisibility(View.GONE);
     isSecondaryMetricEnabled = false;
   }

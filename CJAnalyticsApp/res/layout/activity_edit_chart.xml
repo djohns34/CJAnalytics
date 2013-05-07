@@ -14,8 +14,7 @@
         android:layout_gravity="fill_horizontal"
         android:background="@drawable/white_drop_shadow_panel_cropped"
         android:orientation="vertical"
-        android:padding="10dp" 
-     >
+        android:padding="10dp" >
 
         <EditText
             android:id="@+id/chartName"
@@ -83,7 +82,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true" >
 
 	            <ImageView
 	                android:id="@+id/toggleMetricButton"
