@@ -1,6 +1,5 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
-import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
@@ -17,7 +16,6 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -31,7 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.SlidingDrawer;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,7 +74,7 @@ public class EditActivity extends FragmentActivity implements
   private Calendar toDate, fromDate;
   // private ArrayAdapter<String> metricsAdapter;
   private EventAdapter eventAdapter;
-  private Button toggleMetricButton;
+  private ImageView toggleMetricButton;
 
   private DatePickerFragment datePickerFrag;
   private MetricsFetecherTask eventFetcherTask;
@@ -99,7 +97,7 @@ public class EditActivity extends FragmentActivity implements
     intervalSpinner = (Spinner) this.findViewById(R.id.intervalList);
     toDateText = (TextView) this.findViewById(R.id.toDate);
     fromDateText = (TextView) this.findViewById(R.id.fromDate);
-    toggleMetricButton = (Button) this.findViewById(R.id.toggleMetricButton);
+    toggleMetricButton = (ImageView) this.findViewById(R.id.toggleMetricButton);
 
     intervalSpinner.setAdapter(new ArrayAdapter<TimeInterval>(this,
         android.R.layout.simple_spinner_item, TimeInterval.values()));
@@ -631,10 +629,10 @@ public class EditActivity extends FragmentActivity implements
 
   public void onToggleMetricButtonClick(View v) {
     if (isSecondaryMetricVisible) {
-      toggleMetricButton.setText("+");
+        toggleMetricButton.setBackgroundResource(R.drawable.plus_btn);
       metricSpinnerSecondary.setVisibility(View.GONE);
     } else {
-      toggleMetricButton.setText("-");
+      toggleMetricButton.setBackgroundResource(R.drawable.minus_btn);
       metricSpinnerSecondary.setVisibility(View.VISIBLE);
     }
     isSecondaryMetricVisible = !isSecondaryMetricVisible;
