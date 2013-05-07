@@ -1,6 +1,6 @@
 {
   "palettes": [
-    { "name":"colorName",
+    { "name":"default",
        "colors":[
          {"color":"0xfffff"},
          {"color":"0xfffff"},
