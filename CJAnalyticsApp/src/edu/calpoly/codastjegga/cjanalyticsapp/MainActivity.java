@@ -200,6 +200,7 @@ public class MainActivity extends NativeMainActivity implements OnClickListener 
     }
     if (intent != null)
       startActivity(intent);
+      overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_top);
 
   } 
 }

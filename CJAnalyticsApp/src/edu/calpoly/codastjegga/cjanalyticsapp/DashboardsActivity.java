@@ -65,6 +65,7 @@ public class DashboardsActivity extends ListActivity {
     Intent intent = new Intent(this, StoredChartsActivity.class);
     intent.putExtra(Dashboard.class.toString(), db);
     startActivity(intent);
+    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
   }
 
   /**
@@ -135,5 +136,11 @@ public class DashboardsActivity extends ListActivity {
   
   public void onLogoutClick(MenuItem menu) {
     ForceApp.APP.logout(this);
+  }
+  
+  @Override
+  public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
   }
 }

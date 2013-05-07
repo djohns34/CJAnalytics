@@ -51,4 +51,9 @@ public class StoredChartsActivity extends ChartsActivity{
     intent.putExtra(ChartSettings.class.getName(), chartSetting);
     startActivity(intent);
   }
+  @Override
+  public void finish() {
+    super.finish();/*slide back to the dashboard activity, instead of down to the main screen*/
+    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+  }
 }

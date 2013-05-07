@@ -251,4 +251,10 @@ public class ChartActivity extends Activity {
   public void onLogoutClick(MenuItem menu) {
     ForceApp.APP.logout(this);
   }
+  
+  @Override
+  public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+  }
 }
