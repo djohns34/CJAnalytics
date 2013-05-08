@@ -22,7 +22,9 @@ public class ChartSettings implements Serializable {
   public static String START_DATE = "STARTDATE";
   public static String END_DATE = "ENDDATE";
   public static String EVENT_NAME = "EVENT_NAME";
+  public static String EVENT_NAME2 = "EVENT_NAME2";
   public static String EVENT_TYPE = "EVENT_TYPE";
+  public static String EVENT_TYPE2 = "EVENT_TYPE2";
   public static String ANDROID_ID = "ANDROID_ID";
   public static String TIME_INTERVAL = "TIME_INTERVAL";
 
@@ -36,6 +38,8 @@ public class ChartSettings implements Serializable {
   private String chartName; 
   //metrics that this chart displays
   private String eventName; 
+  //metrics that this chart displays
+  private String eventName2; 
   //start date
   private Date startDate;
   //end date
@@ -47,6 +51,8 @@ public class ChartSettings implements Serializable {
   
   //type of event associated with the metric
   private EventType eventType;
+//type of event associated with the metric
+  private EventType eventType2;
 
   private TimeInterval timeInterval;
 
@@ -94,10 +100,26 @@ public class ChartSettings implements Serializable {
 
   /**
    * Setter for event type
+   * @param eventType the type of event the metric corresponds to
+   */
+  public void setEventType2(EventType eventType){
+    this.eventType2 = eventType;
+  }
+  
+  /**
+   * Setter for event type
    * @return chart type this setting is associated with
    */
   public EventType getEventType(){
     return eventType;
+  }
+  
+  /**
+   * Setter for event type
+   * @return chart type this setting is associated with
+   */
+  public EventType getEventType2(){
+    return eventType2;
   }
 
   /**
@@ -139,6 +161,14 @@ public class ChartSettings implements Serializable {
   public void setEventName(String eventName) {
     this.eventName=eventName;
   }
+  
+  /**
+   * Setter for chart name
+   * @param eventName the metric name
+   */
+  public void setEventName2(String eventName) {
+    this.eventName2=eventName;
+  }
 
   /**
    * Getter for the metrics
@@ -148,6 +178,14 @@ public class ChartSettings implements Serializable {
     return this.eventName;
   }
 
+  /**
+   * Getter for the metrics
+   * @return the metric name
+   */
+  public String getEventName2() {
+    return this.eventName2;
+  }
+  
   /**
    * Setter for start date
    * @param start start date
@@ -243,7 +281,9 @@ public class ChartSettings implements Serializable {
     i.putExtra(START_DATE, getStartDate());
     i.putExtra(END_DATE, getEndDate());   
     i.putExtra(EVENT_NAME, getEventName());
+    i.putExtra(EVENT_NAME2, getEventName2());
     i.putExtra(EVENT_TYPE, getEventType());
+    i.putExtra(EVENT_TYPE2, getEventType2());
     i.putExtra(ANDROID_ID, getAndroidID());
     i.putExtra(TIME_INTERVAL, getTimeInterval());
   }
@@ -257,7 +297,9 @@ public class ChartSettings implements Serializable {
     chartSetting.setStartDate((Date) i.getExtras().get(START_DATE));
     chartSetting.setEndDate((Date) i.getExtras().get(END_DATE));
     chartSetting.setEventName((String)i.getExtras().get(EVENT_NAME));
+    chartSetting.setEventName2((String)i.getExtras().get(EVENT_NAME2));
     chartSetting.setEventType((EventType)i.getExtras().get(EVENT_TYPE));
+    chartSetting.setEventType2((EventType)i.getExtras().get(EVENT_TYPE2));
     chartSetting.setAndroidID(i.getExtras().getInt(ANDROID_ID));
     chartSetting.setTimeInterval((TimeInterval) (i.getExtras().get(TIME_INTERVAL)));
     return chartSetting;

@@ -3,6 +3,9 @@ package edu.calpoly.codastjegga.sdk;
 import java.net.URISyntaxException;
 import java.util.Random;
 
+import edu.calpoly.codastjegga.auth.ClientInfo;
+
+import android.content.Context;
 import android.test.AndroidTestCase;
 
 
@@ -17,7 +20,7 @@ public class TestSalesforceConnector extends AndroidTestCase {
     protected void setUp() throws Exception {
         TestRestClientAdapter trca=new TestRestClientAdapter();
         trca.setUp();
-        connector =new SalesforceConnector(trca.adapt.getRestClient(),"Angry Birds", TestRestClientAdapter.api, getContext());
+        connector =new SalesforceConnector(trca.info,"Angry Birds", getContext());
     };
     
     

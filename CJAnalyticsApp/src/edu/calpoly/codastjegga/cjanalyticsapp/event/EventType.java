@@ -8,6 +8,7 @@ package edu.calpoly.codastjegga.cjanalyticsapp.event;
  *
  */
 public enum EventType {
+  None(null),
   Currency (EventFields.CurrencyV),
   Float (EventFields.FloatV),
   Number (EventFields.NumberV),

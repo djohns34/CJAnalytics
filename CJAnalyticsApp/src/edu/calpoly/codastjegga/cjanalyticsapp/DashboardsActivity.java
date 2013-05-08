@@ -1,15 +1,9 @@
 package edu.calpoly.codastjegga.cjanalyticsapp;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import com.salesforce.androidsdk.app.ForceApp;
-
-import android.app.Activity;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,9 +15,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.salesforce.androidsdk.app.ForceApp;
+
 import edu.calpoly.codastjegga.cjanalyticsapp.dashboard.Dashboard;
 import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
-import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
 
 public class DashboardsActivity extends ListActivity {
 
@@ -51,7 +47,7 @@ public class DashboardsActivity extends ListActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
     case android.R.id.home:
-      NavUtils.navigateUpFromSameTask(this);
+      finish();
       return true;
     }
     return super.onOptionsItemSelected(item);
@@ -65,6 +61,7 @@ public class DashboardsActivity extends ListActivity {
     Intent intent = new Intent(this, StoredChartsActivity.class);
     intent.putExtra(Dashboard.class.toString(), db);
     startActivity(intent);
+    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
   }
 
   /**
@@ -135,5 +132,11 @@ public class DashboardsActivity extends ListActivity {
   
   public void onLogoutClick(MenuItem menu) {
     ForceApp.APP.logout(this);
+  }
+  
+  @Override
+  public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.none, R.anim.slide_out_top);
   }
 }

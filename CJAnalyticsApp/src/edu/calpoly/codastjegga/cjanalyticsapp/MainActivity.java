@@ -35,7 +35,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
@@ -194,6 +193,7 @@ public class MainActivity extends NativeMainActivity implements OnClickListener 
     }
     if (intent != null)
       startActivity(intent);
+      overridePendingTransition(R.anim.slide_in_top, R.anim.none);
 
   } 
 }

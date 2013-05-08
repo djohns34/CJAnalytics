@@ -139,6 +139,7 @@ public abstract class ChartsActivity extends ListActivity implements LoaderCallb
     ChartSettings setting = getSettingsAt(position);
     ChartSettingsProvider.chartViewed(getContentResolver(), setting);
     startActivityWithSettings(new Intent(this,ChartActivity.class),setting);
+    overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
   }
   
   /**
@@ -147,6 +148,7 @@ public abstract class ChartsActivity extends ListActivity implements LoaderCallb
    */
   private void startEditActivity(int position) {
     startActivityWithSettings(new Intent(this,EditActivity.class),getSettingsAt(position));
+    overridePendingTransition(R.anim.slide_in_top, R.anim.none);
   }
   
   /**
@@ -187,6 +189,12 @@ public abstract class ChartsActivity extends ListActivity implements LoaderCallb
 
   public void onLogoutClick(MenuItem menu) {
     ForceApp.APP.logout(this);
+  }
+  
+  @Override
+  public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.none, R.anim.slide_out_top);
   }
 }
 

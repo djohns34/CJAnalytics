@@ -138,6 +138,7 @@ public class ChartActivity extends Activity {
       final Intent intent = new Intent(this, EditActivity.class);
       chartSettings.saveToIntent(intent);
       startActivityForResult(intent, 0);
+      overridePendingTransition(R.anim.slide_in_top, R.anim.none);
     }
   }
   
@@ -248,5 +249,11 @@ public class ChartActivity extends Activity {
   
   public void onLogoutClick(MenuItem menu) {
     ForceApp.APP.logout(this);
+  }
+  
+  @Override
+  public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
   }
 }
