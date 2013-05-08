@@ -41,6 +41,7 @@ public class ChartSettingsProviderTest extends
     testSetting.setEventName("testMetric");
     testSetting.setEventType(EventType.Text);
     testSetting.setEventType(EventType.Number);
+    testSetting.setEventType2(EventType.None);
     testSetting.setTimeInterval(TimeInterval.Yearly);
 
   }

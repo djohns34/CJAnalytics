@@ -21,6 +21,7 @@ public class ChartSettingsDBTest extends AndroidTestCase{
     testSetting.setChartName("Test Name");
     testSetting.setEventName("testMetric");
     testSetting.setEventType(EventType.Text);
+    testSetting.setEventType2(EventType.None);
   }
 
   
@@ -30,7 +31,7 @@ public class ChartSettingsDBTest extends AndroidTestCase{
     ContentValues values = ChartSettingsDB.buildQueryValues(testSetting);
     
     //To make the test fail if buildQueryValues is updated
-    assertEquals(11, values.size());
+    assertEquals(13, values.size());
     
     assertEquals("3", values.get(ChartSettingsDB.KEY_ROWID));
     assertEquals(testSetting.getType().toString(),values.get(ChartSettingsDB.CHART_TYPE));
