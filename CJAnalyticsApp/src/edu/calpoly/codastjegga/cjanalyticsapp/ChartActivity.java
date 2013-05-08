@@ -140,6 +140,7 @@ public class ChartActivity extends Activity {
       final Intent intent = new Intent(this, EditActivity.class);
       chartSettings.saveToIntent(intent);
       startActivityForResult(intent, 0);
+      overridePendingTransition(R.anim.slide_in_top, R.anim.none);
     }
   }
   

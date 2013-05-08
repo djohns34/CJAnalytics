@@ -137,6 +137,6 @@ public class DashboardsActivity extends ListActivity {
   @Override
   public void finish() {
     super.finish();
-    overridePendingTransition(R.anim.slide_in_top, R.anim.slide_out_bottom);
+    overridePendingTransition(R.anim.none, R.anim.slide_out_top);
   }
 }

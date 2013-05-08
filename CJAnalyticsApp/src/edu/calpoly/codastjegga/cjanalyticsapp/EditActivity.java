@@ -395,6 +395,14 @@ public class EditActivity extends FragmentActivity implements
     finish();
 
   }
+  
+  public void onClickRefreshButton(MenuItem menu) {
+    String dbName = chartSettings.getDatabase();
+    if (dbName != null) {
+      eventFetcherTask = new MetricsFetecherTask(this, dbName);
+      eventFetcherTask.execute();
+    }
+  }
 
   @SuppressWarnings("unchecked")
   private Map.Entry<String, EventType> getPrimaryMetric() {
@@ -649,4 +657,10 @@ public class EditActivity extends FragmentActivity implements
     metricSpinnerSecondary.setVisibility(View.GONE);
     isSecondaryMetricEnabled = false;
   }
+  
+  @Override
+  public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.none, R.anim.slide_out_top);
+  } 
 }
