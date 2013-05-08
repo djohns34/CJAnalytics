@@ -20,30 +20,39 @@ import edu.calpoly.codastjegga.cjanalyticsapp.event.EventSummary;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.util.Log;
 
 public class CJBarChart implements ChartProvider {
+  private static final double TOP_PADDING = 1.25;
+  private static final double RIGHT_PADDING = 1;
+
   XYMultipleSeriesRenderer renderer;
   XYMultipleSeriesDataset dataset;
 
   @Override
   public void parseData(ChartSettings chartSettings, EventSummary events) {
-    /*int[] colors = new int[] { Color.parseColor("#77c4d3") };
+    int[] colors = new int[] { Color.MAGENTA };
+
+    Map<String, Integer> values = events.getCategorical();
+
     this.buildBarRenderer(colors);
-    this.buildBarDataset(events);
+    this.buildBarDataset(values);
 
     renderer.setOrientation(Orientation.HORIZONTAL);
     renderer.setXLabels(0);
     renderer.setYLabels(10);
+
     int length = renderer.getSeriesRendererCount();
     for (int i = 0; i < length; ++i) {
       SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
       seriesRenderer.setDisplayChartValues(true);
-    }*/
+    }
   }
 
   protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
     renderer = new XYMultipleSeriesRenderer();
 
+    // TODO: Needs to scale based off screen size
     renderer.setAxisTitleTextSize(16);
     renderer.setLabelsTextSize(15);
 
@@ -77,41 +86,30 @@ public class CJBarChart implements ChartProvider {
     return renderer;
   }
 
-  protected void buildBarDataset(List<Event> events) {
-    HashMap<String, Integer> values = new HashMap<String, Integer>();
+  protected void buildBarDataset(Map<String, Integer> values) {
     dataset = new XYMultipleSeriesDataset();
     XYSeries series = new XYSeries("");
     int xIndex = 1;
     double highest = 0;
 
-    // Count data from events
-    for (Event e : events) {
-      String curr = e.getValue().toString();
-      if (values.containsKey(curr)) {
-        values.put(curr, values.get(curr) + 1);
-        if (values.get(curr) > highest) {
-          highest = values.get(curr);
-        }
-      } else {
-        values.put(curr, 1);
-      }
-    }
-
     // Add data to graph
     for (Map.Entry<String, Integer> entry : values.entrySet()) {
       renderer.addXTextLabel(xIndex, entry.getKey());
       series.add(xIndex++, entry.getValue());
+      if (entry.getValue() > highest) {
+        highest = entry.getValue();
+      }
     }
 
     dataset.addSeries(series);
 
-    this.renderer.setXAxisMax(values.size() + 1);
-    this.renderer.setYAxisMax(highest + (highest * 0.25));
+    this.renderer.setXAxisMax(values.size() + RIGHT_PADDING);
+    this.renderer.setYAxisMax(highest * TOP_PADDING);
     this.renderer.setXAxisMin(0);
     this.renderer.setYAxisMin(0);
 
-    this.renderer.setPanLimits(new double[] { 0, values.size() + 1, 0,
-        highest + (highest * 0.25) });
+    this.renderer.setPanLimits(new double[] { 0, values.size() + RIGHT_PADDING,
+        0, highest * TOP_PADDING });
   }
 
   public GraphicalView getGraphicalView(Context context) {
