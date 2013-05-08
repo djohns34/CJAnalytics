@@ -205,14 +205,15 @@ public class EditActivity extends FragmentActivity implements
     Date end = chartSettings.getEndDate();
     toDate = Calendar.getInstance();
     fromDate = Calendar.getInstance();
-    // IF there a start date
+    // IF there's a start date
     if (start != null) {
       // set the startDate to the one in chart setting
-      toDate.setTime(start);
-      // IF there is a end date
-      if (end != null)
-        // set the end date from the one in the chart setting
-        fromDate.setTime(end);
+      fromDate.setTime(end);
+    }
+    // IF there's an end date
+    if (end != null){
+      // set the end date from the one in the chart setting
+      toDate.setTime(end);
     }
 
     // set the interval
