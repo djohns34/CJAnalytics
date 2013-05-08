@@ -44,9 +44,12 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
   /*New Row v6*/
   public static final  String USERNAME="username";
   
+  /*New Row v7*/
+  public static final  String METRIC2="metric2";
+  public static final  String EVENT_TYPE2="eventType2";
   
   /*Does not include the Last viewed because that is only used in SQL calls*/
-  static final String[] allSettingsColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,USERNAME,METRIC,START_DATE,END_DATE,FAVORITE,EVENT_TYPE,TIME_INTERVAL};
+  static final String[] allSettingsColumns={KEY_ROWID,CHART_TYPE,CHART_NAME,DATABASE,USERNAME,METRIC,METRIC2,START_DATE,END_DATE,FAVORITE,EVENT_TYPE,EVENT_TYPE2,TIME_INTERVAL};
 
   /*Default visibility for test cases*/
   static final String DATABASE_NAME = "CJAnalytics";
@@ -62,9 +65,11 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
           + CHART_TYPE+" text not null,"
           + CHART_NAME+" text not null,"
           + EVENT_TYPE+ " text not null,"
+          + EVENT_TYPE2+ " text not null,"
           + DATABASE+" text not null,"
           + USERNAME+" text not null,"
           + METRIC+" text not null,"
+          + METRIC2+" text,"
           + START_DATE+" text,"
           + END_DATE+" text,"
           + FAVORITE+ " text not null,"
@@ -73,7 +78,7 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
   
   
   /*Any databases before version 6 didn't hold all of the information required, I decided to wipe it all out and start clean*/
-  private static final int DATABASE_VERSION = 6;
+  private static final int DATABASE_VERSION = 7;
 
 
 
@@ -111,10 +116,12 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
     settings.setDatabase(cursor.getString(cursor.getColumnIndex(DATABASE)));
     settings.setUsername(cursor.getString(cursor.getColumnIndex(USERNAME)));
     settings.setEventName(cursor.getString(cursor.getColumnIndex(METRIC)));
+    settings.setEventName2(cursor.getString(cursor.getColumnIndex(METRIC2)));
     settings.setStartDate(DateUtils.parse(cursor.getString(cursor.getColumnIndex(START_DATE))));
     settings.setEndDate(DateUtils.parse(cursor.getString(cursor.getColumnIndex(END_DATE))));
     settings.setFavorite(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(FAVORITE))));
     settings.setEventType(EventType.valueOf(cursor.getString(cursor.getColumnIndex(EVENT_TYPE))));
+    settings.setEventType2(EventType.valueOf(cursor.getString(cursor.getColumnIndex(EVENT_TYPE2))));
     settings.setTimeInterval(TimeInterval.valueOf(cursor.getString(cursor.getColumnIndex(TIME_INTERVAL))));
     
     return settings;
@@ -135,10 +142,12 @@ import edu.calpoly.codastjegga.cjanalyticsapp.utils.DateUtils;
     values.put(DATABASE, setting.getDatabase());
     values.put(USERNAME, setting.getUsername());
     values.put(METRIC, setting.getEventName());
+    values.put(METRIC2, setting.getEventName2());
     values.put(START_DATE, DateUtils.format(setting.getStartDate()));
     values.put(END_DATE, DateUtils.format(setting.getEndDate()));
     values.put(FAVORITE, setting.getFavorite().toString());
     values.put(EVENT_TYPE, setting.getEventType().name());
+    values.put(EVENT_TYPE2, setting.getEventType2().name());
     values.put(TIME_INTERVAL, setting.getTimeInterval().name());
     return values;
   }

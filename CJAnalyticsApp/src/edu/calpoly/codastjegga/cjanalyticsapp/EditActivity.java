@@ -124,9 +124,6 @@ public class EditActivity extends FragmentActivity implements
       setChartToggle(chartSettings.getType());
       initChartSettingInView();
     }
-
-    isSecondaryMetricVisible = false;
-    isSecondaryMetricEnabled = false;
     
     initEventsList();
     updateDateView();
@@ -251,12 +248,30 @@ public class EditActivity extends FragmentActivity implements
     // setting (Note there cannot be duplicate metric by the same name in the
     // list)
     String eventName = chartSettings.getEventName();
+    String eventName2 = chartSettings.getEventName2();
     EventType metricType = chartSettings.getEventType();
+    EventType metricType2 = chartSettings.getEventType2();
+    ChartType chartType = chartSettings.getType();
     int position = eventAdapter
         .getPosition(new AbstractMap.SimpleEntry<String, EventType>(eventName,
             metricType));
 
     metricSpinnerPrimary.setSelection(position);
+    
+    isSecondaryMetricVisible = false;   
+    isSecondaryMetricEnabled = chartType != ChartType.Pie;
+    
+    if (eventName2 != null) {
+      position = eventAdapter
+          .getPosition(new AbstractMap.SimpleEntry<String, EventType>(eventName2,
+              metricType2));
+      isSecondaryMetricVisible = true;
+      metricSpinnerSecondary.setSelection(position);
+      if (isSecondaryMetricEnabled) {
+        enableSecondaryMetric();
+        toggleMetricButton.setBackgroundResource(R.drawable.minus_btn);
+      }
+    }
   }
 
   private void setColorPalette(){
@@ -382,6 +397,15 @@ public class EditActivity extends FragmentActivity implements
     chartSettings.setTimeInterval((TimeInterval) intervalSpinner
         .getSelectedItem());
     chartSettings.saveToIntent(intent);
+    
+    eventInfo = getSecondaryMetric();
+    if (isSecondaryMetricEnabled && isSecondaryMetricVisible) {
+      chartSettings.setEventName2(eventInfo.getKey());
+      chartSettings.setEventType2(eventInfo.getValue());
+    } else {
+      chartSettings.setEventName2(null);
+      chartSettings.setEventType2(EventType.None);
+    }
 
     // save the chart to db
     ChartSettingsProvider.saveSettings(getContentResolver(), chartSettings);
