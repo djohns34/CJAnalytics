@@ -1,234 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/light_blue"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:scrollbarStyle="insideOverlay" >
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" >
 
-    <LinearLayout
-        android:id="@+id/chart"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="fill_horizontal"
-        android:background="@drawable/white_drop_shadow_panel_cropped"
+    <ScrollView
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_blue"
         android:orientation="vertical"
-        android:padding="10dp" >
-
-        <EditText
-            android:id="@+id/chartName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/light_blue_input"
-            android:ems="10"
-            android:gravity="center"
-            android:hint="@string/editChartInitTitle"
-            android:maxLines="1"
-            android:singleLine="true"
-            android:textColor="@color/light_gray"
-            android:textCursorDrawable="@null"
-            android:textSize="25sp" />
+        android:padding="10dp"
+        android:scrollbarStyle="insideOverlay" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <ToggleButton
-                android:id="@+id/line"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/line_chart_32x32x32"
-                android:onClick="changeType"
-                android:paddingTop="5dp"
-                android:text="@string/line"
-                android:textOff=""
-                android:textOn="" />
-
-            <ToggleButton
-                android:id="@+id/bar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/bar_chart_32x32x32"
-                android:onClick="changeType"
-                android:paddingTop="5dp"
-                android:textOff=""
-                android:textOn="" />
-
-            <ToggleButton
-                android:id="@+id/pie"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/pie_chart_32x32x32"
-                android:onClick="changeType"
-                android:paddingTop="5dp"
-                android:textOff=""
-                android:textOn="" />
-        </LinearLayout>
-
-        <include
-            android:layout_width="match_parent"
+            android:id="@+id/chart"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            layout="@layout/activity_edit_chart_divider" />
+            android:layout_gravity="fill_horizontal"
+            android:background="@drawable/white_drop_shadow_panel_cropped"
+            android:orientation="vertical"
+            android:padding="10dp" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" 
-            android:animateLayoutChanges="true">
-
-            <RelativeLayout
+            <EditText
+                android:id="@+id/chartName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:animateLayoutChanges="true" >
-
-	            <ImageView
-	                android:id="@+id/toggleMetricButton"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentBottom="true"
-	                android:layout_alignParentRight="true"
-	                android:layout_alignParentTop="true"
-	                android:background="@drawable/plus_btn"
-	                android:onClick="onToggleMetricButtonClick" />
+                android:background="@drawable/light_blue_input"
+                android:ems="10"
+                android:gravity="center"
+                android:hint="@string/editChartInitTitle"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/light_gray"
+                android:textCursorDrawable="@null"
+                android:textSize="25sp" />
 
-	            <TextView
-	                android:id="@+id/textView1"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_alignParentLeft="true"
-	                android:layout_centerVertical="true"
-	                android:text="@string/EventMetricLabel"
-	                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-			</RelativeLayout>
- 
-            <Spinner
-                android:id="@+id/metricsListPrimary"
-                style="@style/CJSpinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:alpha="80"
-                android:contentDescription="@string/metrics" />
-
-            <Spinner
-                android:id="@+id/metricsListSecondary"
-                style="@style/CJSpinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:alpha="80"
-                android:contentDescription="@string/metrics"
-                android:visibility="gone" />
-	 
-            <include layout="@layout/activity_edit_chart_divider" />
-
-            <TableLayout
-                android:layout_width="fill_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
-
-                <TableRow
-                    android:id="@+id/tableRow1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-                    
-                    <ImageView
-                        android:id="@+id/imageView1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/calendar" />
 
-                    <TextView
-                        android:id="@+id/TextView01"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="18dp"
-                        android:gravity="right"
-                        android:paddingRight="10dp"
-                        android:text="@string/from"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                <ToggleButton
+                    android:id="@+id/line"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/line_chart_32x32x32"
+                    android:onClick="changeType"
+                    android:paddingTop="5dp"
+                    android:text="@string/line"
+                    android:textOff=""
+                    android:textOn="" />
 
-                    <Button
-                        android:id="@+id/fromDate"
-                        style="@style/CJDateButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:onClick="setToFromDate"
-                        android:text="@string/sampleDate" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                <ToggleButton
+                    android:id="@+id/bar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/bar_chart_32x32x32"
+                    android:onClick="changeType"
+                    android:paddingTop="5dp"
+                    android:textOff=""
+                    android:textOn="" />
 
-                    <ImageView
-                        android:id="@+id/imageView1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/calendar" />
-                    
-                    
-                    <TextView
-                        android:id="@+id/TextView02"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="18dp"
-                        android:gravity="right"
-                        android:paddingRight="10dp"
-                        android:text="@string/to"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                    <Button
-                        android:id="@+id/toDate"
-                        style="@style/CJDateButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:onClick="setToFromDate"
-                        android:text="@string/sampleDate" />
-                </TableRow>
-
-            </TableLayout>
-
-		<LinearLayout 
-		    android:id="@+id/timeIntervalView"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:orientation="vertical"
-		    android:visibility="gone" >
-
-		    <include layout="@layout/activity_edit_chart_divider" />
-            
-            <TextView
-                android:id="@+id/TextView03"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/timeIntervalLable"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <Spinner
-                android:id="@+id/intervalList"
-                style="@style/CJSpinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                <ToggleButton
+                    android:id="@+id/pie"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/pie_chart_32x32x32"
+                    android:onClick="changeType"
+                    android:paddingTop="5dp"
+                    android:textOff=""
+                    android:textOn="" />
             </LinearLayout>
-            
-		
-		
-            <include layout="@layout/activity_edit_chart_divider" />
-            <TextView
-                android:layout_width="wrap_content"
+
+            <include
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/colorPalette"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-            
- 			<include layout="@layout/palette"/>
-            
+                layout="@layout/activity_edit_chart_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true" >
+
+                    <ImageView
+                        android:id="@+id/toggleMetricButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/plus_btn"
+                        android:onClick="onToggleMetricButtonClick" />
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/EventMetricLabel"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                </RelativeLayout>
+
+                <Spinner
+                    android:id="@+id/metricsListPrimary"
+                    style="@style/CJSpinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="80"
+                    android:contentDescription="@string/metrics" />
+
+                <Spinner
+                    android:id="@+id/metricsListSecondary"
+                    style="@style/CJSpinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:alpha="80"
+                    android:contentDescription="@string/metrics"
+                    android:visibility="gone" />
+
+                <include layout="@layout/activity_edit_chart_divider" />
+
+                <TableLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TableRow
+                        android:id="@+id/tableRow1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <ImageView
+                            android:id="@+id/imageView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/calendar" />
+
+                        <TextView
+                            android:id="@+id/TextView01"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18dp"
+                            android:gravity="right"
+                            android:paddingRight="10dp"
+                            android:text="@string/from"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <Button
+                            android:id="@+id/fromDate"
+                            style="@style/CJDateButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="setToFromDate"
+                            android:text="@string/sampleDate" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <ImageView
+                            android:id="@+id/imageView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/calendar" />
+
+                        <TextView
+                            android:id="@+id/TextView02"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="18dp"
+                            android:gravity="right"
+                            android:paddingRight="10dp"
+                            android:text="@string/to"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <Button
+                            android:id="@+id/toDate"
+                            style="@style/CJDateButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:onClick="setToFromDate"
+                            android:text="@string/sampleDate" />
+                    </TableRow>
+                </TableLayout>
+
+                <LinearLayout
+                    android:id="@+id/timeIntervalView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone" >
+
+                    <include layout="@layout/activity_edit_chart_divider" />
+
+                    <TextView
+                        android:id="@+id/TextView03"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/timeIntervalLable"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    <Spinner
+                        android:id="@+id/intervalList"
+                        style="@style/CJSpinner"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <include layout="@layout/activity_edit_chart_divider" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/colorPalette"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <include layout="@layout/palette" />
+            </LinearLayout>
         </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_blue"
+        android:orientation="vertical" >
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="64dp" />
     </LinearLayout>
 
-</ScrollView>
+</merge>

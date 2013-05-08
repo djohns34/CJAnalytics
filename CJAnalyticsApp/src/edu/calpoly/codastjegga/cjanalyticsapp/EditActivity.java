@@ -64,6 +64,9 @@ public class EditActivity extends FragmentActivity implements
   private boolean isSecondaryMetricVisible;
   private boolean isSecondaryMetricEnabled;
   
+  private View loading;
+  private View view;
+  
   private ToggleButton lineButton;
   private ToggleButton barButton;
   private ToggleButton pieButton;
@@ -236,12 +239,16 @@ public class EditActivity extends FragmentActivity implements
     List<Map.Entry<String, EventType>> metrics = DBMetricsCache
         .getCachedMetrics(dbName);
     if (metrics == null) {
-      eventFetcherTask = new MetricsFetecherTask(this, dbName);
-      eventFetcherTask.execute();
+      fetchMetrics();
     } else {
       setAdapter(metrics);
     }
 
+  }
+
+  private void fetchMetrics() {
+    eventFetcherTask = new MetricsFetecherTask(this, chartSettings.getDatabase());
+    eventFetcherTask.execute();
   }
 
   private void selectEventInSpinner() {
@@ -300,13 +307,11 @@ public class EditActivity extends FragmentActivity implements
     }
 
     protected void onPreExecute() {
-      showDialog();
-    }
+      loading = findViewById(R.id.loading);
+      view = findViewById(R.id.view);
 
-    private void showDialog() {
-      
-      dialog.setMessage(LOADING_METRICS);
-      dialog.show();
+      loading.setVisibility(View.VISIBLE);
+      view.setVisibility(View.GONE);
     }
 
     @Override
@@ -339,7 +344,8 @@ public class EditActivity extends FragmentActivity implements
         setAdapter(result);
       }
       // remove the progress bar
-      dialog.dismiss();
+      loading.setVisibility(View.GONE);
+      view.setVisibility(View.VISIBLE);
 
     }
 
@@ -347,6 +353,8 @@ public class EditActivity extends FragmentActivity implements
     protected void onCancelled() {
       // TODO Auto-generated method stub
       super.onCancelled();
+      loading.setVisibility(View.GONE);
+      view.setVisibility(View.VISIBLE);
     }
 
   };
@@ -424,8 +432,7 @@ public class EditActivity extends FragmentActivity implements
   public void onClickRefreshButton(MenuItem menu) {
     String dbName = chartSettings.getDatabase();
     if (dbName != null) {
-      eventFetcherTask = new MetricsFetecherTask(this, dbName);
-      eventFetcherTask.execute();
+      fetchMetrics();
     }
   }
 
