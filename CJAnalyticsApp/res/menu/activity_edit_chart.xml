@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-         <item
-             android:id="@+id/refresh_metric_button"
-             android:icon="@drawable/navigation_refresh"
-             android:onClick="onClickRefreshButton"
-             android:showAsAction="ifRoom|withText"
-             android:title="@string/refresh">
-         </item>
-    
+
     <item
         android:id="@+id/cancel_edit_chart_button"
         android:icon="@drawable/iconpack_cancel"
@@ -23,10 +15,17 @@
         android:showAsAction="ifRoom|withText"
         android:title="@string/save">
     </item>
-
     <item
-        android:showAsAction="never"
+        android:id="@+id/refresh_metric_button"
+        android:icon="@drawable/navigation_refresh"
+        android:onClick="onClickRefreshButton"
+        android:showAsAction="ifRoom|withText"
+        android:title="@string/refresh">
+    </item>
+    <item
         android:id="@+id/logout"
         android:onClick="onLogoutClick"
+        android:showAsAction="never"
         android:title="@string/logout_button"/>
+
 </menu>
