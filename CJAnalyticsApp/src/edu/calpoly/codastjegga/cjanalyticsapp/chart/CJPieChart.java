@@ -23,9 +23,6 @@ public class CJPieChart implements ChartProvider {
   private DefaultRenderer ren;
   private CategorySeries cs;
 
-  // Name of the category series
-  private final String seriesName = "My Events";
-
   /**
    * Parse the data from the events
    * 
@@ -35,10 +32,9 @@ public class CJPieChart implements ChartProvider {
    *          Events to be parsed
    */
   public void parseData(ChartSettings chartSettings, EventSummary records) {
-   /* SimpleSeriesRenderer ssr;
-    HashMap<String, Integer> values = new HashMap<String, Integer>();
-
-    cs = new CategorySeries(seriesName);
+    Map<String, Integer> values = records.getCategorical();
+    SimpleSeriesRenderer ssr;
+    cs = new CategorySeries("");
     ren = new DefaultRenderer();
 
     ChartRendererSetting.appendCustomRendererSetting(ren);
@@ -47,21 +43,12 @@ public class CJPieChart implements ChartProvider {
     ren.setLabelsTextSize(14f);
     ren.setLabelsColor(Color.BLACK);
 
-    for (Event e : events) {
-      String curr = e.getValue().toString();
-      if (values.containsKey(curr)) {
-        values.put(curr, values.get(curr) + 1);
-      } else {
-        values.put(curr, 1);
-      }
-    }
-
     for (Map.Entry<String, Integer> entry : values.entrySet()) {
       cs.add(entry.getKey(), entry.getValue());
       ssr = new SimpleSeriesRenderer();
       ssr.setColor(getRandomColor());
       ren.addSeriesRenderer(ssr);
-    }*/
+    }
   }
 
   /**
