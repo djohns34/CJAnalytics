@@ -290,12 +290,12 @@ public class DataFetcher {
     } else {
       /*Data summarizer doesn't include last time in range.
       Must set the end time as midnight of the next day*/
-      endTime=DateUtils.addDays(startTime, 1);
-      endTime=DateUtils.setTime(startTime,0,0,0,0);
+      endTime=DateUtils.addDays(endTime, 1);
+      endTime=DateUtils.setTime(endTime,0,0,0,0);
     }
     fields.put("endTime", DateUtils.format(endTime));
     
-    fields.put("timeInterval", setting.getTimeInterval().name());
+    fields.put("timeInterval", setting.getTimeInterval().getMilliSeconds().toString());
     
     
     StringEntity entity = new StringEntity(new JSONObject(fields).toString(), HTTP.UTF_8);
@@ -339,7 +339,7 @@ public class DataFetcher {
   }
     
   if (resp == null || resp.getSummarized() == null || resp.getCategorical() == null) {
-    throw new IOException("Unable to retrieve dummary data");
+    throw new IOException("Unable to retrieve data");
   }
   
   return resp;
