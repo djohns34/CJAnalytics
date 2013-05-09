@@ -36,54 +36,6 @@ public class CJLineChartTest extends TestCase {
         chartSettings = Mockito.mock(ChartSettings.class);
     }
 
-    public void testParseData() {
-        List<Event> events = createEvents();
-        
-        lineChart.parseData(chartSettings, createEvents());
-        
-        assertEquals(1, lineChart.getData().getSeriesCount());
-        assertEquals(1, lineChart.getRenderer().getSeriesRendererCount());
-    }
-
-    public void testGroupByTimestamp() {
-        List<Event> events = createEvents();
-        HashMap<Date, LinkedList<Double>> groups;
-
-        groups = lineChart.groupByTimestamp(events);
-
-        assertEquals(2, groups.size());
-    }
-
-    public void testGetSeriesFromGroups() {
-        List<Event> events = createEvents();
-        HashMap<Date, LinkedList<Double>> groups;
-        TimeSeries timeSeries;
-        String seriesTitle = "my Series";
-
-        groups = lineChart.groupByTimestamp(events);
-        timeSeries = lineChart.getSeriesFromGroups(seriesTitle, groups);
-
-        assertEquals(2, timeSeries.getItemCount());
-        assertEquals(seriesTitle, timeSeries.getTitle());
-        assertEquals(8.4, timeSeries.getY(0));
-        assertEquals(5.2, timeSeries.getY(1));
-    }
-
-    public void testGetGraphicalView() {
-        GraphicalView graphicalView;
-
-        graphicalView = lineChart.getGraphicalView(context);
-        assertNull(graphicalView);
-
-        // Add data to chart
-        lineChart.parseData(chartSettings, createEvents());
-
-        try {
-            graphicalView = lineChart.getGraphicalView(context);
-            fail("Did not throw unsupported operation");
-        } catch (Exception e) {}
-    }
-
     private List<Event> createEvents() {
         LinkedList<Event> events = new LinkedList<Event>();
 

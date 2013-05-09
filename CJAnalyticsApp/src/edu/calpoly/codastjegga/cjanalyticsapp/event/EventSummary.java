@@ -4,10 +4,10 @@ import java.util.Map;
 
 public class EventSummary {
 
-  private Map<String, Double> summarized;
+  private Map<Long, Double> summarized;
   Map<String, Integer> categorical;
 
-  public Map<String, Double> getSummarized() {
+  public Map<Long, Double> getSummarized() {
     return summarized;
   }
   

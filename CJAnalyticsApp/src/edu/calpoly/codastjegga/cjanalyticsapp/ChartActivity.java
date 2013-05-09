@@ -110,7 +110,7 @@ public class ChartActivity extends Activity {
           }
 
         }
-        return false;
+        return true;
       }
 
       @Override
