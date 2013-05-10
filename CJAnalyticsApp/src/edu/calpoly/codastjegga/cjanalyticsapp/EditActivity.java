@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
 import com.salesforce.androidsdk.app.ForceApp;
 
 import edu.calpoly.codastjegga.cjanalyticsapp.cache.DBMetricsCache;
@@ -45,13 +46,14 @@ import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 import edu.calpoly.codastjegga.cjanalyticsapp.datafetcher.DataFetcher;
 import edu.calpoly.codastjegga.cjanalyticsapp.event.EventType;
+import edu.calpoly.codastjegga.cjanalyticsapp.DatePickerFragment.DateType;
+
+import static edu.calpoly.codastjegga.cjanalyticsapp.DatePickerFragment.*;
 
 public class EditActivity extends FragmentActivity implements
     OnItemSelectedListener {
 
-  private static final String DAY = "day";
-  private static final String MONTH = "month";
-  private static final String YEAR = "year";
+
   private static final String SAVED_TO_DATE = "savedtodate";
   private static final String SAVED_FROM_DATE = "savedfromdate";
   private static final String DATE_PICKER_TITLE = "Date Picker";
@@ -486,9 +488,7 @@ public class EditActivity extends FragmentActivity implements
 
   }
 
-  enum DateType {
-    FROM, TO;
-  }
+
 
   /**
    * Returns a date picker callback listener that sets the date in the calendar
@@ -549,55 +549,7 @@ public class EditActivity extends FragmentActivity implements
 
   }
 
-  /**
-   * DatePickerFragment that set ups the DialogFragement for showing the date
-   * picker dialog. Followed from tutorial at
-   * http://androidtrainningcenter.blogspot
-   * .com/2012/10/creating-datepicker-using.html
-   * 
-   * @author gagandeep
-   * 
-   */
-  public static class DatePickerFragment extends DialogFragment {
-    // callback for datepicker dialog, called after user clicks set
-    private DatePickerDialog.OnDateSetListener callback;
-    // field for year, month, and day
-    private int year, month, day;
 
-    public DatePickerFragment() {
-      super();
-      // Empty constructor is needed for DialogFragment class
-    };
-
-    /**
-     * Setter for DatePickerDialog callback
-     * 
-     * @param callback
-     *          function to call after user clicks set on the date picker dialog
-     */
-    public void setCallBack(DatePickerDialog.OnDateSetListener callback) {
-      this.callback = callback;
-    }
-
-    /**
-     * Sets the arguments from the bundle such as year, month, and day
-     */
-    @Override
-    public void setArguments(Bundle args) {
-      super.setArguments(args);
-      year = args.getInt(YEAR);
-      month = args.getInt(MONTH);
-      day = args.getInt(DAY);
-    }
-
-    /**
-     * Creates and returns a new DatePickerDialog
-     */
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-      return new DatePickerDialog(getActivity(), callback, year, month, day);
-    }
-  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
