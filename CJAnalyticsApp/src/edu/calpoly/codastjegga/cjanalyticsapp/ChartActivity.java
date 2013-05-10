@@ -106,7 +106,6 @@ public class ChartActivity extends Activity {
             Log.e(this.getClass().getName(), "Unable to get/render records", e);
             return false;
           }
-
         }
         return true;
       }
