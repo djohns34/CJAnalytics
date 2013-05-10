@@ -101,8 +101,6 @@ public class ChartActivity extends Activity {
           try {
             EventSummary records = DataFetcher.getDatabaseRecords(getString(R.string.api_version),
                 ((CJAnalyticsApp) getApplication()).getRestClient(),chartSettings);
-            
-            Log.i("Summary Data", "Cat: "+records.getCategorical()+" Summary: "+records.getSummarized());
             provider.parseData(chartSettings, records);
           } catch (Exception e) {
             Log.e(this.getClass().getName(), "Unable to get/render records", e);
