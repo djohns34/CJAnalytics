@@ -35,13 +35,6 @@ public class DatePickerFragment extends DialogFragment{
       // Empty constructor is needed for DialogFragment class
     };
     
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//        Bundle savedInstanceState) {
-//      View view = inflater.inflate(R.layout.fragment_date_picker, container);
-//      return view;
-//    }
-    
 
     /**
      * Setter for DatePickerDialog callback
