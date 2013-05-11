@@ -7,8 +7,14 @@
 
     <style name="CJTheme" parent="@android:style/Theme.DeviceDefault">
         <item name="android:textColor">@color/light_gray</item>
+        <item name="android:actionBarStyle">@style/CJActionBar</item>
     </style>
 
+    <style name="CJActionBar" parent="@android:style/Widget.ActionBar">
+        <item name="android:background">@color/dark_blue</item>
+    </style>
+    
+    
     <style name="RootViewGroup">
         <item name="android:background">@color/light_gray</item>
     </style>
