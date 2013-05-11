@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="cjbackground">#d7f2fb</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="dark_blue">#a3d4e5</color>
-    <color name="light_blue">#eaf8fd</color>
-    <color name="slight_darker_light_blue">#b3d3de</color>
     
+    <color name="powderblue">#d7f2fb</color>
+    <color name="dark_blue">#a3d4e5</color>
+
     
     <color name="light_gray">#858282</color>
 </resources>
