@@ -14,15 +14,16 @@ import android.widget.Toast;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettings;
 import edu.calpoly.codastjegga.cjanalyticsapp.chart.settings.ChartSettingsProvider;
 
-public class ChartSettingsAdapter extends CursorAdapter  {
+public class ChartSettingsAdapter extends CursorAdapter {
   String response;
-  
-  private  LayoutInflater inflater;
-  
-  //Initialize adapter
-  public ChartSettingsAdapter(Context context,Cursor c) {
+
+  private LayoutInflater inflater;
+
+  // Initialize adapter
+  public ChartSettingsAdapter(Context context, Cursor c) {
     super(context, c, 0);
-    inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    inflater = (LayoutInflater) context
+        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
   }
 
   @Override
@@ -30,44 +31,48 @@ public class ChartSettingsAdapter extends CursorAdapter  {
     return inflater.inflate(R.layout.activity_charts_item, null);
   }
 
-
   @Override
   public void bindView(View view, Context context, Cursor cursor) {
-    
-    ChartSettings settings =ChartSettingsProvider.getChartSettings(cursor);
-    
-    //Get the text boxes from the listitem.xml file
-    TextView chartName =(TextView)view.findViewById(R.id.charts_chartname);
-    TextView chartMetric =(TextView)view.findViewById(R.id.charts_chartmetric);
-    ImageView image=(ImageView) view.findViewById(R.id.chartImage);
 
-    ImageView favorite=(ImageView) view.findViewById(R.id.favorite);
+    ChartSettings settings = ChartSettingsProvider.getChartSettings(cursor);
 
-    
-    //Assign the appropriate data from our alert object above
+    // Get the text boxes from the listitem.xml file
+    TextView chartName = (TextView) view.findViewById(R.id.charts_chartname);
+    TextView chartMetric = (TextView) view
+        .findViewById(R.id.charts_chartmetric);
+    ImageView image = (ImageView) view.findViewById(R.id.chartImage);
+
+    ImageView favorite = (ImageView) view.findViewById(R.id.favorite);
+
+    // Assign the appropriate data from our alert object above
     chartName.setText(settings.getChartName());
-    chartMetric.setText(settings.getEventName());
+
+    if (settings.hasSecondaryMetric()) {
+      chartMetric.setText(settings.getEventName() + ", "
+          + settings.getEventName2());
+    } else {
+      chartMetric.setText(settings.getEventName());
+    }
+
     image.setImageResource(settings.getType().getIcon());
-    if(settings.getFavorite()){
+    if (settings.getFavorite()) {
       favorite.setImageResource(R.drawable.rating_important);
-    }else{
+    } else {
       favorite.setImageResource(R.drawable.rating_not_important);
     }
-    
-    
-    view.setOnTouchListener(new FavoriteToggle(context,settings));
-    
+
+    view.setOnTouchListener(new FavoriteToggle(context, settings));
+
   }
 
+  class FavoriteToggle implements OnTouchListener {
 
-  class FavoriteToggle implements OnTouchListener{
-    
     ChartSettings settings;
     Context context;
-    
+
     public FavoriteToggle(Context context, ChartSettings settings) {
-      this.context=context;
-      this.settings=settings;
+      this.context = context;
+      this.settings = settings;
     }
 
     @Override
@@ -75,20 +80,20 @@ public class ChartSettingsAdapter extends CursorAdapter  {
 
       boolean consumed = false;
 
-      //Get the xy position of the star icon
+      // Get the xy position of the star icon
       int xy[] = new int[2];
       v.findViewById(R.id.favorite).getLocationOnScreen(xy);
 
-      //If the touch was to the right of the star, assume the meant to hit it
+      // If the touch was to the right of the star, assume the meant to hit it
       if (event.getRawX() >= xy[0]) {
         consumed = true;
 
-        //Only respond to the finger lift, not the press/drag/etc.
-        
+        // Only respond to the finger lift, not the press/drag/etc.
+
         if (event.getAction() == MotionEvent.ACTION_UP) {
-          //Toggle the favorite 
+          // Toggle the favorite
           settings.setFavorite(!settings.getFavorite());
-          //Save it
+          // Save it
           ChartSettingsProvider.saveSettings(context.getContentResolver(),
               settings);
         }
@@ -96,9 +101,6 @@ public class ChartSettingsAdapter extends CursorAdapter  {
       return consumed;
     }
 
-
-    
-
   }
-  
+
 }
