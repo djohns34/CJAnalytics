@@ -32,7 +32,7 @@ public class CJLineChart implements ChartProvider {
   public void parseData(ChartSettings chartSettings, EventSummary... records) {
     Map<Long, Double> values = records[0].getSummarized();
     XYSeriesRenderer xysr = new XYSeriesRenderer();
-    TimeSeries timeSeries = new TimeSeries("");
+    TimeSeries timeSeries = new TimeSeries(chartSettings.getEventName());
 
     data = new XYMultipleSeriesDataset();
     ren = new XYMultipleSeriesRenderer();
@@ -80,7 +80,7 @@ public class CJLineChart implements ChartProvider {
 
     if (records.length == 2) {
       xysr = new XYSeriesRenderer();
-      timeSeries = new TimeSeries("");
+      timeSeries = new TimeSeries(chartSettings.getEventName2());
       
       xysr.setColor(Color.RED);
       xysr.setLineWidth(3);
