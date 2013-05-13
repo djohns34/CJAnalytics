@@ -31,8 +31,8 @@ public class CJPieChart implements ChartProvider {
    * @param events
    *          Events to be parsed
    */
-  public void parseData(ChartSettings chartSettings, EventSummary records) {
-    Map<String, Integer> values = records.getCategorical();
+  public void parseData(ChartSettings chartSettings, EventSummary... records) {
+    Map<String, Integer> values = records[0].getCategorical();
     SimpleSeriesRenderer ssr;
     cs = new CategorySeries("");
     ren = new DefaultRenderer();

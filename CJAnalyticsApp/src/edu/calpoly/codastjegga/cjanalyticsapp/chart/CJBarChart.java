@@ -30,13 +30,20 @@ public class CJBarChart implements ChartProvider {
   XYMultipleSeriesDataset dataset;
 
   @Override
-  public void parseData(ChartSettings chartSettings, EventSummary events) {
-    int[] colors = new int[] { Color.MAGENTA };
+  public void parseData(ChartSettings chartSettings, EventSummary... events) {
+    int[] colors;
 
-    Map<String, Integer> values = events.getCategorical();
+    dataset = new XYMultipleSeriesDataset();
 
-    this.buildBarRenderer(colors);
-    this.buildBarDataset(values);
+    if (events.length == 2) {
+      colors = new int[] { Color.MAGENTA, Color.GREEN };
+      this.buildBarDataset(events[0].getCategorical());
+      this.buildBarDataset(events[1].getCategorical());
+    } else if (events.length == 1) {
+      colors = new int[] { Color.MAGENTA };
+      this.buildBarRenderer(colors);
+      this.buildBarDataset(events[0].getCategorical());
+    }
 
     renderer.setOrientation(Orientation.HORIZONTAL);
     renderer.setXLabels(0);
@@ -87,7 +94,6 @@ public class CJBarChart implements ChartProvider {
   }
 
   protected void buildBarDataset(Map<String, Integer> values) {
-    dataset = new XYMultipleSeriesDataset();
     XYSeries series = new XYSeries("");
     int xIndex = 1;
     double highest = 0;

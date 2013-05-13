@@ -29,8 +29,8 @@ public class CJLineChart implements ChartProvider {
    *          Events to be parsed
    */
   @Override
-  public void parseData(ChartSettings chartSettings, EventSummary records) {
-    Map<Long, Double> values = records.getSummarized();
+  public void parseData(ChartSettings chartSettings, EventSummary... records) {
+    Map<Long, Double> values = records[0].getSummarized();
     XYSeriesRenderer xysr = new XYSeriesRenderer();
     TimeSeries timeSeries = new TimeSeries("");
 
@@ -77,6 +77,20 @@ public class CJLineChart implements ChartProvider {
 
     data.addSeries(timeSeries);
     ren.addSeriesRenderer(xysr);
+
+    if (records.length == 2) {
+      xysr = new XYSeriesRenderer();
+      timeSeries = new TimeSeries("");
+
+      values = records[1].getSummarized();
+      for (Map.Entry<Long, Double> record : values.entrySet()) {
+        Date date = new Date(record.getKey());
+        timeSeries.add(date, record.getValue());
+      }
+
+      data.addSeries(timeSeries);
+      ren.addSeriesRenderer(xysr);
+    }
   }
 
   /**
