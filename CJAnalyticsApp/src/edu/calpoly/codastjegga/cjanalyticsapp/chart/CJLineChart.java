@@ -81,6 +81,9 @@ public class CJLineChart implements ChartProvider {
     if (records.length == 2) {
       xysr = new XYSeriesRenderer();
       timeSeries = new TimeSeries("");
+      
+      xysr.setColor(Color.RED);
+      xysr.setLineWidth(3);
 
       values = records[1].getSummarized();
       for (Map.Entry<Long, Double> record : values.entrySet()) {

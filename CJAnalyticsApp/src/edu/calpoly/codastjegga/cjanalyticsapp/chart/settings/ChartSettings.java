@@ -304,4 +304,8 @@ public class ChartSettings implements Serializable {
     chartSetting.setTimeInterval((TimeInterval) (i.getExtras().get(TIME_INTERVAL)));
     return chartSetting;
   }
+  
+  public boolean hasSecondaryMetric() {
+    return this.eventType2 != EventType.None;
+  }
 }

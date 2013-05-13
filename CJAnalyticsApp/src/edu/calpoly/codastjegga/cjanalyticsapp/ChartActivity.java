@@ -99,9 +99,15 @@ public class ChartActivity extends Activity {
 
         if (chartSettings != null) {
           try {
-            EventSummary records = DataFetcher.getDatabaseRecords(getString(R.string.api_version),
+            EventSummary records = DataFetcher.getPrimaryDBRecords(getString(R.string.api_version),
                 ((CJAnalyticsApp) getApplication()).getRestClient(),chartSettings);
-            provider.parseData(chartSettings, records);
+            if (chartSettings.hasSecondaryMetric()) {
+              EventSummary records2 = DataFetcher.getSecondaryDBRecords(getString(R.string.api_version),
+                  ((CJAnalyticsApp) getApplication()).getRestClient(),chartSettings);
+              provider.parseData(chartSettings, records, records2);
+            } else {
+              provider.parseData(chartSettings, records);
+            }
           } catch (Exception e) {
             Log.e(this.getClass().getName(), "Unable to get/render records", e);
             return false;

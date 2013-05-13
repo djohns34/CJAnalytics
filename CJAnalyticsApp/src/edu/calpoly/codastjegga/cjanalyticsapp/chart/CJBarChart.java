@@ -31,19 +31,21 @@ public class CJBarChart implements ChartProvider {
 
   @Override
   public void parseData(ChartSettings chartSettings, EventSummary... events) {
-    int[] colors;
+    int[] colors = null;
 
     dataset = new XYMultipleSeriesDataset();
 
-    if (events.length == 2) {
-      colors = new int[] { Color.MAGENTA, Color.GREEN };
-      this.buildBarDataset(events[0].getCategorical());
-      this.buildBarDataset(events[1].getCategorical());
-    } else if (events.length == 1) {
+    if (events.length == 1) {
       colors = new int[] { Color.MAGENTA };
       this.buildBarRenderer(colors);
       this.buildBarDataset(events[0].getCategorical());
+    } else if (events.length == 2) {  
+      colors = new int[] { Color.MAGENTA, Color.GREEN };
+      this.buildBarRenderer(colors);
+      this.buildBarDataset(events[0].getCategorical());
+      this.buildBarDataset(events[1].getCategorical());
     }
+    
 
     renderer.setOrientation(Orientation.HORIZONTAL);
     renderer.setXLabels(0);

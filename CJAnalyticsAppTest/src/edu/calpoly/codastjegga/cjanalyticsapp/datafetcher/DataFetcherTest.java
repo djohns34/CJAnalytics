@@ -225,7 +225,7 @@ public class DataFetcherTest extends TestCase {
     	s.setEventType2(EventType.None);
     	s.setTimeInterval(TimeInterval.Daily);
     	
-      EventSummary events = DataFetcher.getDatabaseRecords(apiV, client,s);
+      EventSummary events = DataFetcher.getPrimaryDBRecords(apiV, client,s);
       //check that the EventSummary isn't null
       assertNotNull(events);
       //getting the summary
