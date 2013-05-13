@@ -192,7 +192,7 @@ public class EditActivity extends FragmentActivity {
     // IF there's a start date
     if (start != null) {
       // set the startDate to the one in chart setting
-      fromDate.setTime(end);
+      fromDate.setTime(start);
     }
     // IF there's an end date
     if (end != null) {

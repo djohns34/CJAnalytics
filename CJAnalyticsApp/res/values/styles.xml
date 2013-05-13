@@ -2,13 +2,19 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="MainScreen">
-        <item name="android:background">@color/cjbackground</item>
+        <item name="android:background">@color/powderblue</item>
     </style>
 
     <style name="CJTheme" parent="@android:style/Theme.DeviceDefault">
         <item name="android:textColor">@color/light_gray</item>
+        <item name="android:actionBarStyle">@style/CJActionBar</item>
     </style>
 
+    <style name="CJActionBar" parent="@android:style/Widget.ActionBar">
+        <item name="android:background">@color/dark_blue</item>
+    </style>
+    
+    
     <style name="RootViewGroup">
         <item name="android:background">@color/light_gray</item>
     </style>
@@ -33,7 +39,7 @@
 
     <style name="CJDateButton">
  		<item name="android:textColor">@color/light_gray</item>
- 		<item name="android:textColorHint">@color/light_blue</item>
+ 		<item name="android:textColorHint">@color/powderblue</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:background">@drawable/light_blue_input</item>
         <item name="android:clickable">true</item>
