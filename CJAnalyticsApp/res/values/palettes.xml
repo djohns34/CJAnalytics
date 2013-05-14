@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="red_contrast">
+        <item>#ff0000</item>
+        <item>#ff7400</item>
+        <item>#009999</item>
+        <item>#00cc00</item>
+        <item>#cd0074</item>
+    </string-array>
+    <string-array name="blue_contrast">
+        <item>#0b61a4</item>
+        <item>#1b1bb3</item>
+        <item>#ffbf00</item>
+        <item>#ff9200</item>
+        <item>#ff4900</item>
+    </string-array>
+    <string-array name="purple_contrast">
+        <item>#7109aa</item>
+        <item>#cd0074</item>
+        <item>#9fee00</item>
+        <item>#ffff00</item>
+        <item>#00cc00</item>
+    </string-array>
+    <string-array name="warm">
+        <item>#cd0074</item>
+        <item>#ff0000</item>
+        <item>#ff7400</item>
+        <item>#ffd300</item>
+        <item>#ffaa00</item>
+    </string-array>
+    <string-array name="cold">
+        <item>#9fee00</item>
+        <item>#00cc00</item>
+        <item>#009999</item>
+        <item>#3914af</item>
+        <item>#1240ab</item>
+    </string-array>
+    
+</resources>

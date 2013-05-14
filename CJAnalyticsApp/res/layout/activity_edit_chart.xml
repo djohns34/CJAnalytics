@@ -225,19 +225,26 @@
                     android:layout_height="wrap_content"
                     android:text="@string/colorPalette"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
-
-                <include layout="@layout/palette" />
+                <LinearLayout android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <fragment
+                    android:id="@+id/palette"
+                    android:name="edu.calpoly.codastjegga.cjanalyticsapp.ColorPaletteFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:id="@+id/loading"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/powderblue"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 
         <ProgressBar
             style="?android:attr/progressBarStyleLarge"
