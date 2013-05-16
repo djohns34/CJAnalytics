@@ -42,4 +42,6 @@
     <string name="EventMetricLabel">Event Metric</string>
     <string name="timeIntervalLable">Time Interval</string>
 	<string name="colorPalette">Color Palette</string>
+	
+	<string name="chartError">Unable to Generate Chart</string>
 </resources>

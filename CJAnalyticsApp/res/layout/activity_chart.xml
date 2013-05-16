@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_chart"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" 
@@ -8,17 +9,41 @@
     <RelativeLayout
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:layout_weight="1" >
-
-      <!--  >  <ProgressBar
+        android:visibility="gone">
+    </RelativeLayout>
+    
+    <ProgressBar
             android:id="@+id/idProgressBar"
+            android:indeterminate="true"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
--->
-    </RelativeLayout>
 
-</LinearLayout>
+    <ImageView 
+        android:id="@+id/chartError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/chart_error"
+        android:contentDescription="@string/chartError"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+
+
+        />
+    
+     <ImageView 
+        android:id="@+id/noData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/no_data"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+
+
+        />
+
+</RelativeLayout>

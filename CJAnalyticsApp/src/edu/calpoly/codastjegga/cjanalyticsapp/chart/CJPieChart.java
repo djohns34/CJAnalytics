@@ -8,6 +8,7 @@ import java.util.Random;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
@@ -66,5 +67,9 @@ public class CJPieChart implements ChartProvider {
    */
   public GraphicalView getGraphicalView(Context context) {
     return ChartFactory.getPieChartView(context, cs, ren);
+  }
+  
+  public boolean hasData(){
+    return  cs.getItemCount() != 0;
   }
 }

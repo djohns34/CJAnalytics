@@ -14,4 +14,6 @@ public interface ChartProvider extends Serializable {
   public void parseData(ChartSettings chartSettings, EventSummary... records);
 
   public GraphicalView getGraphicalView(Context context);
+
+  public boolean hasData();
 }

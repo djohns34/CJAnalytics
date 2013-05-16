@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -38,6 +40,7 @@ public class ChartActivity extends Activity {
   ChartSettings chartSettings;
   ProgressBar spinner;
   ViewGroup layoutChart;
+  ViewGroup activityChart;
   ChartProvider provider;
 
   @Override
@@ -47,9 +50,9 @@ public class ChartActivity extends Activity {
     getActionBar().setDisplayHomeAsUpEnabled(true);
 
     layoutChart = (ViewGroup) findViewById(R.id.chart);
+    activityChart =(ViewGroup) findViewById(R.id.activity_chart);
+    spinner = (ProgressBar) findViewById(R.id.idProgressBar);
 
-    spinner = new ProgressBar(this);
-    spinner.setIndeterminate(true);
     
     renderSettings(getIntent(),savedInstanceState);
 
@@ -85,12 +88,7 @@ public class ChartActivity extends Activity {
       @Override
       protected void onPreExecute() {
         super.onPreExecute();
-
-        LayoutParams p = new LayoutParams(LayoutParams.WRAP_CONTENT,
-            LayoutParams.WRAP_CONTENT);
-        p.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        layoutChart.removeAllViews();
-        layoutChart.addView(spinner, p);
+        hideAllViews();
         spinner.setVisibility(View.VISIBLE);
       }
 
@@ -122,15 +120,41 @@ public class ChartActivity extends Activity {
         spinner.setVisibility(View.GONE);
         layoutChart.removeAllViews();
         if (success && chartSettings != null) {
-          setGraphicalView();
+          if(provider.hasData()){
+            setGraphicalView();
+          }else{
+            setNoDataView();
+          }
         }else{
-          Toast.makeText(ChartActivity.this, "Unable to Generate Chart",Toast.LENGTH_LONG).show();
+          setErrorView();
+          Toast.makeText(ChartActivity.this, R.string.chartError, Toast.LENGTH_LONG).show();
+          
         }
       }
     };
   }
   
+  private void hideAllViews(){
+    layoutChart.setVisibility(View.GONE);
+    spinner.setVisibility(View.GONE);
+    activityChart.findViewById(R.id.chartError).setVisibility(View.GONE);
+    activityChart.findViewById(R.id.noData).setVisibility(View.GONE);
+    
+  }
+  
+  private void setErrorView(){
+    hideAllViews();
+    activityChart.findViewById(R.id.chartError).setVisibility(View.VISIBLE);
+  }
+  private void setNoDataView(){
+    hideAllViews();
+    activityChart.findViewById(R.id.noData).setVisibility(View.VISIBLE);
+    
+  }
+      
   private void setGraphicalView(){
+    hideAllViews();
+    layoutChart.setVisibility(View.VISIBLE);
     layoutChart.removeAllViews();
     layoutChart.addView(provider.getGraphicalView(ChartActivity.this));
     

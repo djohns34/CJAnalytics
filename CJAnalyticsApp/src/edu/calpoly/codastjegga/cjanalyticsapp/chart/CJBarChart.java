@@ -124,4 +124,14 @@ public class CJBarChart implements ChartProvider {
     return ChartFactory.getBarChartView(context, dataset, renderer,
         Type.DEFAULT);
   }
+  
+  public boolean hasData(){
+    boolean hasData = false;
+    
+    for(XYSeries series : dataset.getSeries()){
+      hasData = hasData || series.getItemCount() != 0;
+    }
+    
+    return hasData;
+  }
 }

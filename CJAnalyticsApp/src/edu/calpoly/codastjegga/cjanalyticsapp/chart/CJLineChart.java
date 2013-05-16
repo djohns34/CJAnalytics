@@ -7,6 +7,7 @@ import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
+import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
@@ -102,5 +103,15 @@ public class CJLineChart implements ChartProvider {
   @Override
   public GraphicalView getGraphicalView(Context context) {
     return ChartFactory.getTimeChartView(context, data, ren, "MM/dd/yyyy");
+  }
+  
+  public boolean hasData(){
+    boolean hasData = false;
+    
+    for(XYSeries series : data.getSeries()){
+      hasData = hasData || series.getItemCount() != 0;
+    }
+    
+    return hasData;
   }
 }
