@@ -7,24 +7,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/powderblue"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+        android:gravity="center_horizontal">
 
         <ListView
             android:id="@android:id/list"
             style="@style/CJListView"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent">
         </ListView>
 
         <TextView
             android:id="@android:id/empty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/no_dashboards" />
+            android:text="@string/no_dashboards"/>
+
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,8 +36,7 @@
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="64dp" />
-    </LinearLayout>
+			android:layout_centerInParent="true" />
+    </RelativeLayout>
 
 </merge>
