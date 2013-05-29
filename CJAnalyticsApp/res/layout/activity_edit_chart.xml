@@ -218,7 +218,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
-
+                <!-- Color Palette
                 <include layout="@layout/activity_edit_chart_divider" />
 
                 <TextView
@@ -235,6 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
                 </LinearLayout>
+                 -->
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
