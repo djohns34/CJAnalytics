@@ -1,0 +1,31 @@
+<%- include header.html %>  
+
+<h2>Application credentials</h2>
+<form class="form-horizontal" action="https://login.salesforce.com/services/oauth2/token" method="post">
+  <input type="hidden" name="grant_type" value="authorization_code">
+  <input type="hidden" name="code" value="<%- code %>">
+  <input type="hidden" name="redirect_uri" value="<%- redirectUri %>">
+  <div class="control-group">
+    <label class="control-label">Consumer key</label>
+    <div class="controls">
+      <input type="text" name="client_id" value="<%- conKey %>" readonly>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputEmail">Consumer secret</label>
+    <div class="controls">
+      <input type="text" name="client_secret" placeholder="Consumer secret">
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Submit</button>
+    </div>
+  </div>
+</form>
+
+<p>If you're codast jegga, it's: <b>2144639019804934205</b></p>
+
+</form>
+
+<%- include footer.html %>
