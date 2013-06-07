@@ -1,6 +1,6 @@
 # Codast Jegga
 
-This repository contains our code for the Cal Poly Software Engineering Capstone.
+This repository contains our code for the Cal Poly Software Engineering Capstone. The project consists of a mobile metrics SDK, Salesforce.com database, and an Android dashboard application for viewing the data tracked via the SDK.  
 
 ## Set up
 
